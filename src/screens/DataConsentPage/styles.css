@@ -1,0 +1,21 @@
+.scrollableTextContainer {
+  max-height: 320px;
+  width: 224px; /* Set the maximum height for the container */
+  overflow-y: auto; /* Enable vertical scrolling if the content exceeds the container height */
+  padding: 10px; /* Add padding for better readability */
+
+  margin: 10px 0; /* Add margin for spacing */
+}
+.consentMainContainer{
+    height: 320px;
+width: 240px;
+
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+.consent{
+    font-size: 14px;
+    line-height:21px;
+    font-weight: 400;
+}

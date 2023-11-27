@@ -1,0 +1,24 @@
+.languageHeader {
+    background-color: #19332F;
+    text-align: center;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    text-transform: capitalize;
+    height: 40px;
+    max-width: 240px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    
+  }
+  p{
+    text-align: center;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    text-transform: capitalize;
+  }

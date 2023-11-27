@@ -1,0 +1,60 @@
+.mainSetUpContainer{
+    height: 320px;
+    max-width: 240px;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+}
+
+.setUpContainer{
+    width: 242px;
+    height: 158px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+}
+.imgContainer{
+    width: 56px;
+    height: 56px;
+    border-radius: 100px;
+    padding: 8px;
+    background-color: rgba(248, 249, 252, 1);
+    align-self: center;
+}
+.lockImg{
+    width: 40px;
+    height: 40px;
+
+}
+.bottomContainer{
+    width: 242px;
+    height: 86px;
+    padding: 0px, 8px, 0px, 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.topText{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left;
+}
+input{
+    width: 242px;
+    height: 38px;
+    border-radius:8px, 8px, 2px, 2px ;
+    border: 0px, 0px, 1px, 0px;
+    padding: 8px;
+    border-bottom-color:rgba(25, 51, 47, 1) ;
+    background-color:rgba(236, 249, 246, 1) ;
+
+}
+.bottomText{
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 15px;
+}

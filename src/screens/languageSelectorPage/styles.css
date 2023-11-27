@@ -1,0 +1,125 @@
+/* .title {
+  background-color: #19332F;
+  text-align: center;
+  color: #FFF;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: capitalize;
+}
+
+.language-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type='radio'] {
+  display: none;
+}
+
+
+
+input[type='radio']+label {
+  border-bottom: 1px solid #19332F;
+}
+
+ input[type='radio']:checked+label {
+  background-color: #ECF9F6;
+  border-bottom: 1px solid #19332F;
+} 
+
+
+/* Add your existing styles here */
+
+.languageContainerMain {
+  height: 320px;
+width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+
+}
+/* 
+
+}
+input[type='radio'] , label {
+  border-bottom: 1px solid #19332F;
+}
+input[type='radio']:checked+label {
+  background-color: #ECF9F6;
+  border-bottom: 1px solid #19332F;
+}  */
+
+
+.labelText{
+
+}
+.languageSelectContainerMain {
+max-width: 240px;
+height: 170px;
+}
+
+.languageSelectContainer {
+
+height: 200px;
+
+}
+label:hover{
+  border-bottom: 2px solid black;
+  background-color: rgba(236, 249, 246, 1);
+}
+p{
+  text-align: center;
+  color: #FFF;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: capitalize;
+}
+
+ label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+} 
+
+
+
+
+
+
+
+
+
+
+
+/* 
+==    RADIO   ===============*/
+
+
+.languageSelectContainer input[type="radio"] {
+  -webkit-appearance: none; /* Remove default appearance on WebKit browsers */
+  -moz-appearance: none; /* Remove default appearance on Mozilla Firefox */
+  appearance: none; /* Remove default appearance on other browsers */
+
+  width: 16px; /* Set width of the custom radio button */
+  height: 16px; /* Set height of the custom radio button */
+  border-radius: 50%; /* Create a circular radio button */
+  border: 1px solid rgba(29, 36, 51, 0.65); /* Add a border to the radio button */
+  outline: none; /* Remove the default focus style */
+}
+
+/* Style the appearance of the checked state of the radio button */
+.languageSelectContainer input[type="radio"]:checked {
+  background-color: white; /* Change the background color when the radio button is checked */
+  border: 3px solid rgba(25, 51, 47, 1);   /* Change the border color when the radio button is checked */
+}

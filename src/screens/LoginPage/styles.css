@@ -1,0 +1,43 @@
+.mainLoginContainer{
+    height: 320px;
+    max-width: 240px;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+}
+.loginContainer{
+    width: 240px;
+    height: 132px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 5px;
+   
+}
+.topContainer,.bottomContainer{
+    width: 240px;
+    height: 63px;
+    padding:0px, 8px, 0px, 8px ;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+}
+.texts{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    color: rgba(29, 36, 51, 1);
+    
+}
+.inputs{
+    width: 224px;
+    height: 37px;
+    border: 0px, 0px, 1px, 0px;
+    border-radius:8px, 8px, 2px, 2px ;
+    padding: 8px;
+    background-color:rgba(248, 249, 252, 1) ;
+    border-bottom-color:rgba(225, 230, 239, 1) ;
+}

@@ -1,0 +1,39 @@
+.mainConfirmContainer{
+    height: 320px;
+    max-width: 240px;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+}
+.confirmContainer{
+    width: 224px;
+    height: 190px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+.imgContainer{
+    height: 150px;
+    width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+    
+}
+.confirmImage{
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    object-fit: contain;
+}
+.informationText{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+}
