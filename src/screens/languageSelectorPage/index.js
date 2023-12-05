@@ -4,6 +4,7 @@ import Header from '../../components/Header/Header';
 import SingleTextFooter from '../../components/SingleTextFooter/Footer';
 import { languages } from '../../laguages';
 import "./styles.css"
+import {useNavigate} from "react-router-dom"
 const LanguageSelector = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('');
 

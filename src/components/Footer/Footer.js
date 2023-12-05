@@ -38,9 +38,9 @@ useEffect(()=>{
 
     <div className="languageFooter">
 
-      <label className='lang'>{FooterLeftText}</label>
-      <label className='lang'>{FooterCenterText}</label>
-      <label className='lang'>{FooterRightText}</label>
+      <label nav-selectable="true" className='lang'>{FooterLeftText}</label>
+      <label nav-selectable="true" className='lang'>{FooterCenterText}</label>
+      <label nav-selectable="true" className='lang'>{FooterRightText}</label>
     </div>
   )
 }

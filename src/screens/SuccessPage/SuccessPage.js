@@ -3,6 +3,7 @@ import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import "./styles.css"
 import successIcon from '../../assets/images/successIcon.png';
+import {useNavigate} from "react-router-dom"
 const SuccessPage = () => {
   return (
     <div className='mainSuccessContainer'>

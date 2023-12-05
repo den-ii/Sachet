@@ -2,6 +2,7 @@ import React from 'react'
 import "./styles.css"
 import Header from '../../components/Header/Header'
 import SingleTextFooter from '../../components/Footer/Footer'
+import {useNavigate} from "react-router-dom"
 const Login = () => {
   const onKeyCenter = () => {
     alert("we are here")

@@ -4,7 +4,13 @@ import Header from '../../components/Header/Header'
 import SingleTextFooter from '../../components/SingleTextFooter/Footer'
 import "./styles.css"
 import successIcon from '../../assets/images/successIcon.png';
+import {useNavigate} from "react-router-dom"
 const OtpSuccess = () => {
+    const navigate = useNavigate()
+    // handle key center
+    const onKeyCenter = () =>{
+    navigate('/setuppassword')
+    }
   return (
    <div className="mainOtpSuccessContainer">
     <Header HeaderText={"Success"}/>

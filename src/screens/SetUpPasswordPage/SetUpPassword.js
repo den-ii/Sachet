@@ -3,7 +3,13 @@ import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer';
 import Lock from '../../assets/images/Lock 2.png';
 import "./styles.css"
+import {useNavigate} from "react-router-dom"
 const SetUpPassword = () => {
+  const navigate = useNavigate()
+    // handle key center
+    const onKeyCenter = () =>{
+    navigate('/passwordsuccess')
+    }
   return (
     <div className="mainSetUpContainer">
         <Header HeaderText={"Set Up Password"}/>

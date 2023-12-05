@@ -3,7 +3,16 @@ import Header from '../../components/Header/Header'
 import SingleTextFooter from '../../components/SingleTextFooter/Footer'
 import Media from '../../assets/images/Media.png';
 import './styles.css'
+import {useNavigate} from "react-router-dom"
 const VerifyIdentity = () => {
+
+  const navigate = useNavigate()
+
+
+  const onKeyCenter = () =>{
+    navigate('/takePhoto')
+    }
+ 
   return (
    <div className="verifyMainContainer">
     <Header HeaderText={"Verify Identity"}/>
@@ -18,7 +27,7 @@ const VerifyIdentity = () => {
        
         </div>  
     </div>
-    <SingleTextFooter Text={"Take A Photo"}/>
+    <SingleTextFooter Text={"Take A Photo"} onKeyCenter={onKeyCenter}/>
    </div>
   )
 }

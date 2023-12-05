@@ -1,10 +1,10 @@
-.clearImage{
+.clearImagee{
 width: 224px;
 height: 224px;
 border-radius: 50%;
 align-self: center;
 }
-.blurImage{
+.blurImagee{
    width: 240px;
    height: 300px;
    border-radius: 0; 
@@ -19,19 +19,19 @@ align-self: center;
    
   
 }
-.takeContainer{
+.takeContainerr{
     height: 300px;
     margin-bottom: -40px;
 }
-.blurContainer{
+.blurContainerr{
     width: 240px;
     height: 300px;
 
-    position: relative;
-}
-.clearContainer{
-    
     position: absolute;
+}
+.clearContainerr{
+    
+    position: relative;
     top: 0px;
     left: 0px;
     width: 240px;
@@ -39,8 +39,9 @@ align-self: center;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
 }
-.imgText{
+.imgTextt{
     font-weight: 700;
     font-size: 12px;
     text-align: center;

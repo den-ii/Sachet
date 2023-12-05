@@ -2,7 +2,14 @@ import React from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import "./styles.css"
+import {useNavigate} from "react-router-dom"
 const DataConsentPage = () => {
+
+  const navigate = useNavigate()
+  // handle key center
+  const onKeyCenter = () =>{
+  navigate('/agree')
+  }
   return (
     <div className="consentMainContainer">
       <Header HeaderText={"Data Consent Agreement"} />
@@ -34,7 +41,7 @@ const DataConsentPage = () => {
         </p>
       </div>
 
-      <Footer FooterRightText={"Next"} />
+      <Footer FooterRightText={"Next"} onKeyCenter={onKeyCenter} />
     </div>
   );
 };
