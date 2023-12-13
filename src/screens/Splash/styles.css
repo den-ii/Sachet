@@ -3,13 +3,12 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100vh;
-  width: 100vw;
+  height: 340px;
+  width: 240px;
 }
 
 .splash-img {
   width: 200px;
-
 }
 
 .splash-img img {

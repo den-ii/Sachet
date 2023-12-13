@@ -1,0 +1,10 @@
+.DataConsent {
+  padding: 16px 0;
+  overflow-y: scroll;
+}
+.DataConsent ul {
+  margin: 5px 0;
+  margin-left: 25px;
+  list-style-type: disc;
+  /* list-style-type; */
+}
