@@ -1,6 +1,6 @@
-import React from "react";
 import "./styles.css";
-const DataConsent = () => {
+
+function DataConsent(){
   return (
     <div className="DataConsent">
       <p>

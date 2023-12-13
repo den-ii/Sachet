@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./index.css";
+import "./styles.css";
 
 function Softkey({ left, onKeyLeft, center, onKeyCenter, right, onKeyRight }) {
   useEffect(() => {

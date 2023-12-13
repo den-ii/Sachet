@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
 import Splash from "./screens/splash";
+import Header from "./components/header";
 import DataConsent from "./screens/dataconsent/";
-import Header from "./components/header/Header";
 import Softkey from "./components/softkey";
 const screens = [
   {
@@ -39,7 +39,7 @@ function App() {
       {/* HEADER */}
       {screens[screen].header && <Header title={screens[screen].header} />}
       {/* BODY */}
-      <main>{screens[screen].component()}</main>
+      <main className="main">{screens[screen].component()}</main>
       {/* SOFTKEY */}
       {screens[screen].footer && (
         <Softkey

@@ -1,7 +1,6 @@
-import React from "react";
-import "./Header.css";
+import "./styles.css";
 
-const Header = ({ title }) => {
+function Header({ title }){
   return (
     <header className="header">
       <p className="title">{title}</p>

@@ -1,5 +1,6 @@
 .DataConsent {
   padding: 16px 0;
+  height: 240px;
   overflow-y: scroll;
 }
 .DataConsent ul {

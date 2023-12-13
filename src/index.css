@@ -34,16 +34,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 #root {
-  width: 240px;
-  height: 320px;
-  position: relative;
+  
   /* border: 1px solid black; */
 }
 .App {
-  border: 1px solid black;
+  width: 240px;
+  height: 320px;
+  position: relative;
   position: relative;
 }
 
@@ -60,4 +61,5 @@ body {
 
 main {
   padding: 0px 8px;
+ 
 }
