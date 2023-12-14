@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 import Splash from "./screens/splash";
 import Header from "./components/header";
 import DataConsent from "./screens/dataconsent/";
+import ConfirmAgreement from "./screens/confirm-agreement";
 import Softkey from "./components/softkey";
+import CreateAccount from "./screens/create-account";
+
 const screens = [
   {
     component: () => <Splash />,
@@ -16,17 +19,37 @@ const screens = [
     rightHand: "Next",
     rightHandCall: "next",
   },
+  {
+    header: "Confirm Agreement",
+    component: () => <ConfirmAgreement />,
+    style: "",
+    footer: true,
+    leftHand: "Back",
+    leftHandCall: "back",
+    rightHand: "Next",
+    rightHandCall: "next",
+  },
+  {
+  header: "Create Account",
+  component: () => <CreateAccount />,
+  style: "",
+  footer: true,
+  rightHand: "Next",
+  rightHandCall: "next",
+  }
 ];
 
 function App() {
   const [screen, setScreen] = useState(0);
 
   useEffect(() => {
-    let timer = setTimeout(() => setScreen(1), 3000);
+    if (screen === 0) {
+     let timer = setTimeout(() => setScreen(1), 3000);
 
-    return () => {
-      clearTimeout(timer);
-    };
+      return () => {
+       clearTimeout(timer);
+      };
+    }
   });
 
   let functionCalls = {
@@ -43,6 +66,8 @@ function App() {
       {/* SOFTKEY */}
       {screens[screen].footer && (
         <Softkey
+          left={screens[screen].leftHand}
+          onKeyLeft={functionCalls[screens[screen].leftHandCall]}
           right={screens[screen].rightHand}
           onKeyRight={functionCalls[screens[screen].rightHandCall]}
         />

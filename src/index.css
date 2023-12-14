@@ -1,11 +1,15 @@
 :root {
   --primary: #19332f;
+  --light: #ECF9F6;
   --secondary: #fff;
   --text-color: #1d2433cc;
   --fonts: "Open Sans", "Web Open Sans Regular", "Courier New", Courier,
     monospace;
   --fonts-bold: "Open Sans", "Web Open Sans Bold", "Courier New", Courier,
     monospace;
+  --container-height: 251px; /*320-(40-29) 40 && 29 from header and softkey*/
+  --container-paddingX: 8px;
+
 }
 
 @font-face {
@@ -44,7 +48,6 @@ body {
 .App {
   width: 240px;
   height: 320px;
-  position: relative;
   position: relative;
 }
 

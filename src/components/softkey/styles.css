@@ -1,6 +1,7 @@
 #softkey {
   background-color: var(--primary);
   position: sticky;
+  top: 320px;
   bottom: 0;
   height: 29px;
   width: 100%;
@@ -15,4 +16,5 @@
 #softkey label {
   color: #fff;
   font-family: var(--fonts-bold);
+  cursor: pointer;
 }

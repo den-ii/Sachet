@@ -1,0 +1,39 @@
+.create_account{
+    height: var(--container-height);
+
+    padding: 0 var(--container-paddingX);
+    padding-top: 12px;
+}
+.create_account .ninimg{
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.create_account label{
+    display: block;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.create_account input{
+    display: block;
+    border-radius: 8px 8px 2px 2px;
+    border: 0px;
+    border-bottom: 1px solid var(--primary);
+    background: #ECF9F6;
+    padding: 8px;
+    width: 100%;
+}
+.create_account input:focus{
+    outline: none;
+}
+.create_account .below-label{
+    margin-top: 7px;
+    display: flex;
+    justify-content: space-between;
+}
+.create_account .below-label span{
+    font-size: 10px;
+}
+.create_account .below-label .nin{
+    font-weight: 600;
+}

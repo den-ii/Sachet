@@ -15,7 +15,7 @@ function Softkey({ left, onKeyLeft, center, onKeyCenter, right, onKeyRight }) {
       case "Enter":
         return onKeyCenter && onKeyCenter(evt);
       case "SoftRight":
-        return onKeyRight && console.log("yh");
+        return onKeyRight && onKeyRight(evt);
       default:
         return;
     }
@@ -23,9 +23,9 @@ function Softkey({ left, onKeyLeft, center, onKeyCenter, right, onKeyRight }) {
 
   return (
     <div id="softkey">
-      <label className="left">{left}</label>
+      <label className="left" onClick={() => onKeyLeft()}>{left}</label>
       <label className="center">{center}</label>
-      <label className="right">{right}</label>
+      <label className="right" onClick={() => onKeyRight()}>{right}</label>
     </div>
   );
 }
