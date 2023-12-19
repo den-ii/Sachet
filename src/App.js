@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import Splash from "./screens/splash";
+import Splash from "./screens/Splash/";
 import Header from "./components/header";
 import DataConsent from "./screens/dataconsent/";
 import ConfirmAgreement from "./screens/confirm-agreement";
