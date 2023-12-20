@@ -1,0 +1,19 @@
+.verifyIdentity{
+    padding: 0 var(--container-paddingX);
+    height: var(--container-height);
+
+}
+.verifyIdentity .camera_img{
+    padding: 24px 0 8px;
+
+}
+.verifyIdentity .h1{
+    font-family: var(--fonts-semibold);
+    font-weight: 600;
+    font-size: 14px;
+    color: #1D2433;
+    line-height: 21px;
+}
+.verifyIdentity p{
+    font-size: 12px;
+}

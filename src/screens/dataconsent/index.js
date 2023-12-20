@@ -1,7 +1,9 @@
+import Softkey from "../../components/softkey";
 import "./styles.css";
 
-function DataConsent(){
+function DataConsent({next}){
   return (
+    <>
     <div className="DataConsent">
       <p>
         Data Submission Consent: I, the undersigned user, hereby give my
@@ -28,6 +30,8 @@ function DataConsent(){
         Withdrawal of consent will result in the deletion of my data.
       </p>
     </div>
+     <Softkey right='Next' onKeyRight={next}/>
+    </>  
   );
 };
 

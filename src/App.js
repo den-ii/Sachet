@@ -1,42 +1,34 @@
 import { useState, useEffect } from "react";
 
-import Splash from "./screens/Splash/";
+import Splash from "./screens/splash";
 import Header from "./components/header";
 import DataConsent from "./screens/dataconsent/";
 import ConfirmAgreement from "./screens/confirm-agreement";
-import Softkey from "./components/softkey";
 import CreateAccount from "./screens/create-account";
+import VerifyIdentity from "./screens/verify-identity";
 
 const screens = [
   {
-    component: () => <Splash />,
+    component: (softkeyCalls) => <Splash />,
   },
   {
     header: "Data Consent Agreement",
-    component: () => <DataConsent />,
-    style: "",
-    footer: true,
-    rightHand: "Next",
-    rightHandCall: "next",
+    component: (softkeyCalls) => <DataConsent next={softkeyCalls.next}/>,
+   
   },
   {
     header: "Confirm Agreement",
-    component: () => <ConfirmAgreement />,
-    style: "",
-    footer: true,
-    leftHand: "Back",
-    leftHandCall: "back",
-    rightHand: "Next",
-    rightHandCall: "next",
+    component: (softkeyCalls) => <ConfirmAgreement next={softkeyCalls.next} back={softkeyCalls.back}/>,
+    
   },
   {
-  header: "Create Account",
-  component: () => <CreateAccount />,
-  style: "",
-  footer: true,
-  rightHand: "Next",
-  rightHandCall: "next",
-  }
+    header: "Create Account",
+    component: (softkeyCalls) => <CreateAccount next={softkeyCalls.next} />,
+  },
+  {
+    header: "Verify Identity",
+    component: (softkeyCalls) => <VerifyIdentity next={softkeyCalls.next} />,
+  },
 ];
 
 function App() {
@@ -52,7 +44,7 @@ function App() {
     }
   });
 
-  let functionCalls = {
+  let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
     back: () => setScreen((screen) => screen - 1),
   };
@@ -62,16 +54,8 @@ function App() {
       {/* HEADER */}
       {screens[screen].header && <Header title={screens[screen].header} />}
       {/* BODY */}
-      <main className="main">{screens[screen].component()}</main>
+      <main className="main">{screens[screen].component(softkeyCalls)}</main>
       {/* SOFTKEY */}
-      {screens[screen].footer && (
-        <Softkey
-          left={screens[screen].leftHand}
-          onKeyLeft={functionCalls[screens[screen].leftHandCall]}
-          right={screens[screen].rightHand}
-          onKeyRight={functionCalls[screens[screen].rightHandCall]}
-        />
-      )}
     </div>
   );
 }

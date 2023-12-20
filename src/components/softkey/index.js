@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import "./styles.css";
 
@@ -22,8 +23,8 @@ function Softkey({ left, onKeyLeft, center, onKeyCenter, right, onKeyRight }) {
   };
 
   return (
-    <div id="softkey">
-      <label className="left" onClick={() => onKeyLeft()}>{left}</label>
+    <div className="softkey">
+      <label className="left">{left}</label>
       <label className="center">{center}</label>
       <label className="right" onClick={() => onKeyRight()}>{right}</label>
     </div>

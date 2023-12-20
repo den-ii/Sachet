@@ -1,8 +1,5 @@
 .create_account{
-    height: var(--container-height);
-
-    padding: 0 var(--container-paddingX);
-    padding-top: 12px;
+    padding: 56px var(--container-paddingX) 0;
 }
 .create_account .ninimg{
     text-align: center;
@@ -22,17 +19,70 @@
     background: #ECF9F6;
     padding: 8px;
     width: 100%;
+    margin-bottom: 7px;
+    font-family: var(--fonts-semibold);
+    font-weight: 600;
+
+}
+.create_account input.input.err{
+    background-color: #FEF1F2;
+    border-bottom: 1px solid #E02D3C;
+} 
+.create_account input.input.green{
+    border-bottom: 1px solid #ECF9F6;
+} 
+
+.nin_inputContainer{
+    position: relative;
+}
+.nin_inputContainer .loader{
+    position: absolute;
+    top: 50%;
+    transform: translateY(50%);
+    transform: translateY(-50%);
+    right: 8px;
 }
 .create_account input:focus{
     outline: none;
 }
+
+ .create_account input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+ 
+input[type=number] {
+    appearance: textfield;
+  -moz-appearance: textfield;
+}
 .create_account .below-label{
-    margin-top: 7px;
     display: flex;
     justify-content: space-between;
 }
-.create_account .below-label span{
+.create_account .below-label, .below-label span{
     font-size: 10px;
+}
+.create_account .below-label-loading{
+    font-size: 10px;
+    font-family: var(--fonts-semibold);
+    font-weight: 600;
+}
+.create_account .below-label-approved{
+    color: #08875D;
+    font-size: 10px;
+    font-family: var(--fonts-semibold);
+    font-weight: 600;
+}
+.create_account .below-label-err{
+    font-size: 10px;
+    font-family: var(--fonts-semibold);
+    font-weight: 600;
+    color: #E02D3C
+}
+.create_account .none{
+    display: none;
 }
 .create_account .below-label .nin{
     font-weight: 600;
