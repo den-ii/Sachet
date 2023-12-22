@@ -41,8 +41,8 @@ function App() {
       return () => {
        clearTimeout(timer);
       };
-    }
-  });
+     }
+  }, []);
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),

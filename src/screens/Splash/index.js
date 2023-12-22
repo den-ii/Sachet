@@ -3,9 +3,9 @@ import "./styles.css";
 function Splash() {
   return (
     <div className="splash">
-      <div className="splash-img">
-        <img src="/logo.svg" className="splash-logo" alt="logo" />
-      </div>
+      <video width={240} height={300} autoPlay muted>
+          <source src="/logo_anim.webm" type="video/webm" />
+        </video>        
     </div>
   );
 }
