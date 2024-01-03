@@ -1,6 +1,5 @@
 .verifyIdentity{
-    padding: 0 var(--container-paddingX);
-    height: var(--container-height);
+    padding: 56px var(--container-paddingX) 0;
 
 }
 .verifyIdentity .camera_img{
@@ -16,4 +15,5 @@
 }
 .verifyIdentity p{
     font-size: 12px;
+    margin-top: 2px;
 }

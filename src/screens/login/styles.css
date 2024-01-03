@@ -1,0 +1,42 @@
+.login{
+    padding: 63px var(--container-paddingX) 0;
+}
+
+.login .leading{
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.login .subContainer{
+    margin-bottom: 8px;
+}
+.login .disabled{
+    border-radius: 8px 8px 2px 2px;
+    border: 0px;
+    background-color: #F8F9FC;
+    padding: 8px;
+    font-family: var(--fonts-semibold);
+    font-weight: 600;
+    background: #F8F9FC;
+    border-bottom: 1px solid #E1E6EF;
+}
+
+.login input{
+    display: block;
+    border-radius: 8px 8px 2px 2px;
+    border: 0px;
+    border-bottom: 1px solid var(--primary);
+    background: #ECF9F6;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 7px;
+    font-family: var(--fonts-semibold);
+    font-weight: 600;
+    outline: none;
+}
+.login input.disabled{
+    background: #F8F9FC;
+    border-bottom: 1px solid #E1E6EF;
+    color: var(--primary);
+    
+    
+}

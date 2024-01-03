@@ -1,5 +1,6 @@
 .create_account{
     padding: 56px var(--container-paddingX) 0;
+    padding: 56px var(--container-paddingX) 0;
 }
 .create_account .ninimg{
     text-align: center;
@@ -24,6 +25,10 @@
     font-weight: 600;
 
 }
+.create_account input:disabled{
+    color: var(--primary);
+}
+
 .create_account input.input.err{
     background-color: #FEF1F2;
     border-bottom: 1px solid #E02D3C;

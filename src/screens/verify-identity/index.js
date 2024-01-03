@@ -1,7 +1,7 @@
-import Softkey from '../../components/softkey';
-import './styles.css';
+import Softkey from "../../components/softkey"
+import "./styles.css"
 
-function VerifyIdentity() {
+function VerifyIdentity({next}) {
   return (
     <div>
       <div className="verifyIdentity">
@@ -15,11 +15,11 @@ function VerifyIdentity() {
         
       </div>
       <Softkey
-       center='Take A Photo'
-       onKeyCenter={() => {}}
+        center='Take A Photo'
+        onKeyCenter={next}
       />
     </div>
-  );
-};
+  )
+}
 
-export default VerifyIdentity;
+export default VerifyIdentity

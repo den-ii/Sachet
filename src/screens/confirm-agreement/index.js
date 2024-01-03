@@ -1,5 +1,5 @@
-import Softkey from "../../components/softkey";
-import "./styles.css";
+import Softkey from "../../components/softkey"
+import "./styles.css"
 
 function ConfirmAgreement({next, back}){
   
@@ -11,7 +11,7 @@ function ConfirmAgreement({next, back}){
       </div>
       <Softkey right='Ok' onKeyRight={next} left='Back' onKeyLeft={back}/>
     </>
-  );
+  )
 };
 
-export default ConfirmAgreement;
+export default ConfirmAgreement
