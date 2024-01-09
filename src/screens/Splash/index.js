@@ -12,7 +12,7 @@ function Splash({next}) {
 
   return (
     <div className="splash">
-      <video width={240} autoPlay muted onCanPlayThrough={handleOnLoad}>
+      <video width={240} autoPlay muted>
         <source src={videoSrc} type="video/webm" />
         Your browser does not support the video/webm codec.
       </video>        
