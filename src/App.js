@@ -7,9 +7,12 @@ import DataConsent from "./screens/dataconsent/"
 import ConfirmAgreement from "./screens/confirm-agreement"
 import CreateAccount from "./screens/create-account"
 import VerifyIdentity from "./screens/verify-identity"
+import TakePhoto from "./screens/take-photo"
 import Otp from "./screens/otp"
 import PasswordSetup from "./screens/password-setup"
 import LogIn from "./screens/login"
+import Home from "./screens/home"
+
 
 const screens = [
   {
@@ -33,10 +36,10 @@ const screens = [
     header: "Verify Identity",
     component: (softkeyCalls) => <VerifyIdentity next={softkeyCalls.next} />,
   },
-  // {
-  //   header: false,
-  //   component: (softkeyCalls) => <TakePhoto next={softkeyCalls.next} />,
-  // },
+  {
+    header: false,
+    component: (softkeyCalls) => <TakePhoto next={softkeyCalls.next} />,
+  },
   {
     header: false,
     component: (softkeyCalls) => <Otp next={softkeyCalls.next} />,
@@ -51,9 +54,20 @@ const screens = [
   },
   
 ]
+const registeredUserScreens = [
+  {
+    component: (softkeyCalls) => <Splash />,
+  },
+  {
+    header: "Sachet",
+    component: (softkeyCalls) => <Home />,
+  }
+]
 
 function App() {
   const [screen, setScreen] = useState(0)
+  // let screenChoice = registeredUserScreens
+  let screenChoice = screens
 
   useEffect(() => {
     if (screen === 0) {
@@ -69,14 +83,14 @@ function App() {
     next: () => setScreen((screen) => screen + 1),
     back: () => setScreen((screen) => screen - 1),
   }
+  
 
   return (
     <div className="App">
       {/* HEADER */}
-      {screens[screen].header && <Header title={screens[screen].header} />}
+      {screenChoice[screen].header && <Header title={screenChoice[screen].header} />}
       {/* BODY */}
-      <main className="main">{screens[screen].component(softkeyCalls)}</main>
-      {/* SOFTKEY */}
+      <main className="main">{screenChoice[screen].component(softkeyCalls)}</main>
     </div>
   )
 }

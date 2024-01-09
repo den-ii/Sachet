@@ -1,8 +1,9 @@
 :root {
   --primary: #19332f;
+  --brand: #029772;
   --light: #ECF9F6;
   --secondary: #fff;
-  --text-color: #1d2433cc;
+  --text-color: #1d2433;
   --fonts: "Open Sans", "Web Open Sans Regular", "Courier New", Courier,
     monospace;
   --fonts-semibold: "Open Sans", "Web Open Sans SemiBold", "Courier New", Courier;

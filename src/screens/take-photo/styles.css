@@ -1,0 +1,39 @@
+.takephotoContainer {
+    
+}
+.takephotoContainer .cameraContainer{
+    display: flex;
+    justify-content: center;
+
+}
+
+.takephotoContainer .cameraContainer .camera{
+    position: relative;
+    width: 240px;
+    height: 300px; /*320-(16+29)*/
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+}
+.takephotoContainer .cameraContainer .camera .caption{
+    position: absolute;
+    width: 90%;
+    height: 75%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1000px rgba(196, 196, 196, 0.5);
+    
+}
+
+
+
+.takephotoContainer .cameraContainer .camera #video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+  
+  
+  

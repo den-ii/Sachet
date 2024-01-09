@@ -1,15 +1,16 @@
 {
-  "version": "1.0",
+  "version": "1.0.0",
   "name": "Sachet",
-  "description": "Onboarding",
+  "cursor": "true",
+  "description": "Onboarding Application",
   "launch_path": "/index.html",
   "fullscreen": "true",
   "lang": "en-US",
   "type": "privileged",
 
   "icons": {
-    "56": "/assets/icons/kaios_56.png",
-    "112": "/assets/icons/kaios_112.png"
+    "56": "/assets/icons/logo2_56.png",
+    "112": "/assets/icons/logo2_112.png"
   },
 
   "developer": {
@@ -36,6 +37,9 @@
 
     "video-capture": {
       "description": "Reading Codes using the Camera"
+    },
+    "camera": {
+      "description": "Required for accessing cameras on the device."
     },
     "mobiledata": {},
     "wifidata": {},
