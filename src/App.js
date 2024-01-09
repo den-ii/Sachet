@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
 import Splash from "./screens/splash"
 import Header from "./components/header"
@@ -74,8 +74,7 @@ function App() {
     next: () => setScreen((screen) => screen + 1),
     back: () => setScreen((screen) => screen - 1),
   }
-  
-
+ 
   return (
     <div className="App">
       {/* HEADER */}
@@ -83,7 +82,7 @@ function App() {
       {/* BODY */}
       <main className="main">{screenChoice[screen].component(softkeyCalls)}</main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
