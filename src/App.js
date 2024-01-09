@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
 import Splash from "./screens/splash"
 import Header from "./components/header"
@@ -83,7 +83,7 @@ function App() {
       {/* BODY */}
       <main className="main">{screenChoice[screen].component(softkeyCalls)}</main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
