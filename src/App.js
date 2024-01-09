@@ -16,7 +16,7 @@ import Home from "./screens/home"
 
 const screens = [
   {
-    component: (softkeyCalls) => <Splash />,
+    component: (softkeyCalls) => <Splash next={softkeyCalls.next}/>,
   },
   {
     header: "Data Consent Agreement",
@@ -69,15 +69,6 @@ function App() {
   // let screenChoice = registeredUserScreens
   let screenChoice = screens
 
-  useEffect(() => {
-    if (screen === 0) {
-      let timer = setTimeout(() => setScreen(1), 3000)
-
-      return () => {
-        clearTimeout(timer)
-      }
-    }
-  }, [])
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
