@@ -49,8 +49,14 @@ function TakePhoto({ next }) {
     let video = document.getElementById("video")
     let startbutton = document.getElementById("startbutton")
 
+    let mediaStream = null
+    let videoTracks = null
+
     navigator.mediaDevices.getUserMedia({video: true, audio: false})
       .then(function(stream) {
+        mediaStream = stream
+        videoTracks = stream.getVideoTracks()
+        
         video.srcObject = stream
         video.play()
       }).catch((err) => {
@@ -58,6 +64,17 @@ function TakePhoto({ next }) {
       })
       
     clearphoto()
+    return () => {
+      // Stop the video tracks
+      if (videoTracks) {
+        videoTracks.forEach(track => track.stop());
+      }
+
+      // Stop the media stream
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+      }
+    };
   }, [])
 
   function handlePicture(ev){
