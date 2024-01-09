@@ -1,3 +1,4 @@
+import videoSrc from "../../assets/logo_anim.webm"
 import "./styles.css"
 
 function Splash({next}) {
@@ -12,7 +13,8 @@ function Splash({next}) {
   return (
     <div className="splash">
       <video width={240} autoPlay muted onCanPlayThrough={handleOnLoad}>
-        <source src="/logo_anim.webm" type="video/webm" />
+        <source src={videoSrc} type="video/webm" />
+        Your browser does not support the video/webm codec.
       </video>        
     </div>
   )
