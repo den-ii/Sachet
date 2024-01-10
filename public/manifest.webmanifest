@@ -9,8 +9,8 @@
   "type": "privileged",
 
   "icons": {
-    "56": "/assets/icons/logo2_56.png",
-    "112": "/assets/icons/logo2_112.png"
+    "56": "/assets/icons/sachet_logo56.png",
+    "112": "/assets/icons/sachet_logo112.png"
   },
 
   "developer": {
