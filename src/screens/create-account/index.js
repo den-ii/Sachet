@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import DotsLoader from "../../components/dots-loader"
 import Softkey from "../../components/softkey"
-import { encrypt } from "../../encryption"
+// import { encrypt } from "../../encryption"
 import "./styles.css"
 
 
@@ -38,18 +38,18 @@ function CreateAccount({next}){
     setStateTrack("loading")
     setDisabled(true)
     const data = JSON.stringify({nin: ninInput.current?.value})
-    const encryptedData = encrypt(data)
-    fetch("https://api.getdevos.com/customer/registerWithNin", {
-      method: "POST",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      body: {
-        data: encryptedData
-      }
-    }).then(res => console.log(res.json())).catch(err => console.log(err))
+    // const encryptedData = encrypt(data)
+    // fetch("https://api.getdevos.com/customer/registerWithNin", {
+    //   method: "POST",
+    //   headers: {
+    //     "Access-Control-Allow-Origin": "*",
+    //     "Accept": "application/json",
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: {
+    //     data: encryptedData
+    //   }
+    // }).then(res => console.log(res.json())).catch(err => console.log(err))
   }
 
   function handleNinChange(event){
