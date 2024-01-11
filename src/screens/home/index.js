@@ -1,5 +1,53 @@
+import {useEffect } from "react";
 import "./styles.css"
+import Softkey from "../../components/softkey";
+
 function Home() {
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+   
+    
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+
+  const handleUp = (evt, menuItems) => {
+    evt.preventDefault();
+    for (let i = 0; i < menuItems.length; i++) {
+      if (menuItems[i].classList.contains("item_active")) {
+        menuItems[i].classList.remove("item_active");
+        const prevIndex = i === 0 ? menuItems.length - 1 : i - 1;
+        menuItems[prevIndex].classList.add("item_active");
+        break; 
+      }
+    }
+  };
+  
+  const handleDown = (evt, menuItems) => {
+    evt.preventDefault();
+    for (let i = 0; i < menuItems.length; i++) {
+      if (menuItems[i].classList.contains("item_active")) {
+        menuItems[i].classList.remove("item_active");
+        const nextIndex = i === menuItems.length - 1 ? 0 : i + 1;
+        menuItems[nextIndex].classList.add("item_active");
+        break; 
+      }
+    }
+  };
+
+  const handleKeyDown = (evt) => {
+    const menuItems = document.querySelectorAll(".menu_item")
+    switch (evt.key) {
+    case "ArrowUp":
+      return handleUp(evt, menuItems);
+    case "ArrowDown":
+      return handleDown(evt, menuItems);
+    default:
+      return;
+    }
+  };
+
   return (
     <div className="home">
       <div className="profile">
@@ -14,7 +62,7 @@ function Home() {
         </div>
       </div>
       <ul className="menu">
-        <li className="menu_item">
+        <li className="menu_item item_active">
           <div className="menu_item__container">
             <div className="menu_item__avatar">
               <img src="/assets/images/personal_details.svg"/>
@@ -57,13 +105,13 @@ function Home() {
             </div>
             <div className="menu_item__details">
               <div className="heading">About Sachet</div>
-              <div className="subtext">Verified</div>
+              <div className="subtext">Discover Sachet</div>
             </div>
           </div>
           <div className="menu_item__border"></div>
         </li>
       </ul>
-
+      <Softkey center="Select"/>
     </div>
   )
 }

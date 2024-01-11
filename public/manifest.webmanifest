@@ -7,6 +7,7 @@
   "fullscreen": "true",
   "lang": "en-US",
   "type": "privileged",
+  "theme_color": "#029772",
 
   "icons": {
     "56": "/assets/icons/sachet_logo56.png",

@@ -1,5 +1,5 @@
 .home{
-    padding: 40px 0;
+    padding: 40px 0 0;
     overflow: hidden;
 
 }
@@ -31,7 +31,7 @@
 
 }
 .home .menu .menu_item{
-    /* height: 44px; */
+    height: 50px;
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -51,44 +51,39 @@
     margin-left: auto;
     margin-right: 8px;
 }
-
+/* 
 .home .menu .menu_item:hover{
     background-color: var(--brand);
-}
+} */
 
-.home .menu .menu_item:focus{
+.home .menu .menu_item.item_active{
     background-color: var(--brand);
 }
 
-.home .menu  .menu_item:hover .menu_item__border{
+.home .menu  .menu_item.item_active .menu_item__border{
     height: 0;
 }
 
-.home .menu  .menu_item:focus .menu_item__border{
+/* .home .menu  .menu_item:focus .menu_item__border{
     height: 0;
-}
+} */
 
 
-.home .menu  .menu_item:hover .menu_item__container .menu_item__details .heading{
+.home .menu  .menu_item.item_active .menu_item__container .menu_item__details .heading{
     color: #fff;
 }
-.home .menu  .menu_item:hover .menu_item__container .menu_item__details .subtext{
+.home .menu  .menu_item.item_active .menu_item__container .menu_item__details .subtext{
     color: #fff;
     opacity: 75%;
 
 }
-.home .menu  .menu_item:hover .menu_item__container .menu_item__details .subtext__personal{
+.home .menu  .menu_item.item_active .menu_item__container .menu_item__details .subtext__personal{
     color: #A7F46A;
 
 }
 
-.home .menu  .menu_item:focus .menu_item__border{
-    height: 0;
-}
 
-.home .menu .menu_item .menu_item:focus{
-  background-color: var(--brand);
-}
+
 
 .home .menu .menu_item .menu_item__avatar{
     min-width: 24px;

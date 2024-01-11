@@ -16,47 +16,47 @@ import Home from "./screens/home"
 
 const screens = [
   {
-    component: (softkeyCalls) => <Splash next={softkeyCalls.next}/>,
+    component: ({next}) => <Splash next={next}/>,
   },
   {
     header: "Data Consent Agreement",
-    component: (softkeyCalls) => <DataConsent next={softkeyCalls.next}/>,
+    component: ({next}) => <DataConsent next={next}/>,
    
   },
   {
     header: "Confirm Agreement",
-    component: (softkeyCalls) => <ConfirmAgreement next={softkeyCalls.next} back={softkeyCalls.back}/>,
+    component: ({next, back}) => <ConfirmAgreement next={next} back={back}/>,
     
   },
   {
     header: "Create Account",
-    component: (softkeyCalls) => <CreateAccount next={softkeyCalls.next} />,
+    component: ({next}) => <CreateAccount next={next} />,
   },
   {
     header: "Verify Identity",
-    component: (softkeyCalls) => <VerifyIdentity next={softkeyCalls.next} />,
+    component: ({next}) => <VerifyIdentity next={next} />,
   },
   {
     header: false,
-    component: (softkeyCalls) => <TakePhoto next={softkeyCalls.next} />,
+    component: ({next}) => <TakePhoto next={next} />,
   },
   {
     header: false,
-    component: (softkeyCalls) => <Otp next={softkeyCalls.next} />,
+    component: ({next}) => <Otp next={next} />,
   },
   {
     header: false,
-    component: (softkeyCalls) => <PasswordSetup next={softkeyCalls.next} />,
+    component: ({next}) => <PasswordSetup next={next} />,
   },
   {
     header: false,
-    component: (softkeyCalls) => <LogIn next={softkeyCalls.next} />,
+    component: ({next, login}) => <LogIn next={next} login={login} />,
   },
   
 ]
 const registeredUserScreens = [
   {
-    component: (softkeyCalls) => <Splash />,
+    component: (softkeyCalls) => <Splash next={next} />,
   },
   {
     header: "Sachet",
@@ -66,13 +66,17 @@ const registeredUserScreens = [
 
 function App() {
   const [screen, setScreen] = useState(0)
-  // let screenChoice = registeredUserScreens
-  let screenChoice = screens
+  const [screenChoice, setScreenChoice] = useState(screens)
+  // let screenChoice = screens
 
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
     back: () => setScreen((screen) => screen - 1),
+    login: () => {
+      setScreenChoice(registeredUserScreens)
+      setScreen(1)
+    }
   }
   
 

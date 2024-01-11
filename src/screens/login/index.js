@@ -3,7 +3,7 @@ import Header from "../../components/header"
 import Softkey from "../../components/softkey"
 import "./styles.css"
 
-function passwordSetup({next}) {
+function passwordSetup({next, login}) {
   const [passwordState, setPasswordState] = useState("inputting")  /* inputting || done*/
    
   useEffect(() => {
@@ -41,7 +41,7 @@ function passwordSetup({next}) {
           </div>
         </div>
         {inputting && <Softkey center="Next" onKeyCenter={handleNext}/>}
-        {done && <Softkey center="Log In"/>}
+        {done && <Softkey center="Log In" onKeyCenter={login}/>}
 
       </div>
     </>
