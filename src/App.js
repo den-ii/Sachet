@@ -54,10 +54,11 @@ const screens = [
   },
   
 ]
+
 const registeredUserScreens = [
-  {
-    component: (softkeyCalls) => <Splash next={next} />,
-  },
+  // {
+  //   component: (softkeyCalls) => <Splash next={next} />,
+  // },
   {
     header: "Sachet",
     component: (softkeyCalls) => <Home />,
@@ -67,15 +68,15 @@ const registeredUserScreens = [
 function App() {
   const [screen, setScreen] = useState(0)
   const [screenChoice, setScreenChoice] = useState(screens)
-  // let screenChoice = screens
+  // let screenChoice = registeredUserScreens
 
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
     back: () => setScreen((screen) => screen - 1),
     login: () => {
+      setScreen(0)
       setScreenChoice(registeredUserScreens)
-      setScreen(1)
     }
   }
   

@@ -17,7 +17,12 @@ function passwordSetup({next, login}) {
   function handlePassword(e){
     if (e.target.value.length >= 8){
       e.currentTarget.blur()
+      e.currentTarget?.blur()
     }
+  }
+
+  function handleLogin() {
+    
   }
 
   const inputting = passwordState === "inputting"? true: false
