@@ -107,7 +107,7 @@ function CreateAccount({next}){
         <div className='ninimg'><img src='/assets/images/nin.svg'/></div>
         <label className='label'>Please input your NIN</label>
         <div className="nin_inputContainer">
-          <input id='text-field' type='text' className={`input ${inputStyle}`} disabled={disabled} ref={ninInput}  nav-selectable='true' onChange={handleNinChange}/>
+          <input id='text-field' type='number' className={`input ${inputStyle}`} disabled={disabled} ref={ninInput}  nav-selectable='true' onChange={handleNinChange}/>
           <div className="loader">
             {loading && <DotsLoader/>}
             {error && <img src='/nin_error.svg'/>}
