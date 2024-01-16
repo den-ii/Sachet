@@ -8,6 +8,7 @@ import ConfirmAgreement from "./screens/confirm-agreement"
 import CreateAccount from "./screens/create-account"
 import VerifyIdentity from "./screens/verify-identity"
 import TakePhoto from "./screens/take-photo"
+import SmileTakePhoto from "./screens/smile-takephoto";
 import Otp from "./screens/otp"
 import PasswordSetup from "./screens/password-setup"
 import LogIn from "./screens/login"
@@ -38,12 +39,16 @@ const screens = [
   },
   {
     header: false,
-    component: ({next}) => <TakePhoto next={next} />,
+    component: ({next}) => <SmileTakePhoto next={next} />,
   },
-  {
-    header: false,
-    component: ({next}) => <Otp next={next} />,
-  },
+  // {
+  //   header: false,
+  //   component: ({next}) => <TakePhoto next={next} />,
+  // },
+  // {
+  //   header: false,
+  //   component: ({next}) => <Otp next={next} />,
+  // },
   {
     header: false,
     component: ({next}) => <PasswordSetup next={next} />,
