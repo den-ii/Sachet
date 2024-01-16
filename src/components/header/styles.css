@@ -1,4 +1,4 @@
-.header {
+.headerContainer {
   background-color: var(--primary);
   text-align: center;
   color: #fff;
@@ -17,7 +17,7 @@
   top: 0;
   z-index: 50;
 }
-.header p {
+.headerContainer p {
   text-align: center;
   color: #fff;
   font-size: 16px;

@@ -24,9 +24,9 @@ function Softkey({ left, onKeyLeft, center, onKeyCenter, right, onKeyRight }) {
 
   return (
     <div className="softkey">
-      <label className="left" onClick={() => onKeyLeft()}>{left}</label>
-      <label className="center" onClick={() => onKeyCenter()}>{center}</label>
-      <label className="right" onClick={() => onKeyRight()}>{right}</label>
+      <label className="left" onClick={(e) => onKeyLeft && onKeyLeft(e)}>{left}</label>
+      <label className="center" onClick={(e) => onKeyCenter && onKeyCenter(e)}>{center}</label>
+      <label className="right" onClick={(e) =>  onKeyRight && onKeyRight(e)}>{right}</label>
     </div>
   );
 }

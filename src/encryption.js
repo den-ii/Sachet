@@ -1,4 +1,3 @@
-
 import * as forge from "node-forge"
 
 /** This section contains helper methods for encrypting and decrypting data

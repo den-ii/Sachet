@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import Footer from "../../components/Footer/Footer";
-import Header from "../../components/header/Header";
-import SingleTextFooter from "../../components/SingleTextFooter/Footer";
-import { languages } from "../../laguages";
-import "./styles.css";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react"
+import Footer from "../../components/Footer/Footer"
+import Header from "../../components/header/Header"
+import SingleTextFooter from "../../components/SingleTextFooter/Footer"
+import { languages } from "../../laguages"
+import "./styles.css"
+import { useNavigate } from "react-router-dom"
 const LanguageSelector = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("")
 
   const handleLanguageChange = (language) => {
-    setSelectedLanguage(language);
+    setSelectedLanguage(language)
     // You can perform additional actions when the language changes, if needed
-  };
+  }
 
   return (
     <>
@@ -37,7 +37,7 @@ const LanguageSelector = () => {
         <SingleTextFooter Text={"Select"} />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default LanguageSelector;
+export default LanguageSelector

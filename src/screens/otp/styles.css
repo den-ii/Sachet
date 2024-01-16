@@ -1,5 +1,5 @@
 .otpContainer {
-    padding: 56px 8px 46px;
+    padding: 56px 0px 46px 8px;
     /* overflow-y: scroll; */
 }
 
@@ -18,13 +18,15 @@
 .otpContainer .otpInputContainer input{
     display: block;
     width: 100%;
-    max-width: 31px;
+    min-width: 31px;
+    width: 31px;
     border-radius: 4px;
     height: 31px;
     padding: 8px;
     border: 0px;
     background-color: var(--light);
     text-align: center;
+    margin-right: 8px;
 
 }
 .otpContainer .success_heading{

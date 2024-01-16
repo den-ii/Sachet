@@ -6,27 +6,31 @@ function DataConsent({next}){
     <>
       <div className="DataConsent">
         <p>
-        Data Submission Consent: I, the undersigned user, hereby give my
-        explicit consent to submit the following personal data to [Your Company
-        Name]:
+          <strong>Data Submission Consent:</strong><br/> 
+          I, the undersigned user, hereby give my explicit consent to submit the following personal 
+          data to Devos Communications Services Limited: <br/>
+          <ul>
+            <li>Full Name </li>
+            <li> Email </li>
+            <li> Address</li>
+            <li>Phone Number (if provided) </li>
+            <li> Any other data voluntarily submitted</li>
+          </ul>
         </p>
-        <ul>
-          <li>Full Name </li>
-          <li> Email </li>
-          <li> Address</li>
-          <li>Phone Number (if provided) </li>
-          <li> Any other data voluntarily submitted</li>
-        </ul>
         <p>
-        Data Usage for Identification: I understand that the data I provide will
-        be used solely for the purpose of identification. This data will help
-        [Your Company Name] to establish and verify my identity for the purpose
-        of accessing and using its services. Data Protection and Privacy: I
-        acknowledge that my data will be treated in accordance with the [Your
-        Company Name] privacy policy. My data will not be shared with third
-        parties for marketing purposes without my explicit consent. Right to
-        Withdraw Consent: I understand that I have the right to withdraw my
-        consent at any time by contacting [Your Company Contact Information].
+          <strong>Data Usage for Identification:</strong><br/> 
+          I understand that the data I provide will be used solely for the purpose of identification. 
+          This data will help Devos Communications Services Limited to establish and verify my identity for the purpose
+        of accessing and using its services. <br/><br/> 
+        </p>
+        <p>
+          <strong>Data Protection and Privacy:</strong><br/> 
+          I acknowledge that my data will be treated in accordance with the Devos Communications Services Limited privacy policy. 
+        My data will not be shared with third parties for marketing purposes without my explicit consent. <br/><br/> 
+        </p>
+        <p>
+          <strong>Right to Withdraw Consent:</strong><br/> I understand that I have the right to withdraw my
+        consent at any time by contacting <strong>08141305904</strong>.<br/>
         Withdrawal of consent will result in the deletion of my data.
         </p>
       </div>

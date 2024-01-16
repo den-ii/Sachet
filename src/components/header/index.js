@@ -2,7 +2,7 @@ import "./styles.css";
 
 function Header({ title }){
   return (
-    <header className="header">
+    <header className="headerContainer">
       <p className="title">{title}</p>
     </header>
   );
