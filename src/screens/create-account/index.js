@@ -102,7 +102,7 @@ function CreateAccount({ next }) {
         <div className="nin_inputContainer">
           <input
             id="text-field"
-            type="tel"
+            type="number"
             className={`input ${inputStyle}`}
             disabled={disabled}
             ref={ninInput}
