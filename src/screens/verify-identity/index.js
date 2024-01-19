@@ -1,7 +1,7 @@
-import Softkey from "../../components/softkey"
-import "./styles.css"
+import Softkey from "../../components/softkey";
+import "./styles.css";
 
-function VerifyIdentity({next}) {
+function VerifyIdentity({ next, back }) {
   return (
     <div>
       <div className="verifyIdentity">
@@ -9,17 +9,23 @@ function VerifyIdentity({next}) {
           <img src="/camera.svg" alt="" />
         </div>
         <div>
-          <p className='h1'>Verify identity your identity with a selfie photo</p>
-          <p>Rest assured, your photo will be used solely for verification purposes</p>
+          <p className="h1">
+            Verify identity your identity with a selfie photo
+          </p>
+          <p>
+            Rest assured, your photo will be used solely for verification
+            purposes
+          </p>
         </div>
-        
       </div>
       <Softkey
-        center='Take A Photo'
-        onKeyCenter={next}
+        left="Back"
+        onKeyLeft={back}
+        right="Take A Photo"
+        onKeyRight={next}
       />
     </div>
-  )
+  );
 }
 
-export default VerifyIdentity
+export default VerifyIdentity;

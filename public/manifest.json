@@ -1,26 +1,46 @@
 {
-    "short_name": "Sachet",
-    "name": "Sachet",
-    "description": "Onboarding Application",
-    "background_color": "#029772",
-    "theme_color": "#fff",
-    "start_url": ".",
-    "display": "standalone",
-    "icons": [
-      {
-        "src": "./logo2.ico",
-        "sizes": "64x64 32x32 24x24 16x16",
-        "type": "image/x-icon"
-      },
-      {
-        "src": "./assets/icons/sachet_logo192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "./assets/icons/sachet_logo512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
+  "short_name": "Sachet",
+  "name": "Sachet",
+  "description": "Onboarding Application",
+  "background_color": "#029772",
+  "theme_color": "#fff",
+  "start_url": ".",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "./assets/icons/sachet_logo44.png",
+      "sizes": "44x44",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/sachet_logo46.png",
+      "sizes": "46x46",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/sachet_logo64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/sachet_logo112.png",
+      "sizes": "112x112",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/sachet_logo128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/sachet_logo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/sachet_logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

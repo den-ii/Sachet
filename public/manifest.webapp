@@ -8,15 +8,19 @@
   "type": "privileged",
 
   "icons": {
+    "44": "/assets/icons/sachet_logo44.png",
+    "46": "/assets/icons/sachet_logo46.png",
     "56": "/assets/icons/sachet_logo56.png",
-    "112": "/assets/icons/sachet_logo112.png"
+    "64": "/assets/icons/sachet_logo64.png",
+    "112": "/assets/icons/sachet_logo112.png",
+    "128": "/assets/icons/sachet_logo128.png"
   },
 
   "developer": {
     "name": "DEVOS Team",
     "url": "https://www.getdevos.com/"
   },
-  
+
   "locales": {
     "en-US": {
       "name": "Sachet",
@@ -24,8 +28,7 @@
       "description": "Onboarding Application"
     }
   },
-  
-   
+
   "default_locale": "en-US",
 
   "permissions": {

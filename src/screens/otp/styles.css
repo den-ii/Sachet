@@ -1,52 +1,50 @@
 .otpContainer {
-    padding: 56px 0px 46px 8px;
-    /* overflow-y: scroll; */
+  padding: 56px 8px 46px 8px;
+  /* overflow-y: scroll; */
 }
 
-.otpContainer p.heading{
+.otpContainer p.heading {
   font-weight: 600;
   font-family: var(--fonts-semibold);
-  color: #1D2433;
+  color: #1d2433;
   margin-bottom: 16px;
-
 }
 
-.otpContainer .otpInputContainer{
-    display: flex;
-    gap:8px;
+.otpContainer .otpInputContainer {
+  display: flex;
+  gap: 8px;
 }
-.otpContainer .otpInputContainer input{
-    display: block;
-    width: 100%;
-    min-width: 31px;
-    width: 31px;
-    border-radius: 4px;
-    height: 31px;
-    padding: 8px;
-    border: 0px;
-    background-color: var(--light);
-    text-align: center;
-    margin-right: 8px;
+.otpContainer .otpInputContainer input {
+  display: block;
+  width: 100%;
+  min-width: 31px;
+  width: 31px;
+  border-radius: 4px;
+  height: 31px;
+  padding: 8px;
+  border: 0px;
+  background-color: var(--light);
+  text-align: center;
+  margin-right: 8px;
+}
+.otpContainer .success_heading {
+  margin: 16px 0;
+  text-align: center;
+  font-size: 12px;
+}
+.otpContainer .otpPhoneContainer {
+  border-radius: 16px;
+  background-color: #f8f9fc;
+  padding: 16px;
+}
 
+.otpContainer .otpPhoneContainer .leading {
+  font-size: 12px;
+  font-family: var(--fonts-semibold);
+  font-weight: 600;
 }
-.otpContainer .success_heading{
-    margin: 16px 0;
-    text-align: center;
-    font-size: 12px;
-}
-.otpContainer .otpPhoneContainer{
-    border-radius: 16px;
-    background-color: #F8F9FC;
-    padding: 16px;
-}
-
-.otpContainer .otpPhoneContainer .leading{
-    font-size: 12px;
-    font-family: var(--fonts-semibold);
-    font-weight: 600;
-}
-.otpContainer .otpPhoneContainer .number{
-    margin-top: 10px;
-    font-family: var(--fonts-semibold);
-    font-weight: 600;
+.otpContainer .otpPhoneContainer .number {
+  margin-top: 10px;
+  font-family: var(--fonts-semibold);
+  font-weight: 600;
 }

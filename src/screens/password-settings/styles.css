@@ -1,0 +1,93 @@
+.enterPasscode,
+.inputNewPasscode,
+.confirmNewPasscode {
+  padding: 56px 8px 0px;
+}
+
+.enterPasscode .enter--passcode__inputContainer,
+.confirmNewPasscode .enter--passcode__inputContainer {
+  position: relative;
+}
+
+.enterPasscode .enter--passcode__inputContainer .input,
+.inputNewPasscode .enter--passcode__inputContainer .input,
+.confirmNewPasscode .enter--passcode__inputContainer .input {
+  display: block;
+  width: 100%;
+  border-radius: 8px 8px 2px 2px;
+  padding: 6px;
+  font-size: 14px;
+  border: 0;
+  outline: none;
+  border-bottom: 1px solid var(--primary);
+  background: var(--light);
+}
+
+.successNewPasscode {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.successNewPasscode .success__container {
+  text-align: center;
+}
+.successNewPasscode .success__container .info .heading {
+  font-style: normal;
+  font-family: var(--fonts-semibold);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.successNewPasscode .success__container .info .sub__leading {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.inputNewPasscode
+  .enter--passcode__inputContainer
+  .input.blurred
+  .confirmNewPasscode
+  .enter--passcode__inputContainer
+  .input.blurred {
+  display: block;
+  width: 100%;
+  border-radius: 8px 8px 2px 2px;
+  padding: 6px;
+  font-size: 14px;
+  border: 0;
+  outline: none;
+  border-bottom: 1px solid #e1e6ef;
+  background-color: #f8f9fc;
+  color: black;
+}
+input:disabled {
+  color: black;
+}
+
+.enterPasscode .enter--passcode__inputContainer .loader,
+.confirmNewPasscode .enter--passcode__inputContainer .loader {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+.confirmNewPasscode .passcode_state .below-label-err {
+  color: #e02d3c;
+}
+
+.enterPasscode .passcode_state,
+.inputNewPasscode .passcode_state,
+.confirmNewPasscode .passcode_state {
+  margin-top: 8px;
+  font-size: 10px;
+  font-style: normal;
+  font-family: var(--fonts-semibold);
+  font-weight: 600;
+}
+.enterPasscode .passcode_state .below-label,
+.inputNewPasscode .passcode_state .below-label,
+.confirmNewPasscode .passcode_state .below-label {
+  display: flex;
+  justify-content: space-between;
+}

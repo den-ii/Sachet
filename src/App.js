@@ -14,6 +14,7 @@ import VerificationStatus from "./screens/verification-status";
 import PasswordSetup from "./screens/password-setup";
 import LogIn from "./screens/login";
 import Home from "./screens/home";
+import PasswordSettings from "./screens/password-settings";
 
 const screens = [
   {
@@ -29,12 +30,12 @@ const screens = [
   },
   {
     header: "Create Account",
-    component: ({ next }) => <CreateAccount next={next} />,
+    component: ({ next, back }) => <CreateAccount next={next} back={back} />,
   },
   {
     name: "verify-identity",
     header: "Verify Identity",
-    component: ({ next }) => <VerifyIdentity next={next} />,
+    component: ({ next, back }) => <VerifyIdentity next={next} back={back} />,
   },
   {
     header: false,
@@ -68,12 +69,18 @@ const screens = [
 ];
 
 const registeredUserScreens = [
-  // {
-  //   component: (softkeyCalls) => <Splash next={next} />,
-  // },
   {
+    component: ({ next }) => <Splash next={next} />,
+  },
+  {
+    name: "home",
     header: "Sachet",
-    component: (softkeyCalls) => <Home />,
+    component: ({ findScreen }) => <Home findScreen={findScreen} />,
+  },
+  {
+    name: "password-settings",
+    header: false,
+    component: ({ findScreen }) => <PasswordSettings findScreen={findScreen} />,
   },
 ];
 
@@ -86,7 +93,7 @@ function App() {
     next: () => setScreen((screen) => screen + 1),
     back: () => setScreen((screen) => screen - 1),
     login: () => {
-      setScreen(0);
+      setScreen(1);
       setScreenChoice(registeredUserScreens);
     },
     findScreen: (screenName) => {

@@ -4,7 +4,7 @@ import Softkey from "../../components/softkey";
 // import { encrypt } from "../../encryption"
 import "./styles.css";
 
-function CreateAccount({ next }) {
+function CreateAccount({ next, back }) {
   const [stateTrack, setStateTrack] =
     useState("inputting"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
@@ -32,6 +32,7 @@ function CreateAccount({ next }) {
     deleteValue = deleteValueOff.join("");
     // ninInput.current.value = deleteValue
   }
+
   function handleVerification() {
     setStateTrack("loading");
     setDisabled(true);
@@ -133,8 +134,30 @@ function CreateAccount({ next }) {
 
       {/* footer */}
       <div>
-        {approved && <Softkey right={"Next"} onKeyRight={next} />}
-        {error && <Softkey center={"Re-Enter"} onKeyCenter={reEnter} />}
+        {inputting && (
+          <Softkey
+            left={"Back"}
+            onKeyLeft={back}
+            // right={approved ? "Next" : error ? "Re-Enter" : null}
+            // onKeyRight={approved ? next : error ? reEnter : null}
+          />
+        )}
+        {approved && (
+          <Softkey
+            left="Back"
+            onKeyLeft={back}
+            right={"Next"}
+            onKeyRight={next}
+          />
+        )}
+        {error && (
+          <Softkey
+            left="Back"
+            onKeyLeft={back}
+            right={"Re-Enter"}
+            onKeyRight={reEnter}
+          />
+        )}
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ function passwordSetup({ next }) {
             <div className="password_inputContainer">
               <label className="enter_password">Please enter passcode</label>
               <input
-                type="number"
+                type="password"
                 id="passwordInput"
                 nav-selectable="true"
                 onChange={handlePassword}
