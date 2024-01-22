@@ -8,7 +8,7 @@ import ConfirmAgreement from "./screens/confirm-agreement";
 import CreateAccount from "./screens/create-account";
 import VerifyIdentity from "./screens/verify-identity";
 import TakePhoto from "./screens/take-photo";
-import SmileTakePhoto from "./screens/smile-takephoto";
+//import SmileTakePhoto from "./screens/smile-takephoto";
 import Otp from "./screens/otp";
 import VerificationStatus from "./screens/verification-status";
 import PasswordSetup from "./screens/password-setup";
@@ -37,16 +37,16 @@ const screens = [
     header: "Verify Identity",
     component: ({ next, back }) => <VerifyIdentity next={next} back={back} />,
   },
-  {
-    header: false,
-    component: ({ next, findScreen }) => (
-      <SmileTakePhoto next={next} findScreen={findScreen} />
-    ),
-  },
   // {
   //   header: false,
-  //   component: ({ next }) => <TakePhoto next={next} />,
+  //   component: ({ next, findScreen }) => (
+  //     <SmileTakePhoto next={next} findScreen={findScreen} />
+  //   ),
   // },
+  {
+    header: false,
+    component: ({ next }) => <TakePhoto next={next} />,
+  },
   {
     name: "verification-status",
     header: false,
