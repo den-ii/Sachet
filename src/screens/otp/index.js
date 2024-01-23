@@ -7,7 +7,7 @@ function Otp({ next }) {
   // handle key center
   const [otpInputs, setOtpInputs] = useState(Array(6).fill(""));
   const [validationState, setValidationState] =
-    useState("validated"); /* inputting || validated */
+    useState("pending"); /* inputting || pending ||validated */
   // const [validationSubState, setValidationSubState] = useState("loading") /*inputting || loading || validated || error*/
 
   useEffect(() => {
@@ -64,6 +64,24 @@ function Otp({ next }) {
               ))}
             </div>
           </div>
+        </div>
+      )}
+      {validationState === "pending" && (
+        <div>
+          <Header title="Limited Access" />
+          <div className="otpContainer">
+            <div className="success_heading">
+              <div className="img_container">
+                <img src="/limited_access.svg" />
+              </div>
+              <p>Your account has limited access</p>
+            </div>
+            <div className="otpPhoneContainer">
+              <p className="leading">Your New Phone Number:</p>
+              <p className="number">0905 987 4509</p>
+            </div>
+          </div>
+          <Softkey center="Set Up Password" onKeyCenter={next} />
         </div>
       )}
       {validationState === "validated" && (
