@@ -37,8 +37,8 @@ function Home({ findScreen }) {
     evt.preventDefault();
     for (let i = 0; i < menuItems.length; i++) {
       if (menuItems[i].classList.contains("item_active")) {
-        console.log(menuItems[i].getAttribute("name"));
-        findScreen(menuItems[i].getAttribute("name"));
+        const attr = menuItems[i].getAttribute("name");
+        if (attr) findScreen(menuItems[i].getAttribute("name"));
         break;
       }
     }

@@ -142,7 +142,7 @@ function PasswordSettings({ findScreen }) {
               )}
             </div>
           </div>
-          <Softkey left="Back" />
+          <Softkey left="Back" onKeyLeft={() => findScreen("home")} />
         </div>
       )}
       {inputNewPasscode && (
