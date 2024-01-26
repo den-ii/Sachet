@@ -2,13 +2,12 @@
   "version": "1.0.0",
   "name": "Sachet",
   "cursor": "true",
-  "description": "Onboarding Application",
+  "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer.",
   "launch_path": "/index.html",
   "fullscreen": "true",
   "lang": "en-US",
-  "type": "privileged",
+  "type": "certified",
   "theme_color": "#029772",
-
   "icons": {
     "44": "/assets/icons/sachet_logo44.png",
     "46": "/assets/icons/sachet_logo46.png",
@@ -17,28 +16,23 @@
     "112": "/assets/icons/sachet_logo112.png",
     "128": "/assets/icons/sachet_logo128.png"
   },
-
   "developer": {
-    "name": "DEVOS Team",
+    "name": "Devos",
     "url": "https://www.getdevos.com/"
   },
-
   "locales": {
     "en-US": {
       "name": "Sachet",
-      "subtitle": "Onboarding Application",
-      "description": "Onboarding Application"
+      "subtitle": "Tier 3 KYC and Customer management!!",
+      "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer."
     }
   },
-
   "default_locale": "en-US",
-
   "permissions": {
     "device-storage:sdcard": {
       "description": "Read from sd-card",
       "access": "readwrite"
     },
-
     "video-capture": {
       "description": "Reading Codes using the Camera"
     },

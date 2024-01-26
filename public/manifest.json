@@ -1,9 +1,9 @@
 {
   "short_name": "Sachet",
   "name": "Sachet",
-  "description": "Onboarding Application",
+  "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer.",
   "background_color": "#029772",
-  "theme_color": "#fff",
+  "theme_color": "#029772",
   "start_url": ".",
   "display": "standalone",
   "icons": [
