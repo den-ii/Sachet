@@ -5,6 +5,7 @@ import Softkey from "../../components/softkey";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
+import { useIdentity } from "../../contexts";
 
 function CreateAccount({ next, back }) {
   const [stateTrack, setStateTrack] =
@@ -12,6 +13,7 @@ function CreateAccount({ next, back }) {
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
+  const { setIdentityNumber } = useIdentity();
 
   const ninInput = useRef(null);
 
@@ -50,6 +52,7 @@ function CreateAccount({ next, back }) {
           setStateTrack("error");
           return;
         } else {
+          setIdentityNumber(ninInput.current?.value);
           setStateTrack("approved");
         }
       })
