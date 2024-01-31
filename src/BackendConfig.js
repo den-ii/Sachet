@@ -6,13 +6,13 @@ const apiUrl =
     : process.env.REACT_APP_API_URL;
 
 export const Backend = {
-  sachet() {
+  sachet: () => {
     const headers = {
       "Content-Type": "application/json",
     };
     const url = apiUrl + "/auth";
     return {
-      async onboardSachetCustomer({ nin }) {
+      onboardSachetCustomer: ({ nin }) => {
         const fullUrl = url + "/sachet/onboard";
         const data = JSON.stringify({ data: { nin } });
         const encryptedData = encrypt(data);

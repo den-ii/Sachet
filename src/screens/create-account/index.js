@@ -11,6 +11,7 @@ function CreateAccount({ next, back }) {
     useState("inputting"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
+  const [showClear, setShowClear] = useState(false);
 
   const ninInput = useRef(null);
 
@@ -23,7 +24,9 @@ function CreateAccount({ next, back }) {
   function reEnter() {
     setStateTrack("inputting");
     ninInput.current.value = "";
+    document.getElementById("text-field").disabled = false;
     ninInput.current?.focus();
+    setNinLength(0);
   }
 
   function handleDelete() {
@@ -42,38 +45,37 @@ function CreateAccount({ next, back }) {
       .onboardSachetCustomer({ nin: ninInput.current?.value })
       .then((res) => res.json())
       .then((data) => {
-        console.log(decrypt(JSON.stringify(data.data)));
-      });
+        const result = decrypt(JSON.stringify(data.data));
+        if (!result.status) {
+          setStateTrack("error");
+          return;
+        } else {
+          setStateTrack("approved");
+        }
+      })
+      .catch((err) => setStateTrack("error"));
   }
 
   function handleNinChange(event) {
     setNinLength(document.getElementById("text-field").value.length);
-    // const textField = document.getElementById("text-field")
-    // const cursorPosition = textField.selectionStart
-    // let deleteValue = document.getElementById("text-field").value
-    // let deleteValueOff = deleteValue.split("")
-    // deleteValueOff.splice(cursorPosition-1, 1)
-    // deleteValue = deleteValueOff.join("")
-    // const inputCode = String(event.key).charCodeAt(0)
-    // console.log(e.key)
-    // if (event.key === "SoftkeyRight"){
-    //   /* DO NOTHING*/
-
-    // }
-    // else if (inputCode >= 65 && inputCode <= 122){
-    //   console.log("yes")
-    //   ninInput.current.value = deleteValue
-    // }
     if (stateTrack === "inputting") {
       if (ninInput.current.value?.length >= 11) {
-        console.log("c", ninInput);
+        setStateTrack("loading");
         handleVerification();
-        setStateTrack("approved");
-        console.log("verifying");
         setDisabled(true);
         ninInput.current.blur();
+      } else if (ninInput.current.value?.length > 0) {
+        setShowClear(true);
+      } else {
+        setShowClear(false);
       }
     }
+  }
+
+  function handleClear() {
+    ninInput.current.value = "";
+    setNinLength(0);
+    setShowClear(false);
   }
 
   let inputting = stateTrack == "inputting" ? true : false;
@@ -85,6 +87,9 @@ function CreateAccount({ next, back }) {
   let loadingClass = loading ? "" : "none";
   let approvedClass = approved ? "" : "none";
   let errorClass = error ? "" : "none";
+
+  let inputClear = inputting && showClear ? true : false;
+  let inputBack = inputting && !showClear ? true : false;
 
   let inputStyle = error ? "err" : loading || approved ? "green" : "";
 
@@ -123,20 +128,14 @@ function CreateAccount({ next, back }) {
           Your NIN has been verified
         </div>
         <div className={`below-label-err ${errorClass}`}>
-          Your NIN is incorrect
+          User cannot be registered
         </div>
       </div>
 
       {/* footer */}
       <div>
-        {inputting && (
-          <Softkey
-            left={"Back"}
-            onKeyLeft={back}
-            // right={approved ? "Next" : error ? "Re-Enter" : null}
-            // onKeyRight={approved ? next : error ? reEnter : null}
-          />
-        )}
+        {inputBack && <Softkey left={"Back"} onKeyLeft={back} />}
+        {inputClear && <Softkey left={"Clear"} onKeyLeft={handleClear} />}
         {approved && (
           <Softkey
             left="Back"
