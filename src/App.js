@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Splash from "./screens/Splash";
 import Header from "./components/header";
@@ -15,6 +15,7 @@ import PasswordSetup from "./screens/password-setup";
 import LogIn from "./screens/login";
 import Home from "./screens/home";
 import PasswordSettings from "./screens/password-settings";
+import { IdentityProvider } from "./contexts";
 
 const screens = [
   {
@@ -112,7 +113,9 @@ function App() {
       )}
       {/* BODY */}
       <main className="main">
-        {screenChoice[screen].component(softkeyCalls)}
+        <IdentityProvider>
+          {screenChoice[screen].component(softkeyCalls)}
+        </IdentityProvider>
       </main>
     </div>
   );
