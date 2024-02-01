@@ -43,7 +43,10 @@ function CreateAccount({ next, back }) {
   function handleVerification() {
     setStateTrack("loading");
     setDisabled(true);
-    Backend.sachet()
+    const backend = new Backend();
+    backend
+      .useJsonContent()
+      .sachet()
       .onboardSachetCustomer({ nin: ninInput.current?.value })
       .then((res) => res.json())
       .then((data) => {

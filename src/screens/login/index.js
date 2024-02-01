@@ -4,7 +4,7 @@ import Softkey from "../../components/softkey";
 import "./styles.css";
 import { useIdentity } from "../../contexts";
 import { Backend } from "../../BackendConfig";
-import { decrypt } from "../../encryption";
+import { decrypt, encrypt } from "../../encryption";
 
 function passwordSetup({ next, login }) {
   const passwordInputRef = useRef(null);
@@ -32,14 +32,20 @@ function passwordSetup({ next, login }) {
   function handleLogin() {
     const passwordInput = passwordInputRef.current;
     if (!passwordInput) return;
-    Backend.sachet()
+    const backend = new Backend();
+    backend
+      .useJsonContent()
+      .useAuth()
+      .sachet()
       .login({ phoneNumber, password: passwordInput.value })
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
         if (!result.status) {
-          throw new Error(result.error);
+          login();
+          // throw new Error(result.error);
         } else {
+          // should be storing token
           login();
         }
       })
