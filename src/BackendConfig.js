@@ -22,6 +22,16 @@ export const Backend = {
           body: JSON.stringify({ data: encryptedData }),
         });
       },
+      createPassword: ({ userId, password }) => {
+        const fullUrl = url + "/password";
+        const data = JSON.stringify({ data: { userId, password } });
+        const encryptedData = encrypt(data);
+        return fetch(fullUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
       login: ({ phoneNumber, password }) => {
         const fullUrl = url + "/login";
         const data = JSON.stringify({ data: { phone: phoneNumber, password } });

@@ -61,7 +61,7 @@ const screens = [
   },
   {
     header: false,
-    component: ({ next }) => <PasswordSetup next={next} />,
+    component: ({ next, back }) => <PasswordSetup next={next} back={back} />,
   },
   {
     header: false,

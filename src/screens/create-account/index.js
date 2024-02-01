@@ -9,7 +9,7 @@ import { useIdentity } from "../../contexts";
 
 function CreateAccount({ next, back }) {
   const [stateTrack, setStateTrack] =
-    useState("inputting"); /* inputting || loading || approved || error*/
+    useState("approved"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
@@ -23,12 +23,20 @@ function CreateAccount({ next, back }) {
     }
   }, []);
 
-  function reEnter() {
-    setStateTrack("inputting");
+  function handleClear(val) {
     ninInput.current.value = "";
     document.getElementById("text-field").disabled = false;
-    ninInput.current?.focus();
+
     setNinLength(0);
+    setShowClear(val);
+    if (ninInput.current) {
+      ninInput.current.focus();
+    }
+  }
+
+  function reEnter() {
+    setStateTrack("inputting");
+    handleClear(false);
   }
 
   function handleDelete() {
@@ -41,8 +49,6 @@ function CreateAccount({ next, back }) {
   }
 
   function handleVerification() {
-    setStateTrack("loading");
-    setDisabled(true);
     Backend.sachet()
       .onboardSachetCustomer({ nin: ninInput.current?.value })
       .then((res) => res.json())
@@ -64,8 +70,8 @@ function CreateAccount({ next, back }) {
     if (stateTrack === "inputting") {
       if (ninInput.current.value?.length >= 11) {
         setStateTrack("loading");
-        handleVerification();
         setDisabled(true);
+        handleVerification();
         ninInput.current.blur();
       } else if (ninInput.current.value?.length > 0) {
         setShowClear(true);
@@ -73,12 +79,6 @@ function CreateAccount({ next, back }) {
         setShowClear(false);
       }
     }
-  }
-
-  function handleClear() {
-    ninInput.current.value = "";
-    setNinLength(0);
-    setShowClear(false);
   }
 
   let inputting = stateTrack == "inputting" ? true : false;
@@ -138,7 +138,9 @@ function CreateAccount({ next, back }) {
       {/* footer */}
       <div>
         {inputBack && <Softkey left={"Back"} onKeyLeft={back} />}
-        {inputClear && <Softkey left={"Clear"} onKeyLeft={handleClear} />}
+        {inputClear && (
+          <Softkey left={"Clear"} onKeyLeft={() => handleClear(false)} />
+        )}
         {approved && (
           <Softkey
             left="Back"
