@@ -38,7 +38,7 @@ function passwordSetup({ next, login }) {
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
         if (!result.status) {
-          throw new Error(result.data);
+          throw new Error(result.error);
         } else {
           login();
         }
