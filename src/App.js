@@ -17,9 +17,9 @@ import Home from "./screens/home";
 import PasswordSettings from "./screens/password-settings";
 
 const screens = [
-  {
-    component: ({ next }) => <Splash next={next} />,
-  },
+  // {
+  //   component: ({ next }) => <Splash next={next} />,
+  // },
   {
     header: "Data Consent Agreement",
     component: ({ next }) => <DataConsent next={next} />,
