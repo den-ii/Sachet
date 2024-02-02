@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-// import { useIdentity } from "../../contexts";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 import DotsLoader from "../../components/dots-loader";
-// import { Backend } from "../../BackendConfig";
+import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
 
 function passwordSetup({ next, back }) {
-  // const { phoneNumber } = useIdentity();
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || approved || create || */
   const [length, setLength] = useState(0);
@@ -21,13 +19,13 @@ function passwordSetup({ next, back }) {
   }, []);
 
   function setUpPassword() {
+    let phoneNumber = decrypt(localStorage.getItem("phoneNumber")).phoneNumber;
     setError(false);
     setLoading(true);
     console.log("id", phoneNumber);
     let password = document.getElementById("passwordInput")?.value;
     if (password.length === 6 || Number(password)) {
-      Backend()
-        .sachet()
+      Backend.sachet()
         .createPassword({ phoneNumber, password })
         .then((res) => res.json())
         .then((data) => {

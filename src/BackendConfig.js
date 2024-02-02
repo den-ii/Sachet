@@ -34,10 +34,10 @@ export const Backend = {
         });
       },
       createPassword: (
-        { userId, password },
+        { phoneNumber, password },
         headers = backendHeaders.onlyJson
       ) => {
-        const data = JSON.stringify({ data: { userId, password } });
+        const data = JSON.stringify({ data: { phoneNumber, password } });
         const encryptedData = encrypt(data);
         return fetch(url + "/password", {
           method: "POST",
