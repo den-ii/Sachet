@@ -5,20 +5,35 @@ const apiUrl =
     ? "http://localhost:3001"
     : process.env.REACT_APP_API_URL;
 
-export const Backend = {
-  sachet: () => {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const url = apiUrl + "/auth/sachet";
+export class Backend {
+  url = "";
+  static token = undefined;
+  #headers = {};
+  constructor() {
+    this.url += apiUrl;
+  }
+  useJsonContent() {
+    this.#headers["Content-Type"] = "application/json";
+    return this;
+  }
+  useAuth() {
+    this.#headers["Authorization"] = `Bearer ${Backend.token}`;
+    return this;
+  }
+  useCustom(key, value) {
+    this.#headers[key] = value``;
+    return this;
+  }
+  sachet() {
+    this.url += "/auth/sachet";
     return {
       onboardSachetCustomer: ({ nin }) => {
-        const fullUrl = url + "/onboard";
+        this.url += "/onboard";
         const data = JSON.stringify({ data: { nin } });
         const encryptedData = encrypt(data);
-        return fetch(fullUrl, {
+        return fetch(this.url, {
           method: "POST",
-          headers,
+          headers: { ...this.#headers },
           body: JSON.stringify({ data: encryptedData }),
         });
       },
@@ -33,15 +48,18 @@ export const Backend = {
         });
       },
       login: ({ phoneNumber, password }) => {
-        const fullUrl = url + "/login";
+        this.url += "/login";
+        console.log(this);
         const data = JSON.stringify({ data: { phone: phoneNumber, password } });
+        console.log(data);
         const encryptedData = encrypt(data);
-        return fetch(fullUrl, {
+        console.log(this.#headers);
+        return fetch(this.url, {
           method: "POST",
-          headers,
+          header: { ...this.#headers },
           body: JSON.stringify({ data: encryptedData }),
         });
       },
     };
-  },
-};
+  }
+}
