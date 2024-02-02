@@ -5,71 +5,68 @@ const apiUrl =
     ? "http://localhost:3001"
     : process.env.REACT_APP_API_URL;
 
-const staticBackendFields = {
-  token: undefined,
+// const staticBackendFields = {
+//   token: undefined,
+// };
+
+export const backendHeaders = {
+  onlyJson: { "Content-Type": "application/json" },
+  onlyAuth: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+  auth_json: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
 };
-export class Backend {
-  url = "";
-  _headers = {};
-  constructor() {
-    this.url += apiUrl;
-  }
-  useJsonContent() {
-    this._headers["Content-Type"] = "application/json";
-    return this;
-  }
-  useAuth() {
-    this._headers["Authorization"] = `Bearer ${staticBackendFields.token}`;
-    return this;
-  }
-  useCustom(key, value) {
-    this._headers[key] = value``;
-    return this;
-  }
-  sachet() {
-    this.url += "/auth/sachet";
+
+export const Backend = {
+  sachet: () => {
+    const url = apiUrl + "/auth/sachet";
     return {
-      onboardSachetCustomer: ({ nin }) => {
-        this.url += "/onboard";
+      onboardSachetCustomer: ({ nin }, headers = backendHeaders.onlyJson) => {
         const data = JSON.stringify({ data: { nin } });
         const encryptedData = encrypt(data);
-        return fetch(this.url, {
-          method: "POST",
-          headers: { ...this._headers },
-          body: JSON.stringify({ data: encryptedData }),
-        });
-      },
-      createPassword: ({ userId, password }) => {
-        const fullUrl = url + "/password";
-        const data = JSON.stringify({ data: { userId, password } });
-        const encryptedData = encrypt(data);
-        return fetch(fullUrl, {
+        return fetch(url + "/onboard", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
         });
       },
-      login: ({ phoneNumber, password }) => {
-        this.url += "/login";
-        const data = JSON.stringify({ data: { phone: phoneNumber, password } });
+      createPassword: (
+        { userId, password },
+        headers = backendHeaders.onlyJson
+      ) => {
+        const data = JSON.stringify({ data: { userId, password } });
         const encryptedData = encrypt(data);
-        return fetch(this.url, {
+        return fetch(url + "/password", {
           method: "POST",
-          headers: { ...this._headers },
+          headers,
           body: JSON.stringify({ data: encryptedData }),
         });
       },
-      getCustomerDetails: ({ phoneNumber }) => {
-        this.url += "/customer";
+      login: ({ phoneNumber, password }, headers = backendHeaders.onlyJson) => {
+        const data = JSON.stringify({ data: { phone: phoneNumber, password } });
+        const encryptedData = encrypt(data);
+        return fetch(url + "", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      getCustomerDetails: (
+        { phoneNumber },
+        headers = backendHeaders.auth_json
+      ) => {
         const data = JSON.stringify({ data: { phoneNumber } });
         const encryptedData = encrypt(data);
         console.log(data);
-        return fetch(this.url, {
+        return fetch(url + "/customer", {
           method: "GET",
-          header: { ...this._headers },
-          // body: JSON.stringify({ data: encryptedData }),
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
         });
       },
     };
-  }
-}
+  },
+};

@@ -1,50 +1,77 @@
-.password_setup{
-    padding: 56px var(--container-paddingX) 0;
+.password_setup {
+  padding: 56px var(--container-paddingX) 0;
 }
-.password_approved{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
+.password_approved {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
-.password_approved .heading{
-    font-family: var(--fonts-semibold);
-    font-weight: 600;
-    margin: 8px 0;
-
+.password_approved .heading {
+  font-family: var(--fonts-semibold);
+  font-weight: 600;
+  margin: 8px 0;
 }
-.password_approved .leading{
-    font-size: 12px;
+.password_approved .leading {
+  font-size: 12px;
 }
-.password_setup .password_img{
-    text-align: center;
-    margin-bottom: 16px;
+.password_setup .password_img {
+  text-align: center;
+  margin-bottom: 16px;
 }
 
-.password_setup .enter_password{
-    display: block;
-    font-size: 12px;
-    margin-bottom: 8px;
+.password_setup .enter_password {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 8px;
 }
-.password_setup .below_label{
-    display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    margin-bottom: 8px;
-}
-.password_setup input{
-    display: block;
-    border-radius: 8px 8px 2px 2px;
-    border: 0px;
-    border-bottom: 1px solid var(--primary);
-    background: #ECF9F6;
-    padding: 8px;
-    width: 100%;
-    margin-bottom: 7px;
-    font-family: var(--fonts-semibold);
-    font-weight: 600;
-    outline: none;
 
+.password_setup input {
+  display: block;
+  border-radius: 8px 8px 2px 2px;
+  border: 0px;
+  border-bottom: 1px solid var(--primary);
+  background: #ecf9f6;
+  padding: 8px;
+  width: 100%;
+  font-family: var(--fonts-semibold);
+  font-weight: 600;
+  outline: none;
+}
+.password_setup .password_inputContainer .input_container {
+  position: relative;
+}
+.password_setup .password_inputContainer .input_container .loader {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+.password_setup .password_inputContainer input.err {
+  background-color: #fef1f2;
+  border-bottom: 1px solid #e02d3c;
+}
+.password_setup .password_inputContainer input.green {
+  border-bottom: 1px solid #ecf9f6;
+}
+.password_setup .below_label {
+  margin-top: 3px;
+}
+.password_setup .below_label .below_label_input {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+.password_setup .below_label .below_label_input.none {
+  display: none;
+}
+.password_setup .below_label .below_label_err {
+  font-family: var(--fonts-semibold);
+  font-family: 500;
+  color: #e02d3c;
+  font-size: 10px;
+}
+.password_setup .below_label .below_label_err.none {
+  display: none;
 }

@@ -3,12 +3,12 @@ import DotsLoader from "../../components/dots-loader";
 import Softkey from "../../components/softkey";
 // import { encrypt } from "../../encryption"
 import "./styles.css";
-import { Backend } from "../../BackendConfig";
+import { Backend, backendHeaders } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
 
 function CreateAccount({ next, back }) {
   const [stateTrack, setStateTrack] =
-    useState("approved"); /* inputting || loading || approved || error*/
+    useState("inputting"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
@@ -49,22 +49,22 @@ function CreateAccount({ next, back }) {
   function handleVerification() {
     setStateTrack("loading");
     setDisabled(true);
-    const backend = new Backend();
-    backend
-      .useJsonContent()
-      .sachet()
-      .onboardSachetCustomer({ nin: ninInput.current?.value })
+    Backend.sachet()
+      .onboardSachetCustomer({
+        nin: ninInput.current?.value,
+      })
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
+        console.log(result);
         if (!result.status) {
           setStateTrack("error");
-          return;
         } else {
           localStorage.setItem(
             "nin",
             encrypt(JSON.stringify({ nin: ninInput.current?.value }))
           );
+          // SET SCREEN STATE TO VERIFY IDENTITY IN LOCAL STORAGE
           setStateTrack("approved");
         }
       })

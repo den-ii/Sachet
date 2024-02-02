@@ -36,10 +36,7 @@ function passwordSetup({ next, login }) {
   function handleLogin() {
     const passwordInput = passwordInputRef.current;
     if (!passwordInput) return;
-    const backend = new Backend();
-    backend
-      .useJsonContent()
-      .sachet()
+    Backend.sachet()
       .login({ phoneNumber, password: passwordInput.value })
       .then((res) => res.json())
       .then((data) => {

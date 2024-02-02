@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { useIdentity } from "../../contexts";
+// import { useIdentity } from "../../contexts";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import { Backend } from "../../BackendConfig";
+import DotsLoader from "../../components/dots-loader";
+// import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
 
 function passwordSetup({ next, back }) {
-  const { identityNumber } = useIdentity();
+  // const { phoneNumber } = useIdentity();
   const [passwordState, setPasswordState] =
-    useState(
-      "inputting"
-    ); /* inputting || loading || approved || create || error*/
+    useState("inputting"); /* inputting || approved || create || */
   const [length, setLength] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [showClear, setShowClear] = useState(false);
 
   useEffect(() => {
@@ -20,19 +21,30 @@ function passwordSetup({ next, back }) {
   }, []);
 
   function setUpPassword() {
-    setPasswordState("loading");
-    console.log("id", identityNumber);
-    const userId = identityNumber ? identityNumber : "00000000000";
+    setError(false);
+    setLoading(true);
+    console.log("id", phoneNumber);
     let password = document.getElementById("passwordInput")?.value;
     if (password.length === 6 || Number(password)) {
-      Backend.sachet()
-        .createPassword({ userId, password })
+      Backend()
+        .sachet()
+        .createPassword({ phoneNumber, password })
         .then((res) => res.json())
         .then((data) => {
-          console.log(decrypt(JSON.stringify(data.data)));
-          setPasswordState("approved");
+          const result = decrypt(JSON.stringify(data.data));
+          console.log(result);
+          setLoading(false);
+          if (!result.status) {
+            throw new Error(result.error);
+          } else {
+            setPasswordState("approved");
+            // SET SCREEN STATE TO LOGIN
+          }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+        });
     } else {
       setPasswordState("error");
     }
@@ -57,15 +69,20 @@ function passwordSetup({ next, back }) {
     passwordInput.focus();
     setShowClear(false);
     setPasswordState("inputting");
+    setError(false);
   }
 
   const inputting = passwordState === "inputting" ? true : false;
   const approved = passwordState === "approved" ? true : false;
   const create = passwordState === "create" ? true : false;
   const input_create = inputting || create ? true : false;
+  const inputtingClass = (inputting || create) && !error ? "" : "none";
+  const loadingClass = loading ? "" : "none";
+  const errorClass = error ? "" : "none";
 
   const inputCancel = inputting && showClear ? true : false;
   const inputBack = inputting && !showClear ? true : false;
+  const inputStyle = error ? "err" : loading || approved ? "green" : "";
 
   return (
     <>
@@ -78,36 +95,43 @@ function passwordSetup({ next, back }) {
           <div>
             <div className="password_inputContainer">
               <label className="enter_password">Please enter passcode</label>
-              <input
-                type="password"
-                id="passwordInput"
-                nav-selectable="true"
-                onChange={(e) => handlePassword(e)}
-              />
-              <div className="loader">
-                {loading && <DotsLoader />}
-                {error && <img src="/nin_error.svg" />}
+              <div className="input_container">
+                <input
+                  type="password"
+                  id="passwordInput"
+                  className={inputStyle}
+                  nav-selectable="true"
+                  onChange={(e) => handlePassword(e)}
+                />
+                <div className="loader">
+                  {loading && <DotsLoader />}
+                  {error && <img src="/nin_error.svg" />}
+                </div>
               </div>
             </div>
             <div className="below_label">
-              <div className="below-label-input">
+              <div className={`below_label_input ${inputtingClass}`}>
                 <p>Passcode should be 6</p>
                 <p>{length}/6</p>
               </div>
-              <div className={`below-label-err ${errorClass}`}>
-                User cannot be registered
+              <div className={`below_label_err ${errorClass}`}>
+                Password cannot be created
               </div>
             </div>
           </div>
-          {inputCancel && <Softkey left="Cancel" onKeyLeft={handleCancel} />}
-          {inputBack && <Softkey left="Back" onKeyLeft={back} />}
-          {create && (
-            <Softkey
-              left="Cancel"
-              onKeyLeft={handleCancel}
-              right="Create"
-              onKeyRight={setUpPassword}
-            />
+          {!loading && (
+            <div>
+              {inputCancel && <Softkey left="Clear" onKeyLeft={handleCancel} />}
+              {inputBack && <Softkey left="Back" onKeyLeft={back} />}
+              {create && (
+                <Softkey
+                  left="Clear"
+                  onKeyLeft={handleCancel}
+                  right="Create"
+                  onKeyRight={setUpPassword}
+                />
+              )}
+            </div>
           )}
         </div>
       )}
