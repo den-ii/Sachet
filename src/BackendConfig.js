@@ -5,23 +5,25 @@ const apiUrl =
     ? "http://localhost:3001"
     : process.env.REACT_APP_API_URL;
 
+const staticBackendFields = {
+  token: undefined,
+};
 export class Backend {
   url = "";
-  static token = undefined;
-  #headers = {};
+  _headers = {};
   constructor() {
     this.url += apiUrl;
   }
   useJsonContent() {
-    this.#headers["Content-Type"] = "application/json";
+    this._headers["Content-Type"] = "application/json";
     return this;
   }
   useAuth() {
-    this.#headers["Authorization"] = `Bearer ${Backend.token}`;
+    this._headers["Authorization"] = `Bearer ${staticBackendFields.token}`;
     return this;
   }
   useCustom(key, value) {
-    this.#headers[key] = value``;
+    this._headers[key] = value``;
     return this;
   }
   sachet() {
@@ -33,7 +35,7 @@ export class Backend {
         const encryptedData = encrypt(data);
         return fetch(this.url, {
           method: "POST",
-          headers: { ...this.#headers },
+          headers: { ...this._headers },
           body: JSON.stringify({ data: encryptedData }),
         });
       },
@@ -49,15 +51,23 @@ export class Backend {
       },
       login: ({ phoneNumber, password }) => {
         this.url += "/login";
-        console.log(this);
         const data = JSON.stringify({ data: { phone: phoneNumber, password } });
-        console.log(data);
         const encryptedData = encrypt(data);
-        console.log(this.#headers);
         return fetch(this.url, {
           method: "POST",
-          header: { ...this.#headers },
+          headers: { ...this._headers },
           body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      getCustomerDetails: ({ phoneNumber }) => {
+        this.url += "/customer";
+        const data = JSON.stringify({ data: { phoneNumber } });
+        const encryptedData = encrypt(data);
+        console.log(data);
+        return fetch(this.url, {
+          method: "GET",
+          header: { ...this._headers },
+          // body: JSON.stringify({ data: encryptedData }),
         });
       },
     };

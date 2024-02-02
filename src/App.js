@@ -15,7 +15,6 @@ import PasswordSetup from "./screens/password-setup";
 import LogIn from "./screens/login";
 import Home from "./screens/home";
 import PasswordSettings from "./screens/password-settings";
-import { IdentityProvider } from "./contexts";
 
 const screens = [
   {
@@ -113,9 +112,7 @@ function App() {
       )}
       {/* BODY */}
       <main className="main">
-        <IdentityProvider>
-          {screenChoice[screen].component(softkeyCalls)}
-        </IdentityProvider>
+        {screenChoice[screen].component(softkeyCalls)}
       </main>
     </div>
   );

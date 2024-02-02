@@ -1,8 +1,37 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./styles.css";
 import Softkey from "../../components/softkey";
+import { Backend } from "../../BackendConfig";
+import { decrypt } from "../../encryption";
 
 function Home({ findScreen }) {
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  useEffect(() => {
+    const encryptedData = localStorage.getItem("phoneNumber");
+    const decryptedData = decrypt(encryptedData);
+    setPhoneNumber(decryptedData.phoneNumber);
+  }, []);
+  useEffect(() => {
+    const backend = new Backend();
+    backend
+      .useJsonContent()
+      .useAuth()
+      .sachet()
+      .getCustomerDetails({ phoneNumber })
+      .then((res) => res.json())
+      .then((data) => {
+        const result = decrypt(JSON.stringify(data.data));
+        if (!result.status) {
+          throw new Error(result.error);
+        } else {
+          console.log(result);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [phoneNumber]);
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 

@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 import "./styles.css";
-import { useIdentity } from "../../contexts";
 import { Backend } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
 
@@ -10,8 +9,13 @@ function passwordSetup({ next, login }) {
   const passwordInputRef = useRef(null);
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || done*/
-  const { phoneNumber } = useIdentity();
+  const [phoneNumber, setPhoneNumber] = useState("");
 
+  useEffect(() => {
+    const encryptedData = localStorage.getItem("phoneNumber");
+    const decryptedData = decrypt(encryptedData);
+    setPhoneNumber(decryptedData.phoneNumber);
+  }, []);
   useEffect(() => {
     const passwordInput = passwordInputRef.current;
     if (!passwordInput) return;
@@ -35,7 +39,6 @@ function passwordSetup({ next, login }) {
     const backend = new Backend();
     backend
       .useJsonContent()
-      .useAuth()
       .sachet()
       .login({ phoneNumber, password: passwordInput.value })
       .then((res) => res.json())

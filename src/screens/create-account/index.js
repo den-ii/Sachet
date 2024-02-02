@@ -4,8 +4,7 @@ import Softkey from "../../components/softkey";
 // import { encrypt } from "../../encryption"
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
-import { decrypt } from "../../encryption";
-import { useIdentity } from "../../contexts";
+import { decrypt, encrypt } from "../../encryption";
 
 function CreateAccount({ next, back }) {
   const [stateTrack, setStateTrack] =
@@ -13,7 +12,6 @@ function CreateAccount({ next, back }) {
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
-  const { setIdentityNumber } = useIdentity();
 
   const ninInput = useRef(null);
 
@@ -63,7 +61,10 @@ function CreateAccount({ next, back }) {
           setStateTrack("error");
           return;
         } else {
-          setIdentityNumber(ninInput.current?.value);
+          localStorage.setItem(
+            "nin",
+            encrypt(JSON.stringify({ nin: ninInput.current?.value }))
+          );
           setStateTrack("approved");
         }
       })
