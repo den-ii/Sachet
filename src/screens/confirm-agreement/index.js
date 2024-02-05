@@ -1,17 +1,34 @@
-import Softkey from "../../components/softkey"
-import "./styles.css"
+import { useEffect } from "react";
+import Softkey from "../../components/softkey";
+import "./styles.css";
 
-function ConfirmAgreement({next, back}){
-  
+function ConfirmAgreement({ next, back, findScreen }) {
+  useEffect(() => {
+    if (localStorage.getItem("dataConsent")) {
+      findScreen("create-account");
+    }
+  }, []);
+
+  function handleAccept() {
+    localStorage.setItem("dataConsent", true);
+    next();
+  }
+
   return (
     <>
       <div className="confirm_agreement">
-        By clicking "OK" and submitting my data, I confirm that I have read and understood the terms of
-        this agreement and consent to the submission and use of my data as outlined above.
+        By clicking "OK" and submitting my data, I confirm that I have read and
+        understood the terms of this agreement and consent to the submission and
+        use of my data as outlined above.
       </div>
-      <Softkey right='Ok' onKeyRight={next} left='Back' onKeyLeft={back}/>
+      <Softkey
+        right="Ok"
+        onKeyRight={handleAccept}
+        left="Back"
+        onKeyLeft={back}
+      />
     </>
-  )
-};
+  );
+}
 
-export default ConfirmAgreement
+export default ConfirmAgreement;

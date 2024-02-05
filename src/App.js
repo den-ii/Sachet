@@ -22,13 +22,18 @@ const screens = [
   // },
   {
     header: "Data Consent Agreement",
-    component: ({ next }) => <DataConsent next={next} />,
+    component: ({ next, findScreen }) => (
+      <DataConsent next={next} findScreen={findScreen} />
+    ),
   },
   {
     header: "Confirm Agreement",
-    component: ({ next, back }) => <ConfirmAgreement next={next} back={back} />,
+    component: ({ next, back, findScreen }) => (
+      <ConfirmAgreement next={next} back={back} findScreen={findScreen} />
+    ),
   },
   {
+    name: "create-account",
     header: "Create Account",
     component: ({ next, back }) => <CreateAccount next={next} back={back} />,
   },

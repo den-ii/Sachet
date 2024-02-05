@@ -6,7 +6,7 @@ import "./styles.css";
 import { Backend, backendHeaders } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
 
-function CreateAccount({ next, back }) {
+function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
     useState("inputting"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
@@ -16,6 +16,10 @@ function CreateAccount({ next, back }) {
   const ninInput = useRef(null);
 
   useEffect(() => {
+    // if (localStorage.getItem("ninVerified")) {
+    //   findScreen("verify-identity");
+    // }
+
     if (ninInput.current) {
       ninInput.current.focus();
     }
@@ -59,13 +63,15 @@ function CreateAccount({ next, back }) {
         console.log(result);
         if (!result.status) {
           setStateTrack("error");
+          // localStorage.setItem("ninVerified", false);
         } else {
           localStorage.setItem(
             "nin",
             encrypt(JSON.stringify({ nin: ninInput.current?.value }))
           );
-          // SET SCREEN STATE TO VERIFY IDENTITY IN LOCAL STORAGE
+          // localStorage.setItem("ninVerified", true);
           setStateTrack("approved");
+          next();
         }
       })
       .catch((err) => setStateTrack("error"));
@@ -143,22 +149,24 @@ function CreateAccount({ next, back }) {
 
       {/* footer */}
       <div>
-        {inputBack && <Softkey left={"Back"} onKeyLeft={back} />}
+        {/* {inputBack && (
+          <Softkey left={"Clear"} onKeyLeft={() => handleClear(false)} />
+        )} */}
         {inputClear && (
           <Softkey left={"Clear"} onKeyLeft={() => handleClear(false)} />
         )}
         {approved && (
           <Softkey
-            left="Back"
-            onKeyLeft={back}
+            // left="Back"
+            // onKeyLeft={back}
             right={"Next"}
             onKeyRight={next}
           />
         )}
         {error && (
           <Softkey
-            left="Back"
-            onKeyLeft={back}
+            // left="C"
+            // onKeyLeft={back}
             right={"Re-Enter"}
             onKeyRight={reEnter}
           />
