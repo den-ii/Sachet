@@ -9,7 +9,7 @@ import { Backend } from "../../BackendConfig";
 import PopUpLoader from "../../components/popup-loader";
 
 function TakePhoto({ next, findScreen }) {
-  const [hash, setHash] = useState("");
+  const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -58,7 +58,8 @@ function TakePhoto({ next, findScreen }) {
       context.drawImage(video, 0, 0, width, height);
 
       const data = canvas.toDataURL("image/png");
-      setHash(sha256(data));
+
+      setImage64(data);
       // photo.setAttribute("src", data)
     } else {
       clearphoto();
@@ -72,7 +73,7 @@ function TakePhoto({ next, findScreen }) {
       : "00000000001";
     console.log(nin);
     Backend.sachet()
-      .verifyCustomer({ nin, photo: hash })
+      .verifyCustomer({ nin, photo: image64 })
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);

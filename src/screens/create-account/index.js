@@ -8,7 +8,7 @@ import { decrypt, encrypt } from "../../encryption";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
-    useState("approved"); /* inputting || loading || approved || error*/
+    useState("inputting"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
@@ -71,7 +71,7 @@ function CreateAccount({ next, back, findScreen }) {
           );
           // localStorage.setItem("ninVerified", true);
           setStateTrack("approved");
-          next();
+          findScreen("verify-identity");
         }
       })
       .catch((err) => setStateTrack("error"));
@@ -160,7 +160,7 @@ function CreateAccount({ next, back, findScreen }) {
             // left="Back"
             // onKeyLeft={back}
             right={"Next"}
-            onKeyRight={next}
+            onKeyRight={() => findScreen("verify-identity")}
           />
         )}
         {error && (

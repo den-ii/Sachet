@@ -35,7 +35,9 @@ const screens = [
   {
     name: "create-account",
     header: "Create Account",
-    component: ({ next, back }) => <CreateAccount next={next} back={back} />,
+    component: ({ next, back, findScreen }) => (
+      <CreateAccount next={next} back={back} findScreen={findScreen} />
+    ),
   },
   {
     name: "verify-identity",
