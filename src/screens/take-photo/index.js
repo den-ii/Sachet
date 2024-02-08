@@ -2,12 +2,24 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
+import { sha256, sha224 } from "js-sha256";
+import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
-import { encrypt } from "../../encryption";
+import { Backend } from "../../BackendConfig";
+import PopUpLoader from "../../components/popup-loader";
 
-function TakePhoto({ next }) {
-  const [capture, setCapture] = useState(false);
+function TakePhoto({ next, findScreen }) {
+  const [hash, setHash] = useState("");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    const confirmed = localStorage.getItem("confirm-picture");
+    if (
+      confirmed === "not-logged-failed" ||
+      confirmed === "not-logged-success"
+    ) {
+      findScreen("verification-status");
+    }
     return () => {
       localStorage.setItem(
         "phoneNumber",
@@ -46,10 +58,34 @@ function TakePhoto({ next }) {
       context.drawImage(video, 0, 0, width, height);
 
       const data = canvas.toDataURL("image/png");
+      setHash(sha256(data));
       // photo.setAttribute("src", data)
     } else {
       clearphoto();
     }
+  }
+
+  function handleVerify() {
+    setLoading(true);
+    const nin = localStorage.getItem("nin")
+      ? decrypt(localStorage.getItem("nin")).nin
+      : "00000000001";
+    console.log(nin);
+    Backend.sachet()
+      .verifyCustomer({ nin, photo: hash })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        const result = decrypt(JSON.stringify(data.data));
+        console.log(result);
+        if (!result.status) {
+          localStorage.setItem("confirm-picture", "rejected");
+          next();
+        } else {
+          localStorage.setItem("confirm-picture", "pending");
+          next();
+        }
+      });
   }
 
   useEffect(() => {
@@ -110,6 +146,12 @@ function TakePhoto({ next }) {
         <Softkey center="Take Photo" onKeyCenter={handlePicture} />
       </div>
       <div id="previewPhotoContainer" className="previewPhotoContainer hidden">
+        {loading && (
+          <div className="popUpLoading">
+            <PopUpLoader text="Verification in process" />
+          </div>
+        )}
+
         <Header title="Confirm Picture" />
         <canvas id="canvas" className="photo"></canvas>
         <div className="advice">
@@ -122,7 +164,7 @@ function TakePhoto({ next }) {
           left="Retake Photo"
           onKeyLeft={retakePhoto}
           right="Verify"
-          onKeyRight={next}
+          onKeyRight={handleVerify}
         />
       </div>
     </div>

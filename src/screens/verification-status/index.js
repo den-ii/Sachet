@@ -3,11 +3,18 @@ import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 
-function VerificationStatus({ next, findScreen }) {
-  const [verificationStatus, setVerificationStatus] = useState("pending"); // ["pending", "verified", "rejected"
+function VerificationStatus({ next, back, findScreen }) {
+  const [verificationStatus, setVerificationStatus] = useState(
+    localStorage.getItem("confirm-picture")
+  ); // ["pending", "verified", "rejected"
   const pending = verificationStatus === "pending" ? true : false;
   const verified = verificationStatus === "verified" ? true : false;
   const rejected = verificationStatus === "rejected" ? true : false;
+
+  function handleRetry() {
+    localStorage.removeItem("confirm-picture");
+    findScreen("verify-identity");
+  }
 
   return (
     <>
@@ -26,10 +33,7 @@ function VerificationStatus({ next, findScreen }) {
                 contact support. Your photo is only used for verification.
               </p>
             </div>
-            <Softkey
-              center="Retry Verification"
-              onKeyCenter={() => findScreen("verify-identity")}
-            />
+            <Softkey center="Retry Verification" onKeyCenter={handleRetry} />
           </div>
         )}
         {pending && (
