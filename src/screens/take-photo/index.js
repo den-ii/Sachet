@@ -88,6 +88,7 @@ function TakePhoto({ next, findScreen }) {
         }
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   }
@@ -164,12 +165,14 @@ function TakePhoto({ next, findScreen }) {
         {/* <div className="output">
           <img id="photo"className="photo" alt="The screen capture will appear in this box."/>
         </div> */}
-        <Softkey
-          left="Retake Photo"
-          onKeyLeft={retakePhoto}
-          right="Verify"
-          onKeyRight={handleVerify}
-        />
+        {!loading && (
+          <Softkey
+            left="Retake Photo"
+            onKeyLeft={retakePhoto}
+            right="Verify"
+            onKeyRight={handleVerify}
+          />
+        )}
       </div>
     </div>
   );
