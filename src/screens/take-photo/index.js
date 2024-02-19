@@ -90,6 +90,8 @@ function TakePhoto({ next, findScreen }) {
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        localStorage.setItem("confirm-picture", "rejected");
+        next();
       });
   }
 
