@@ -6,6 +6,8 @@ import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
 
+const passcodeLength = 6;
+
 function passwordSetup({ next, back }) {
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || approved || create || */
@@ -24,7 +26,7 @@ function passwordSetup({ next, back }) {
     setLoading(true);
     console.log("id", phoneNumber);
     let password = document.getElementById("passwordInput")?.value;
-    if (password.length === 6 || !isNaN(Number(password))) {
+    if (password.length === passcodeLength || !isNaN(Number(password))) {
       Backend.sachet()
         .createPassword({ phoneNumber, password })
         .then((res) => res.json())
@@ -50,7 +52,7 @@ function passwordSetup({ next, back }) {
 
   function handlePassword(e) {
     setLength(e.target.value.length);
-    if (e.target.value.length >= 6) {
+    if (e.target.value.length >= passcodeLength) {
       setPasswordState("create");
       e.currentTarget.blur();
     } else if (e.target.value.length > 0) {
@@ -109,8 +111,10 @@ function passwordSetup({ next, back }) {
             </div>
             <div className="below_label">
               <div className={`below_label_input ${inputtingClass}`}>
-                <p>Passcode should be 6</p>
-                <p>{length}/6</p>
+                <p>Passcode should be {passcodeLength}</p>
+                <p>
+                  {length}/{passcodeLength}
+                </p>
               </div>
               <div className={`below_label_err ${errorClass}`}>
                 Password cannot be created
