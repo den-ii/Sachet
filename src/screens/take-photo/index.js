@@ -86,6 +86,9 @@ function TakePhoto({ next, findScreen }) {
           localStorage.setItem("confirm-picture", "pending");
           next();
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 

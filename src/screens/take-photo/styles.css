@@ -22,7 +22,8 @@
 }
 .takephotoContainer .previewPhotoContainer .popUpLoader {
   position: absolute;
-  top: 10px;
+  top: 40%;
+  /* transform: translateY(-100%); */
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
