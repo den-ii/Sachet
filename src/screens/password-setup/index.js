@@ -24,7 +24,7 @@ function passwordSetup({ next, back }) {
     setLoading(true);
     console.log("id", phoneNumber);
     let password = document.getElementById("passwordInput")?.value;
-    if (password.length === 6 || Number(password)) {
+    if (password.length === 6 || !isNaN(Number(password))) {
       Backend.sachet()
         .createPassword({ phoneNumber, password })
         .then((res) => res.json())

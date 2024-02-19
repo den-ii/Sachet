@@ -23,7 +23,7 @@ function TakePhoto({ next, findScreen }) {
     return () => {
       localStorage.setItem(
         "phoneNumber",
-        encrypt(JSON.stringify({ phoneNumber: "123456789" }))
+        encrypt(JSON.stringify({ phoneNumber: "0123456789" }))
       );
     };
   }, []);
