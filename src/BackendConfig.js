@@ -67,6 +67,18 @@ export const Backend = {
           body: JSON.stringify({ data: encryptedData }),
         });
       },
+      verifyCustomer: ({ nin, photo }, headers = backendHeaders.auth_json) => {
+        photo = photo.split(";base64,")[1];
+        console.log(photo);
+
+        const data = JSON.stringify({ data: { nin, photo } });
+        const encryptedData = encrypt(data);
+        return fetch(url + "/verify", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
     };
   },
 };

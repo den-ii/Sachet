@@ -1,7 +1,14 @@
+import { useEffect } from "react";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 
-function VerifyIdentity({ next, back }) {
+function VerifyIdentity({ next, back, findScreen }) {
+  useEffect(() => {
+    if (localStorage.getItem("confirm-picture")) {
+      findScreen("verification-status");
+    }
+  }, []);
+
   return (
     <div>
       <div className="verifyIdentity">

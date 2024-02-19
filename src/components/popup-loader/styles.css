@@ -1,0 +1,17 @@
+.popUpLoader {
+  width: 224px;
+  height: 85px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.popUpLoader .popUpLoader--leading {
+  font-family: var(--font-semibold);
+  font-weight: 600;
+  margin-bottom: 8px;
+}

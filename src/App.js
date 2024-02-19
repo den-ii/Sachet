@@ -35,12 +35,16 @@ const screens = [
   {
     name: "create-account",
     header: "Create Account",
-    component: ({ next, back }) => <CreateAccount next={next} back={back} />,
+    component: ({ next, back, findScreen }) => (
+      <CreateAccount next={next} back={back} findScreen={findScreen} />
+    ),
   },
   {
     name: "verify-identity",
     header: "Verify Identity",
-    component: ({ next, back }) => <VerifyIdentity next={next} back={back} />,
+    component: ({ next, back, findScreen }) => (
+      <VerifyIdentity next={next} back={back} findScreen={findScreen} />
+    ),
   },
   // {
   //   header: false,
@@ -55,8 +59,8 @@ const screens = [
   {
     name: "verification-status",
     header: false,
-    component: ({ next, findScreen }) => (
-      <VerificationStatus next={next} findScreen={findScreen} />
+    component: ({ next, back, findScreen }) => (
+      <VerificationStatus next={next} back={back} findScreen={findScreen} />
     ),
   },
   {

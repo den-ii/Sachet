@@ -71,7 +71,7 @@ function CreateAccount({ next, back, findScreen }) {
           );
           // localStorage.setItem("ninVerified", true);
           setStateTrack("approved");
-          next();
+          findScreen("verify-identity");
         }
       })
       .catch((err) => setStateTrack("error"));
@@ -160,7 +160,7 @@ function CreateAccount({ next, back, findScreen }) {
             // left="Back"
             // onKeyLeft={back}
             right={"Next"}
-            onKeyRight={next}
+            onKeyRight={() => findScreen("verify-identity")}
           />
         )}
         {error && (
