@@ -6,9 +6,10 @@ import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
 
-const passcodeLength = 6;
+const passcodeLength = Number(process.env.REACT_APP_PASSCODE_LENGTH);
 
 function passwordSetup({ next, back }) {
+  if (!passcodeLength) throw new Error("Invalid/Non-existent passcode length");
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || approved || create || */
   const [length, setLength] = useState(0);
