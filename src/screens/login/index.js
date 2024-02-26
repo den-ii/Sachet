@@ -42,12 +42,10 @@ function passwordSetup({ next, login }) {
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
         if (!result.status) {
-          login();
-          // throw new Error(result.error);
-        } else {
-          // should be storing token
-          login();
+          throw new Error(result.error);
         }
+        localStorage.setItem("jwt", result.data);
+        login();
       })
       .catch((err) => {
         console.error(err);
