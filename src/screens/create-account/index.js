@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import DotsLoader from "../../components/dots-loader";
 import Softkey from "../../components/softkey";
-// import { encrypt } from "../../encryption"
 import "./styles.css";
-import { Backend, backendHeaders } from "../../BackendConfig";
+import { Backend } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
 
 function CreateAccount({ next, back, findScreen }) {
