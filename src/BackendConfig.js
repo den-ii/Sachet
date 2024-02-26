@@ -48,7 +48,7 @@ export const Backend = {
       login: ({ phoneNumber, password }, headers = backendHeaders.onlyJson) => {
         const data = JSON.stringify({ data: { phone: phoneNumber, password } });
         const encryptedData = encrypt(data);
-        return fetch(url + "", {
+        return fetch(url + "/login", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
