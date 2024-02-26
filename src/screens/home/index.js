@@ -3,9 +3,11 @@ import "./styles.css";
 import Softkey from "../../components/softkey";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
+import Skeleton from "react-loading-skeleton";
 
 function Home({ findScreen }) {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [customer, setCustomer] = useState();
 
   useEffect(() => {
     const encryptedData = localStorage.getItem("phoneNumber");
@@ -13,20 +15,15 @@ function Home({ findScreen }) {
     setPhoneNumber(decryptedData.phoneNumber);
   }, []);
   useEffect(() => {
-    const backend = new Backend();
-    backend
-      .useJsonContent()
-      .useAuth()
-      .sachet()
-      .getCustomerDetails({ phoneNumber })
+    Backend.sachet()
+      .getCustomerDetails()
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
         if (!result.status) {
           throw new Error(result.error);
-        } else {
-          console.log(result);
         }
+        setCustomer(result.data);
       })
       .catch((err) => {
         console.error(err);
@@ -94,11 +91,20 @@ function Home({ findScreen }) {
           <img src="/assets/images/profile_doyle.svg" />
         </div>
         <div className="profile__details">
-          <div className="name">Ireti Doyle</div>
-          <div className="account_no">
-            <span className="header">Tier 3 Account - </span>
-            <span className="no">09059874509</span>
-          </div>
+          {customer ? (
+            <>
+              <div className="name">{`${customer.firstName} ${customer.lastName}`}</div>
+              <div className="account_no">
+                <span className="header">Tier 3 Account - </span>
+                <span className="no">{customer.phoneNumber}</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <Skeleton width={40} height={10} />
+              <Skeleton width={80} height={10} />
+            </>
+          )}
         </div>
       </div>
       <ul className="menu">
