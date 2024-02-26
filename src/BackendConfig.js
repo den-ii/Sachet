@@ -5,26 +5,25 @@ const apiUrl =
     ? "http://localhost:3001"
     : process.env.REACT_APP_API_URL;
 
-// const staticBackendFields = {
-//   token: undefined,
-// };
-
-export const backendHeaders = {
-  onlyJson: { "Content-Type": "application/json" },
-  onlyAuth: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-  auth_json: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
+export const backendHeaders = () => {
+  const token = localStorage.getItem("jwt");
+  return {
+    onlyJson: { "Content-Type": "application/json" },
+    onlyAuth: {
+      Authorization: `Bearer ${token}`,
+    },
+    auth_json: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
 };
 
 export const Backend = {
   sachet: () => {
     const url = apiUrl + "/auth/sachet";
     return {
-      onboardSachetCustomer: ({ nin }, headers = backendHeaders.onlyJson) => {
+      onboardSachetCustomer: ({ nin }, headers = backendHeaders().onlyJson) => {
         const data = JSON.stringify({ data: { nin } });
         const encryptedData = encrypt(data);
         return fetch(url + "/onboard", {
@@ -35,7 +34,7 @@ export const Backend = {
       },
       createPassword: (
         { phoneNumber, password },
-        headers = backendHeaders.onlyJson
+        headers = backendHeaders().onlyJson
       ) => {
         const data = JSON.stringify({ data: { phoneNumber, password } });
         const encryptedData = encrypt(data);
@@ -45,7 +44,10 @@ export const Backend = {
           body: JSON.stringify({ data: encryptedData }),
         });
       },
-      login: ({ phoneNumber, password }, headers = backendHeaders.onlyJson) => {
+      login: (
+        { phoneNumber, password },
+        headers = backendHeaders().onlyJson
+      ) => {
         const data = JSON.stringify({ data: { phone: phoneNumber, password } });
         const encryptedData = encrypt(data);
         return fetch(url + "/login", {
@@ -54,20 +56,16 @@ export const Backend = {
           body: JSON.stringify({ data: encryptedData }),
         });
       },
-      getCustomerDetails: (
-        { phoneNumber },
-        headers = backendHeaders.auth_json
-      ) => {
-        const data = JSON.stringify({ data: { phoneNumber } });
-        const encryptedData = encrypt(data);
-        console.log(data);
+      getCustomerDetails: (headers = backendHeaders().auth_json) => {
         return fetch(url + "/customer", {
           method: "GET",
           headers,
-          body: JSON.stringify({ data: encryptedData }),
         });
       },
-      verifyCustomer: ({ nin, photo }, headers = backendHeaders.auth_json) => {
+      verifyCustomer: (
+        { nin, photo },
+        headers = backendHeaders().auth_json
+      ) => {
         photo = photo.split(";base64,")[1];
         console.log(photo);
 
