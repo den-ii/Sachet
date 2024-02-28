@@ -14,13 +14,16 @@ import VerificationStatus from "./screens/verification-status";
 import PasswordSetup from "./screens/password-setup";
 import LogIn from "./screens/login";
 import Home from "./screens/home";
+import Nav from "./screens/nav";
 import PasswordSettings from "./screens/password-settings";
 
 const screens = [
-  // {
-  //   component: ({ next }) => <Splash next={next} />,
-  // },
   {
+    name: "index",
+    component: ({ findScreen }) => <Nav findScreen={findScreen} />,
+  },
+  {
+    name: "register",
     header: "Data Consent Agreement",
     component: ({ next, findScreen }) => (
       <DataConsent next={next} findScreen={findScreen} />
@@ -69,11 +72,16 @@ const screens = [
   },
   {
     header: false,
-    component: ({ next, back }) => <PasswordSetup next={next} back={back} />,
+    component: ({ next, back, findScreen }) => (
+      <PasswordSetup next={next} back={back} findScreen={findScreen} />
+    ),
   },
   {
+    name: "login",
     header: false,
-    component: ({ next, login }) => <LogIn next={next} login={login} />,
+    component: ({ next, login, findScreen }) => (
+      <LogIn next={next} login={login} findScreen={findScreen} />
+    ),
   },
 ];
 

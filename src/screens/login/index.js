@@ -4,23 +4,34 @@ import Softkey from "../../components/softkey";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
+import PopUpLoader from "../../components/popup-loader";
 
-function passwordSetup({ next, login }) {
+function LogIn({ next, login, findScreen }) {
   const passwordInputRef = useRef(null);
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || done*/
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [nextHandler, setNextHandler] = useState(false);
 
   useEffect(() => {
     const encryptedData = localStorage.getItem("phoneNumber");
-    const decryptedData = decrypt(encryptedData);
-    setPhoneNumber(decryptedData.phoneNumber);
+
+    if (encryptedData) {
+      const decryptedData = decrypt(encryptedData);
+      setPhoneNumber(decryptedData.phoneNumber);
+    }
   }, []);
   useEffect(() => {
     const passwordInput = passwordInputRef.current;
     if (!passwordInput) return;
-    passwordInput.focus();
-  }, []);
+    if (passwordState === "inputting") {
+      passwordInput.value = "";
+      passwordInput.focus();
+      setNextHandler(false);
+    }
+  }, [passwordState]);
 
   function handleNext() {
     setPasswordState("done");
@@ -28,12 +39,17 @@ function passwordSetup({ next, login }) {
 
   function handlePassword(e) {
     if (e.target.value.length >= 6) {
-      e.currentTarget.blur();
       e.currentTarget?.blur();
+      setNextHandler(true);
     }
   }
 
+  function handleReEnter() {
+    setPasswordState("inputting");
+  }
+
   function handleLogin() {
+    setLoading(true);
     const passwordInput = passwordInputRef.current;
     if (!passwordInput) return;
     Backend.sachet()
@@ -45,15 +61,19 @@ function passwordSetup({ next, login }) {
           throw new Error(result.error);
         }
         localStorage.setItem("jwt", result.data);
+        setLoading(false);
         login();
       })
       .catch((err) => {
         console.error(err);
+        setLoading(false);
+        setError(true);
       });
   }
 
-  const inputting = passwordState === "inputting" ? true : false;
-  const done = passwordState === "done" ? true : false;
+  const inputting = passwordState === "inputting";
+  const done = passwordState === "done" && !loading;
+  const nextV = nextHandler && !loading;
 
   return (
     <>
@@ -62,6 +82,11 @@ function passwordSetup({ next, login }) {
 
         <div>
           <div className="login_inputContainer">
+            {loading && (
+              <div className="popUpLoading">
+                <PopUpLoader text="Verification in process" />
+              </div>
+            )}
             <div className="subContainer">
               <p className="leading">Phone Number</p>
               <div className="disabled">09059874509</div>
@@ -80,10 +105,27 @@ function passwordSetup({ next, login }) {
             </div>
           </div>
         </div>
-        {inputting && <Softkey center="Next" onKeyCenter={handleNext} />}
-        {done && <Softkey center="Log In" onKeyCenter={handleLogin} />}
+        {inputting && (
+          <Softkey left="Back" onKeyLeft={() => findScreen("index")} />
+        )}
+        {nextV && (
+          <Softkey
+            left="Back"
+            onKeyLeft={() => findScreen("index")}
+            right="Next"
+            onKeyRight={handleNext}
+          />
+        )}
+        {done && (
+          <Softkey
+            left="Back"
+            onKeyLeft={() => handleReEnter()}
+            right="Log In"
+            onKeyRight={handleLogin}
+          />
+        )}
       </div>
     </>
   );
 }
-export default passwordSetup;
+export default LogIn;

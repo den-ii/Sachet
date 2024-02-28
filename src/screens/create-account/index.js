@@ -7,7 +7,7 @@ import { decrypt, encrypt } from "../../encryption";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
-    useState("approved"); /* inputting || loading || approved || error*/
+    useState("inputting"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
@@ -102,6 +102,7 @@ function CreateAccount({ next, back, findScreen }) {
   let loading = stateTrack == "loading" ? true : false;
   let approved = stateTrack == "approved" ? true : false;
   let error = stateTrack == "error" ? true : false;
+  let showBack = ninLength === 0;
 
   let inputtingClass = inputting ? "" : "none";
   let loadingClass = loading ? "" : "none";
@@ -154,28 +155,21 @@ function CreateAccount({ next, back, findScreen }) {
 
       {/* footer */}
       <div>
-        {/* {inputBack && (
-          <Softkey left={"Clear"} onKeyLeft={() => handleClear(false)} />
-        )} */}
+        {showBack && (
+          <Softkey left={"Back"} onKeyLeft={() => findScreen("index")} />
+        )}
         {inputClear && (
           <Softkey left={"Clear"} onKeyLeft={() => handleClear(false)} />
         )}
         {approved && (
           <Softkey
-            // left="Back"
-            // onKeyLeft={back}
+            left={"Back"}
+            onKeyLeft={() => findScreen("index")}
             right={"Next"}
             onKeyRight={() => findScreen("verify-identity")}
           />
         )}
-        {error && (
-          <Softkey
-            // left="C"
-            // onKeyLeft={back}
-            right={"Re-Enter"}
-            onKeyRight={reEnter}
-          />
-        )}
+        {error && <Softkey right={"Re-Enter"} onKeyRight={reEnter} />}
       </div>
     </div>
   );

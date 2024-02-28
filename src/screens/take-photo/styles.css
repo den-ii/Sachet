@@ -20,9 +20,9 @@
   align-items: center;
   position: relative;
 }
-.takephotoContainer .previewPhotoContainer .popUpLoader {
+.takephotoContainer .previewPhotoContainer .popUpLoading {
   position: absolute;
-  top: 40%;
+  top: 100px;
   /* transform: translateY(-100%); */
   left: 50%;
   transform: translateX(-50%);

@@ -51,7 +51,12 @@ function DataConsent({ next, findScreen }) {
           Withdrawal of consent will result in the deletion of my data.
         </p>
       </div>
-      <Softkey right="Next" onKeyRight={next} />
+      <Softkey
+        left="Back"
+        onKeyLeft={() => findScreen("index")}
+        right="Next"
+        onKeyRight={next}
+      />
     </>
   );
 }

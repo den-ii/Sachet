@@ -3,7 +3,7 @@ import "./styles.css";
 import Softkey from "../../components/softkey";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
-import Skeleton from "react-loading-skeleton";
+// import Skeleton from "react-loading-skeleton";
 
 function Home({ findScreen }) {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -101,8 +101,8 @@ function Home({ findScreen }) {
             </>
           ) : (
             <>
-              <Skeleton width={40} height={10} />
-              <Skeleton width={80} height={10} />
+              {/* <Skeleton width={40} height={10} />
+              <Skeleton width={80} height={10} /> */}
             </>
           )}
         </div>
