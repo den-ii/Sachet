@@ -2,14 +2,14 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import { sha256, sha224 } from "js-sha256";
+import { image64 } from "../../base64Image";
 import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import PopUpLoader from "../../components/popup-loader";
 
 function TakePhoto({ next, findScreen }) {
-  const [image64, setImage64] = useState("");
+  // const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ function TakePhoto({ next, findScreen }) {
 
       const data = canvas.toDataURL("image/png");
 
-      setImage64(data);
+      // setImage64(data);
       // photo.setAttribute("src", data)
     } else {
       clearphoto();
@@ -82,7 +82,7 @@ function TakePhoto({ next, findScreen }) {
     const nin = localStorage.getItem("nin")
       ? decrypt(localStorage.getItem("nin")).nin
       : "00000000001";
-    console.log(nin);
+    console.log(image64);
     Backend.sachet()
       .verifyCustomer({ nin, photo: image64 })
       .then((res) => res.json())
@@ -100,7 +100,7 @@ function TakePhoto({ next, findScreen }) {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+        console.log("err", err);
         localStorage.setItem("confirm-picture", "rejected");
         next();
       });

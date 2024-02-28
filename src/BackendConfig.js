@@ -67,7 +67,6 @@ export const Backend = {
         headers = backendHeaders().auth_json
       ) => {
         photo = photo.split(";base64,")[1];
-        console.log(photo);
 
         const data = JSON.stringify({ data: { nin, photo } });
         const encryptedData = encrypt(data);
