@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Splash from "./screens/Splash";
 import Header from "./components/header";
@@ -15,6 +15,7 @@ import PasswordSetup from "./screens/password-setup";
 import LogIn from "./screens/login";
 import Home from "./screens/home";
 import Nav from "./screens/nav";
+import Status from "./screens/status";
 import PasswordSettings from "./screens/password-settings";
 
 const screens = [
@@ -67,8 +68,11 @@ const screens = [
     ),
   },
   {
+    name: "status",
     header: false,
-    component: ({ next }) => <Otp next={next} />,
+    component: ({ next, findScreen }) => (
+      <Status next={next} findScreen={findScreen} />
+    ),
   },
   {
     header: false,
@@ -104,7 +108,6 @@ const registeredUserScreens = [
 function App() {
   const [screen, setScreen] = useState(0);
   const [screenChoice, setScreenChoice] = useState(screens);
-  // let screenChoice = registeredUserScreens
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
@@ -115,7 +118,7 @@ function App() {
     },
     findScreen: (screenName) => {
       const screenIndex = screenChoice.findIndex(
-        (screen) => screen.name === screenName
+        (screen) => screen?.name === screenName
       );
       setScreen(screenIndex);
     },
@@ -124,12 +127,12 @@ function App() {
   return (
     <div className="App">
       {/* HEADER */}
-      {screenChoice[screen].header && (
+      {screenChoice[screen]?.header && (
         <Header title={screenChoice[screen].header} />
       )}
       {/* BODY */}
       <main className="main">
-        {screenChoice[screen].component(softkeyCalls)}
+        {screenChoice[screen]?.component(softkeyCalls)}
       </main>
     </div>
   );

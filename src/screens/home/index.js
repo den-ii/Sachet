@@ -3,7 +3,8 @@ import "./styles.css";
 import Softkey from "../../components/softkey";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
-// import Skeleton from "react-loading-skeleton";
+import { TextSkeleton } from "../../components/skeletons";
+import { AvatarSkeleton } from "../../components/skeletons";
 
 function Home({ findScreen }) {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -88,7 +89,11 @@ function Home({ findScreen }) {
     <div className="home">
       <div className="profile">
         <div className="profile__avatar">
-          <img src="/assets/images/profile_doyle.svg" />
+          {customer ? (
+            <img src="/assets/images/profile_doyle.svg" />
+          ) : (
+            <AvatarSkeleton />
+          )}
         </div>
         <div className="profile__details">
           {customer ? (
@@ -100,10 +105,20 @@ function Home({ findScreen }) {
               </div>
             </>
           ) : (
-            <>
-              {/* <Skeleton width={40} height={10} />
-              <Skeleton width={80} height={10} /> */}
-            </>
+            <div
+              style={{
+                display: "flex",
+                height: "100%",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ marginBottom: 8 }}>
+                <TextSkeleton />
+              </div>
+
+              <TextSkeleton height={10} borderRadius={3} />
+            </div>
           )}
         </div>
       </div>

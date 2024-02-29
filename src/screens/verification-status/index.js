@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 import "./styles.css";
@@ -7,10 +7,16 @@ function VerificationStatus({ next, back, findScreen }) {
   const [verificationStatus, setVerificationStatus] = useState(
     localStorage.getItem("confirm-picture")
   ); // "pending" ||"verified" || "limit-reached" ||"rejected"
-  const pending = verificationStatus === "pending" ? true : false;
-  const limitReached = verificationStatus === "limit-reached" ? true : false;
-  const verified = verificationStatus === "verified" ? true : false;
-  const rejected = verificationStatus === "rejected" ? true : false;
+  useEffect(() => {
+    const verified = verificationStatus === "verified";
+    if (verified) {
+      findScreen("status");
+    }
+  }, []);
+
+  const pending = verificationStatus === "pending";
+  const limitReached = verificationStatus === "limit-reached";
+  const rejected = verificationStatus === "rejected";
 
   function handleRetry() {
     localStorage.removeItem("confirm-picture");
@@ -61,13 +67,10 @@ function VerificationStatus({ next, back, findScreen }) {
               <p className="heading">Pending Verification</p>
               <p className="info">
                 We're currently finalizing your account verification to ensure a
-                secure experience. During this process, you can still use your
-                account, but please note that some features may be limited. For
-                full access, complete the verification at your earliest
-                convenience. Thank you for your understanding.
+                secure experience. Thank you for your understanding.
               </p>
             </div>
-            <Softkey center="Proceed With Limited Access" onKeyCenter={next} />
+            {/* <Softkey center="Proceed With Limited Access" onKeyCenter={next} /> */}
           </div>
         )}
       </div>
