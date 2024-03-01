@@ -55,7 +55,18 @@ function TakePhoto({ next, findScreen }) {
     if (width && height) {
       canvas.width = width;
       canvas.height = height;
-      context.drawImage(video, 0, 0, width, height);
+      context.drawImage(
+        video,
+        video.videoWidth / 2 -
+          Math.min(video.videoWidth / 2, video.videoHeight / 2),
+        0,
+        Math.min(video.videoWidth, video.videoHeight),
+        Math.min(video.videoWidth, video.videoHeight),
+        0,
+        0,
+        width,
+        height
+      );
 
       const data = canvas.toDataURL("image/png");
 
@@ -143,8 +154,10 @@ function TakePhoto({ next, findScreen }) {
     <div className="takephotoContainer">
       <div id="cameraContainer" className="cameraContainer">
         <div className="camera">
+          <div className="mask">
+            <div className="circularPortion"></div>
+          </div>
           <video id="video">Not available.</video>
-          <div className="caption"></div>
           <div className="advice">
             Please position your face within the frame.
           </div>
