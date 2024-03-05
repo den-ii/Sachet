@@ -21,7 +21,7 @@
   border-bottom: 1px solid #e1e6ef;
 }
 
-.login input {
+.login .login-input {
   display: block;
   border-radius: 8px 8px 2px 2px;
   border: 0px;
@@ -34,7 +34,7 @@
   font-weight: 600;
   outline: none;
 }
-.login input.disabled {
+.login .login-input:disabled {
   background: #f8f9fc;
   border-bottom: 1px solid #e1e6ef;
   color: var(--primary);

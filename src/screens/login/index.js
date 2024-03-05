@@ -7,45 +7,111 @@ import { decrypt, encrypt } from "../../encryption";
 import PopUpLoader from "../../components/popup-loader";
 
 function LogIn({ next, login, findScreen }) {
-  const passwordInputRef = useRef(null);
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || done*/
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumberState, setPhoneNumberState] = useState("inputting");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [loginIndex, setLoginIndex] = useState(0);
   const [nextHandler, setNextHandler] = useState(false);
+  const passwordInputRef = useRef(null);
+  const phoneNumberInputRef = useRef(null);
 
   useEffect(() => {
-    const encryptedData = localStorage.getItem("phoneNumber");
-
-    if (encryptedData) {
-      const decryptedData = decrypt(encryptedData);
-      setPhoneNumber(decryptedData.phoneNumber);
-    }
-  }, []);
-  useEffect(() => {
+    const phoneNumberInput = phoneNumberInputRef.current;
     const passwordInput = passwordInputRef.current;
-    if (!passwordInput) return;
-    if (passwordState === "inputting") {
+    if (!phoneNumberInput) return;
+    if (phoneNumberState === "inputting") {
+      phoneNumberInput.value = "";
       passwordInput.value = "";
-      passwordInput.focus();
+      phoneNumberInput.focus();
       setNextHandler(false);
     }
-  }, [passwordState]);
+  }, [phoneNumberState, passwordState]);
 
-  function handleNext() {
-    setPasswordState("done");
+  function handleNext(state) {
+    if (state === "phoneNumber") {
+      setPhoneNumberState("done");
+      if (!phoneNumberInputRef.current) return;
+      phoneNumberInputRef.current.disabled = true;
+      return;
+    } else if (state === "password") {
+      setPasswordState("done");
+      if (!phoneNumberInputRef.current) return;
+      passwordInputRef.current.disabled = true;
+    }
   }
 
   function handlePassword(e) {
     if (e.target.value.length >= 6) {
       e.currentTarget?.blur();
+      handleNext("password");
       setNextHandler(true);
+    }
+  }
+  const handleUp = (evt) => {
+    const loginInputs = document.querySelectorAll(".login-input");
+    for (let i = 0; i < loginInputs.length; i++) {
+      if (loginInputs[i].classList.contains("item_active")) {
+        loginInputs[i].classList.remove("item_active");
+        const prevIndex = i === 0 ? loginInputs.length - 1 : i - 1;
+        loginInputs[prevIndex].classList.add("item_active");
+        loginInputs[prevIndex].focus();
+        break;
+      }
+    }
+  };
+
+  const handleDown = (evt) => {
+    const loginInputs = document.querySelectorAll(".login-input");
+    for (let i = 0; i < loginInputs.length; i++) {
+      if (loginInputs[i].classList.contains("item_active")) {
+        loginInputs[i].classList.remove("item_active");
+        const nextIndex = i === loginInputs.length - 1 ? 0 : i + 1;
+        loginInputs[nextIndex].classList.add("item_active");
+        loginInputs[nextIndex].focus();
+        break;
+      }
+    }
+  };
+
+  const handleKeyDown = (evt) => {
+    switch (evt.key) {
+      case "ArrowUp":
+        return handleUp(evt);
+      case "ArrowDown":
+        handleDown(evt);
+        break;
+      default:
+        return;
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  function handlePhoneNumber(e) {
+    const value = e.target.value;
+    const sanitizedValue = value.replace(/\D/g, ""); // Remove non-digit characters
+    e.target.value = sanitizedValue;
+    if (e.target.value.length >= 11) {
+      e.currentTarget?.blur();
+      handleNext("phoneNumber");
+      const passwordInput = passwordInputRef.current;
+      if (!passwordInput) return;
+      passwordInput.focus();
     }
   }
 
   function handleReEnter() {
+    setPhoneNumberState("inputting");
     setPasswordState("inputting");
+    if (!phoneNumberInputRef.current || !passwordInputRef.current) return;
+    phoneNumberInputRef.current.disabled = false;
+    passwordInputRef.current.disabled = false;
   }
 
   function handleLogin() {
@@ -71,8 +137,11 @@ function LogIn({ next, login, findScreen }) {
       });
   }
 
-  const inputting = passwordState === "inputting";
-  const done = passwordState === "done" && !loading;
+  const inputting =
+    passwordState === "inputting" || phoneNumberState === "inputting";
+  const phoneNumberDone = phoneNumberState === "done";
+  const passwordDone = passwordState === "done";
+  const done = phoneNumberDone && passwordDone && !loading;
   const nextV = nextHandler && !loading;
 
   return (
@@ -89,16 +158,19 @@ function LogIn({ next, login, findScreen }) {
             )}
             <div className="subContainer">
               <p className="leading">Phone Number</p>
-              <div className="disabled">09059874509</div>
+              <input
+                type="tel"
+                className={`login-input item_active`}
+                ref={phoneNumberInputRef}
+                onChange={handlePhoneNumber}
+              />
             </div>
             <div>
               <p className="leading">Passcode</p>
               <input
                 type="password"
-                id="passwordInput"
-                className={done ? "disabled" : ""}
+                className={`login-input`}
                 nav-selectable="true"
-                disabled={done}
                 onChange={handlePassword}
                 ref={passwordInputRef}
               />
@@ -118,7 +190,7 @@ function LogIn({ next, login, findScreen }) {
         )}
         {done && (
           <Softkey
-            left="Back"
+            left="Clear"
             onKeyLeft={() => handleReEnter()}
             right="Log In"
             onKeyRight={handleLogin}

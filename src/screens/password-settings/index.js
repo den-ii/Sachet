@@ -35,6 +35,9 @@ function PasswordSettings({ findScreen }) {
   }
 
   function handlePasscodeChange(e) {
+    const value = e.target.value;
+    const sanitizedValue = value.replace(/\D/g, ""); // Remove non-digit characters
+    e.target.value = sanitizedValue;
     let eventName = e.target.name;
     console.log(eventName);
     setPasscodeLength(document.getElementById("passcode_input").value.length);
