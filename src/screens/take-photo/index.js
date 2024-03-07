@@ -7,6 +7,7 @@ import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import PopUpLoader from "../../components/popup-loader";
+import { userDetails } from "../../constants";
 
 function TakePhoto({ next, findScreen }) {
   // const [image64, setImage64] = useState("");
@@ -79,10 +80,7 @@ function TakePhoto({ next, findScreen }) {
 
   function handleVerify() {
     setLoading(true);
-    const nin = localStorage.getItem("nin")
-      ? decrypt(localStorage.getItem("nin")).nin
-      : "00000000001";
-    console.log(image64);
+    const nin = userDetails.nin;
     Backend.sachet()
       .verifyCustomer({ nin, photo: image64 })
       .then((res) => res.json())
@@ -163,7 +161,12 @@ function TakePhoto({ next, findScreen }) {
           </div>
         </div>
         {/* <button id="startbutton"></button> */}
-        <Softkey center="Take Photo" onKeyCenter={handlePicture} />
+        <Softkey
+          center="Take Photo"
+          onKeyCenter={handlePicture}
+          noLeft={true}
+          noRight={true}
+        />
       </div>
       <div id="previewPhotoContainer" className="previewPhotoContainer hidden">
         {loading && (
@@ -184,6 +187,7 @@ function TakePhoto({ next, findScreen }) {
           <Softkey
             left="Retake Photo"
             onKeyLeft={retakePhoto}
+            noCenter={true}
             right="Verify"
             onKeyRight={handleVerify}
           />

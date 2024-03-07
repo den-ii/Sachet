@@ -1,2 +1,1 @@
-export let nin = "";
-export let phoneNumber = "";
+export const userDetails = { nin: "", phoneNumber: "" };

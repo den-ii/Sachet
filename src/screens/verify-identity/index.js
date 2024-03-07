@@ -28,6 +28,7 @@ function VerifyIdentity({ next, back, findScreen }) {
       <Softkey
         left="Back"
         onKeyLeft={back}
+        noCenter={true}
         right="Take A Photo"
         onKeyRight={next}
       />

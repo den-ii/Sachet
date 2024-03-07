@@ -16,26 +16,35 @@
   display: block;
   border-radius: 8px 8px 2px 2px;
   border: 0px;
-  border-bottom: 1px solid var(--primary);
-  background: #ecf9f6;
+  border-bottom: 1px solid #e1e6ef;
+  background: #f8f9fc;
   padding: 8px;
   width: 100%;
   margin-bottom: 7px;
   font-family: var(--fonts-semibold);
   font-weight: 600;
 }
+.create_account input.item_active {
+  border-bottom: 1px solid var(--primary);
+  background: #ecf9f6;
+}
+
 .create_account input:disabled {
   color: var(--primary);
 }
 
-.create_account input.input.err {
+.create_account input.item_active.input.err {
   background-color: #fef1f2;
   border-bottom: 1px solid #e02d3c;
 }
-.create_account input.input.green {
+.create_account input.item_active.green {
   border-bottom: 1px solid #ecf9f6;
 }
-
+.create_account input::placeholder {
+  color: rgba(29, 36, 51, 0.65);
+  font-size: 12px;
+  font-weight: 600;
+}
 .nin_inputContainer {
   position: relative;
 }
@@ -90,4 +99,25 @@ input[type="number"] {
 }
 .create_account .below-label .nin {
   font-weight: 600;
+}
+
+.create_account .login-button__container {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 400;
+}
+.create_account .login-button__container .login-button {
+  padding: 4px;
+}
+.create_account .login-button__container .login-button .login-button__login {
+  color: var(--main-brand);
+  font-weight: 700;
+}
+
+.create_account .login-button__container .login-button.item_active {
+  border-radius: 4px;
+  border: 1px solid #19332f;
+  background-color: #ecf9f6;
 }

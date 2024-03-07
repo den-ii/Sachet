@@ -4,6 +4,7 @@ import Softkey from "../../components/softkey";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
+import { userDetails } from "../../constants";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
@@ -11,14 +12,11 @@ function CreateAccount({ next, back, findScreen }) {
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
+  const [select, setSelect] = useState(false);
 
   const ninInput = useRef(null);
 
   useEffect(() => {
-    // if (localStorage.getItem("ninVerified")) {
-    //   findScreen("verify-identity");
-    // }
-
     // navigator?.mozMobileConnections[0]
     //   ?.getDeviceIdentities()
     //   ?.then((deviceInfo) => {
@@ -31,6 +29,10 @@ function CreateAccount({ next, back, findScreen }) {
   }, []);
 
   function handleClear(val) {
+    const ninNav = document.querySelectorAll(".nin-nav");
+    ninNav[1].classList.remove("item_active");
+    ninNav[0].classList.add("item_active");
+
     ninInput.current.value = "";
     document.getElementById("text-field").disabled = false;
 
@@ -66,17 +68,13 @@ function CreateAccount({ next, back, findScreen }) {
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
         console.log(result);
-        if (!result.status) {
-          setStateTrack("error");
-          // localStorage.setItem("ninVerified", false);
-        } else {
-          localStorage.setItem(
-            "nin",
-            encrypt(JSON.stringify({ nin: ninInput.current?.value }))
-          );
-          // localStorage.setItem("ninVerified", true);
+        if (result.status === true) {
+          userDetails.phoneNumber = result.data.phoneNumber;
+          userDetails.nin = ninInput.current?.value;
           setStateTrack("approved");
           findScreen("verify-identity");
+        } else {
+          throw new Error("User cannot be registered");
         }
       })
       .catch((err) => setStateTrack("error"));
@@ -98,10 +96,72 @@ function CreateAccount({ next, back, findScreen }) {
     }
   }
 
-  let inputting = stateTrack == "inputting" ? true : false;
-  let loading = stateTrack == "loading" ? true : false;
-  let approved = stateTrack == "approved" ? true : false;
-  let error = stateTrack == "error" ? true : false;
+  const handleSelect = (evt) => {
+    evt.preventDefault();
+    if (select) {
+      findScreen("login");
+    }
+  };
+
+  const handleUp = (evt) => {
+    evt.preventDefault();
+    const ninNav = document.querySelectorAll(".nin-nav");
+    for (let i = 0; i < ninNav.length; i++) {
+      if (ninNav[i].classList.contains("item_active")) {
+        ninNav[i].blur();
+        ninNav[i].classList.remove("item_active");
+        const prevIndex = i === 0 ? ninNav.length - 1 : i - 1;
+        ninNav[prevIndex].classList.add("item_active");
+        ninNav[prevIndex].focus();
+        prevIndex === 1 ? setSelect(true) : setSelect(false);
+        break;
+      }
+    }
+  };
+
+  const handleDown = (evt) => {
+    evt.preventDefault();
+    const ninNav = document.querySelectorAll(".nin-nav");
+    for (let i = 0; i < ninNav.length; i++) {
+      ninNav[i].blur();
+      if (ninNav[i].classList.contains("item_active")) {
+        ninNav[i].classList.remove("item_active");
+        const nextIndex = i === ninNav.length - 1 ? 0 : i + 1;
+        ninNav[nextIndex].classList.add("item_active");
+        ninNav[nextIndex].focus();
+        nextIndex === 1 ? setSelect(true) : setSelect(false);
+        break;
+      }
+    }
+  };
+
+  const handleKeyDown = (evt) => {
+    switch (evt.key) {
+      case "ArrowUp":
+        return handleUp(evt);
+      case "ArrowDown":
+        handleDown(evt);
+        break;
+      default:
+        return;
+    }
+  };
+
+  function back() {
+    localStorage.clear();
+    findScreen("register");
+  }
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  let inputting = stateTrack == "inputting";
+  let loading = stateTrack == "loading";
+  let approved = stateTrack == "approved";
+  let error = stateTrack == "error";
   let showBack = ninLength === 0;
 
   let inputtingClass = inputting ? "" : "none";
@@ -109,8 +169,12 @@ function CreateAccount({ next, back, findScreen }) {
   let approvedClass = approved ? "" : "none";
   let errorClass = error ? "" : "none";
 
-  let inputClear = inputting && showClear ? true : false;
-  let inputBack = inputting && !showClear ? true : false;
+  let inputClear = inputting && showClear && !select;
+  let inputBack = inputting && !showClear && !select;
+  let inputBackSelect = inputting && !showClear && select;
+  let selectClear = select && showClear && inputting;
+  let errorSelect = error && select;
+  let errorOnly = error && !select;
 
   let inputStyle = error ? "err" : loading || approved ? "green" : "";
 
@@ -125,9 +189,10 @@ function CreateAccount({ next, back, findScreen }) {
           <input
             id="text-field"
             type="number"
-            className={`input ${inputStyle}`}
+            className={`input nin-nav item_active ${inputStyle}`}
             disabled={disabled}
             ref={ninInput}
+            placeholder="Enter NIN"
             nav-selectable="true"
             onChange={handleNinChange}
           />
@@ -151,25 +216,53 @@ function CreateAccount({ next, back, findScreen }) {
         <div className={`below-label-err ${errorClass}`}>
           User cannot be registered
         </div>
+        <div className="login-button__container">
+          <div className="login-button nin-nav">
+            <span>Already have an account?</span>
+            {""}
+            <span className="login-button__login"> Log In</span>
+          </div>
+        </div>
       </div>
 
       {/* footer */}
       <div>
-        {showBack && (
-          <Softkey left={"Back"} onKeyLeft={() => findScreen("index")} />
+        {inputBack && <Softkey left={"Back"} onKeyLeft={back} />}
+
+        {inputBackSelect && (
+          <Softkey
+            left={"Back"}
+            onKeyLeft={back}
+            center={"Select"}
+            onKeyCenter={handleSelect}
+          />
         )}
         {inputClear && (
           <Softkey left={"Clear"} onKeyLeft={() => handleClear(false)} />
         )}
+        {selectClear && (
+          <Softkey
+            left={"Clear"}
+            onKeyLeft={back}
+            center={"Select"}
+            onKeyCenter={handleSelect}
+          />
+        )}
         {approved && (
           <Softkey
-            left={"Back"}
-            onKeyLeft={() => findScreen("index")}
             right={"Next"}
             onKeyRight={() => findScreen("verify-identity")}
           />
         )}
-        {error && <Softkey right={"Re-Enter"} onKeyRight={reEnter} />}
+        {errorOnly && <Softkey right={"Re-Enter"} onKeyRight={reEnter} />}
+        {errorSelect && (
+          <Softkey
+            center={"Select"}
+            right={"Re-Enter"}
+            onKeyRight={reEnter}
+            onKeyCenter={handleSelect}
+          />
+        )}
       </div>
     </div>
   );

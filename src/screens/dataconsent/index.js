@@ -3,12 +3,6 @@ import Softkey from "../../components/softkey";
 import "./styles.css";
 
 function DataConsent({ next, findScreen }) {
-  useEffect(() => {
-    if (localStorage.getItem("dataConsent")) {
-      findScreen("create-account");
-    }
-  }, []);
-
   return (
     <>
       <div className="DataConsent">
@@ -51,12 +45,7 @@ function DataConsent({ next, findScreen }) {
           Withdrawal of consent will result in the deletion of my data.
         </p>
       </div>
-      <Softkey
-        left="Back"
-        onKeyLeft={() => findScreen("index")}
-        right="Next"
-        onKeyRight={next}
-      />
+      <Softkey right="Next" onKeyRight={next} />
     </>
   );
 }

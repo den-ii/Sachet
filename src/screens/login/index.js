@@ -5,6 +5,7 @@ import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
 import PopUpLoader from "../../components/popup-loader";
+import onlyDigits from "../../utility";
 
 function LogIn({ next, login, findScreen }) {
   const [passwordState, setPasswordState] =
@@ -12,7 +13,9 @@ function LogIn({ next, login, findScreen }) {
   const [phoneNumberState, setPhoneNumberState] = useState("inputting");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [loginIndex, setLoginIndex] = useState(0);
+  const [phoneNumberLength, setPhoneNumberLength] = useState(0);
+  const [passwordLength, setPasswordLength] = useState(0);
+  const [showSelect, setShowSelect] = useState(false);
   const [nextHandler, setNextHandler] = useState(false);
   const passwordInputRef = useRef(null);
   const phoneNumberInputRef = useRef(null);
@@ -22,6 +25,7 @@ function LogIn({ next, login, findScreen }) {
     const passwordInput = passwordInputRef.current;
     if (!phoneNumberInput) return;
     if (phoneNumberState === "inputting") {
+      phoneNumberInput.disabled = false;
       phoneNumberInput.value = "";
       passwordInput.value = "";
       phoneNumberInput.focus();
@@ -30,6 +34,7 @@ function LogIn({ next, login, findScreen }) {
   }, [phoneNumberState, passwordState]);
 
   function handleNext(state) {
+    console.log("called");
     if (state === "phoneNumber") {
       setPhoneNumberState("done");
       if (!phoneNumberInputRef.current) return;
@@ -42,34 +47,63 @@ function LogIn({ next, login, findScreen }) {
     }
   }
 
+  function handlePhoneNumber(e) {
+    onlyDigits(e);
+    const length = e.target.value.length;
+    setPhoneNumberLength(length);
+    if (length >= 11) {
+      e.currentTarget?.blur();
+      const passwordInput = passwordInputRef.current;
+      if (!passwordInput) return;
+      if (passwordInput.value.length >= 6) {
+        setNextHandler(true);
+      }
+      passwordInput.focus();
+    } else {
+      setNextHandler(false);
+    }
+  }
+
   function handlePassword(e) {
+    onlyDigits(e);
+    const length = e.target.value.length;
+    setPasswordLength(length);
     if (e.target.value.length >= 6) {
       e.currentTarget?.blur();
-      handleNext("password");
-      setNextHandler(true);
+      if (phoneNumberInputRef?.current.value.length >= 11) {
+        setNextHandler(true);
+      }
+    } else {
+      setNextHandler(false);
     }
   }
   const handleUp = (evt) => {
+    evt.preventDefault();
     const loginInputs = document.querySelectorAll(".login-input");
     for (let i = 0; i < loginInputs.length; i++) {
       if (loginInputs[i].classList.contains("item_active")) {
+        loginInputs[i].blur();
         loginInputs[i].classList.remove("item_active");
         const prevIndex = i === 0 ? loginInputs.length - 1 : i - 1;
         loginInputs[prevIndex].classList.add("item_active");
         loginInputs[prevIndex].focus();
+        prevIndex === 2 ? setShowSelect(true) : setShowSelect(false);
         break;
       }
     }
   };
 
   const handleDown = (evt) => {
+    evt.preventDefault();
     const loginInputs = document.querySelectorAll(".login-input");
     for (let i = 0; i < loginInputs.length; i++) {
       if (loginInputs[i].classList.contains("item_active")) {
+        loginInputs[i].blur();
         loginInputs[i].classList.remove("item_active");
         const nextIndex = i === loginInputs.length - 1 ? 0 : i + 1;
         loginInputs[nextIndex].classList.add("item_active");
         loginInputs[nextIndex].focus();
+        nextIndex === 2 ? setShowSelect(true) : setShowSelect(false);
         break;
       }
     }
@@ -93,36 +127,46 @@ function LogIn({ next, login, findScreen }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  function handlePhoneNumber(e) {
-    const value = e.target.value;
-    const sanitizedValue = value.replace(/\D/g, ""); // Remove non-digit characters
-    e.target.value = sanitizedValue;
-    if (e.target.value.length >= 11) {
-      e.currentTarget?.blur();
-      handleNext("phoneNumber");
-      const passwordInput = passwordInputRef.current;
-      if (!passwordInput) return;
-      passwordInput.focus();
-    }
-  }
-
   function handleReEnter() {
+    console.log("yes");
     setPhoneNumberState("inputting");
     setPasswordState("inputting");
-    if (!phoneNumberInputRef.current || !passwordInputRef.current) return;
-    phoneNumberInputRef.current.disabled = false;
-    passwordInputRef.current.disabled = false;
+    const phoneNumberInput = phoneNumberInputRef.current;
+    const passwordInput = passwordInputRef.current;
+    if (!phoneNumberInput || !passwordInput) return;
+    phoneNumberInput.disabled = false;
+    passwordInput.disabled = false;
+    console.log("ii");
+    phoneNumberInput.value = "";
+    passwordInput.value = "";
+    phoneNumberInput.focus();
+    setPasswordLength(0);
+    setPhoneNumberLength(0);
+    setNextHandler(false);
+    // if (!phoneNumberInputRef.current || !passwordInputRef.current) return;
+    // phoneNumberInputRef.current.disabled = false;
+    // passwordInputRef.current.disabled = false;
+  }
+
+  function handleNextClick() {
+    handleNext("password");
+    handleNext("phoneNumber");
   }
 
   function handleLogin() {
     setLoading(true);
+    const phoneNumberInput = passwordInputRef.current;
     const passwordInput = passwordInputRef.current;
     if (!passwordInput) return;
     Backend.sachet()
-      .login({ phoneNumber, password: passwordInput.value })
+      .login({
+        phoneNumber: phoneNumberInput.value,
+        password: passwordInput.value,
+      })
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
+        console.log(result);
         if (!result.status) {
           throw new Error(result.error);
         }
@@ -141,8 +185,17 @@ function LogIn({ next, login, findScreen }) {
     passwordState === "inputting" || phoneNumberState === "inputting";
   const phoneNumberDone = phoneNumberState === "done";
   const passwordDone = passwordState === "done";
+  const hasValue = passwordLength > 0 || phoneNumberLength > 0;
+  const selected = showSelect && inputting && !hasValue;
+
+  let clear = hasValue && !selected;
+  const selectedClear = showSelect && clear;
+
   const done = phoneNumberDone && passwordDone && !loading;
-  const nextV = nextHandler && !loading;
+  const doneOnly = done && !showSelect;
+  const doneSelected = done && showSelect;
+  const nextV = nextHandler && !loading && !selectedClear;
+  const nextVSelected = nextHandler && !loading && selectedClear;
 
   return (
     <>
@@ -160,6 +213,7 @@ function LogIn({ next, login, findScreen }) {
               <p className="leading">Phone Number</p>
               <input
                 type="tel"
+                id="tel"
                 className={`login-input item_active`}
                 ref={phoneNumberInputRef}
                 onChange={handlePhoneNumber}
@@ -168,6 +222,7 @@ function LogIn({ next, login, findScreen }) {
             <div>
               <p className="leading">Passcode</p>
               <input
+                id="password"
                 type="password"
                 className={`login-input`}
                 nav-selectable="true"
@@ -176,22 +231,64 @@ function LogIn({ next, login, findScreen }) {
               />
             </div>
           </div>
+          <div className="login__signup-button__container">
+            <div className="signup-button login-input">
+              <span>New to Sachet? </span>
+              <span className="signup-button__signup">Sign Up</span>
+            </div>
+          </div>
         </div>
-        {inputting && (
+        {/* {inputting && (
           <Softkey left="Back" onKeyLeft={() => findScreen("index")} />
-        )}
-        {nextV && (
-          <Softkey
-            left="Back"
-            onKeyLeft={() => findScreen("index")}
-            right="Next"
-            onKeyRight={handleNext}
-          />
-        )}
-        {done && (
+        )} */}
+        {clear && <Softkey left="Clear" onKeyLeft={() => handleReEnter()} />}
+        {selectedClear && (
           <Softkey
             left="Clear"
             onKeyLeft={() => handleReEnter()}
+            center={"Select"}
+            onKeyCenter={() => findScreen("create-account")}
+          />
+        )}
+        {selected && (
+          <Softkey
+            center={"Select"}
+            onKeyCenter={() => findScreen("create-account")}
+          />
+        )}
+
+        {nextVSelected && (
+          <Softkey
+            left="Clear"
+            onKeyLeft={() => handleReEnter()}
+            center={"Select"}
+            onKeyCenter={() => findScreen("create-account")}
+            right="Next"
+            onKeyRight={handleNextClick}
+          />
+        )}
+        {nextV && (
+          <Softkey
+            left="Clear"
+            onKeyLeft={() => handleReEnter()}
+            right="Next"
+            onKeyRight={handleNextClick}
+          />
+        )}
+        {doneOnly && (
+          <Softkey
+            left="Clear"
+            onKeyLeft={() => handleReEnter()}
+            right="Log In"
+            onKeyRight={handleLogin}
+          />
+        )}
+        {doneSelected && (
+          <Softkey
+            left="Clear"
+            onKeyLeft={() => handleReEnter()}
+            center={"Select"}
+            onKeyCenter={() => findScreen("create-account")}
             right="Log In"
             onKeyRight={handleLogin}
           />

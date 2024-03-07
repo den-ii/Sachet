@@ -40,7 +40,12 @@ function VerificationStatus({ next, back, findScreen }) {
                 contact support. Your photo is only used for verification.
               </p>
             </div>
-            <Softkey center="Retry Verification" onKeyCenter={handleRetry} />
+            <Softkey
+              center="Retry Verification"
+              onKeyCenter={handleRetry}
+              noLeft={true}
+              noRight={true}
+            />
           </div>
         )}
         {limitReached && (
@@ -55,7 +60,7 @@ function VerificationStatus({ next, back, findScreen }) {
                 assistance, please contact our support team.
               </p>
             </div>
-            <Softkey center="Contact Support" />
+            <Softkey center="Contact Support" noLeft={true} noRight={true} />
           </div>
         )}
         {pending && (

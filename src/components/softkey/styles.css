@@ -19,7 +19,18 @@
   color: #fff;
   font-family: var(--fonts-bold);
   font-size: 14px;
+  flex: 1;
+  text-align: center;
   cursor: pointer;
   align-items: center;
   font-weight: 700;
+}
+.softkey label.left {
+  text-align: left;
+}
+.softkey label.center {
+  text-align: center;
+}
+.softkey label.right {
+  text-align: right;
 }

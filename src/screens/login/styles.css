@@ -21,7 +21,7 @@
   border-bottom: 1px solid #e1e6ef;
 }
 
-.login .login-input {
+.login input.login-input {
   display: block;
   border-radius: 8px 8px 2px 2px;
   border: 0px;
@@ -34,7 +34,7 @@
   font-weight: 600;
   outline: none;
 }
-.login .login-input:disabled {
+.login input.login-input:disabled {
   background: #f8f9fc;
   border-bottom: 1px solid #e1e6ef;
   color: var(--primary);
@@ -45,4 +45,24 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
+}
+.login .login__signup-button__container {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 400;
+}
+.login .login__signup-button__container .signup-button {
+  padding: 4px;
+}
+.login .login__signup-button__container .signup-button .signup-button__signup {
+  color: var(--main-brand);
+  font-weight: 700;
+}
+
+.login .login__signup-button__container .signup-button.item_active {
+  border-radius: 4px;
+  border: 1px solid #19332f;
+  background-color: #ecf9f6;
 }

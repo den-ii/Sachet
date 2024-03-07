@@ -20,10 +20,6 @@ import PasswordSettings from "./screens/password-settings";
 
 const screens = [
   {
-    name: "index",
-    component: ({ findScreen }) => <Nav findScreen={findScreen} />,
-  },
-  {
     name: "register",
     header: "Data Consent Agreement",
     component: ({ next, findScreen }) => (
@@ -106,7 +102,9 @@ const registeredUserScreens = [
 ];
 
 function App() {
-  const [screen, setScreen] = useState(0);
+  const [screen, setScreen] = useState(
+    localStorage.getItem("dataConsent") ? 1 : 0
+  );
   const [screenChoice, setScreenChoice] = useState(screens);
 
   let softkeyCalls = {

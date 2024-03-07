@@ -1,17 +1,18 @@
 :root {
   --primary: #19332f;
   --brand: #029772;
-  --light: #ECF9F6;
+  --main-brand: #02b287;
+  --light: #ecf9f6;
   --secondary: #fff;
   --text-color: #1d2433;
   --fonts: "Open Sans", "Web Open Sans Regular", "Courier New", Courier,
     monospace;
-  --fonts-semibold: "Open Sans", "Web Open Sans SemiBold", "Courier New", Courier;
+  --fonts-semibold: "Open Sans", "Web Open Sans SemiBold", "Courier New",
+    Courier;
   --fonts-bold: "Open Sans", "Web Open Sans Bold", "Courier New", Courier,
     monospace;
   --container-height: 251px; /*320-(40-29) 40 && 29 from header and softkey*/
   --container-paddingX: 8px;
-
 }
 
 @font-face {

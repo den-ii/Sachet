@@ -34,7 +34,12 @@ function Status({ next, findScreen }) {
               <p className="number">0905 987 4509</p>
             </div>
           </div>
-          <Softkey center="Set Up Password" onKeyCenter={next} />
+          <Softkey
+            center="Set Up Password"
+            onKeyCenter={next}
+            noLeft={true}
+            noRight={true}
+          />
         </div>
       )}
       {validationState === "verified" && (
@@ -52,7 +57,12 @@ function Status({ next, findScreen }) {
               <p className="number">0905 987 4509</p>
             </div>
           </div>
-          <Softkey center="Set Up Password" onKeyCenter={next} />
+          <Softkey
+            center="Set Up Password"
+            onKeyCenter={next}
+            noLeft={true}
+            noRight={true}
+          />
         </div>
       )}
     </>
