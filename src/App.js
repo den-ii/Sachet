@@ -20,23 +20,21 @@ import PasswordSettings from "./screens/password-settings";
 
 const screens = [
   {
+    name: "create-account",
+    header: "Create Account",
+    component: ({ next, back, findScreen }) => (
+      <CreateAccount next={next} back={back} findScreen={findScreen} />
+    ),
+  },
+  {
     name: "register",
     header: "Data Consent Agreement",
-    component: ({ next, findScreen }) => (
-      <DataConsent next={next} findScreen={findScreen} />
-    ),
+    component: ({ next, back }) => <DataConsent next={next} back={back} />,
   },
   {
     header: "Confirm Agreement",
     component: ({ next, back, findScreen }) => (
       <ConfirmAgreement next={next} back={back} findScreen={findScreen} />
-    ),
-  },
-  {
-    name: "create-account",
-    header: "Create Account",
-    component: ({ next, back, findScreen }) => (
-      <CreateAccount next={next} back={back} findScreen={findScreen} />
     ),
   },
   {
@@ -102,9 +100,7 @@ const registeredUserScreens = [
 ];
 
 function App() {
-  const [screen, setScreen] = useState(
-    localStorage.getItem("dataConsent") ? 1 : 0
-  );
+  const [screen, setScreen] = useState(0);
   const [screenChoice, setScreenChoice] = useState(screens);
 
   let softkeyCalls = {

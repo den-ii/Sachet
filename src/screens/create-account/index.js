@@ -72,7 +72,12 @@ function CreateAccount({ next, back, findScreen }) {
           userDetails.phoneNumber = result.data.phoneNumber;
           userDetails.nin = ninInput.current?.value;
           setStateTrack("approved");
-          findScreen("verify-identity");
+          if (result.data?.previouslyRegistered) {
+            findScreen("verify-identity");
+            localStorage.setItem("t&c", true);
+          } else {
+            next();
+          }
         } else {
           throw new Error("User cannot be registered");
         }
@@ -227,15 +232,8 @@ function CreateAccount({ next, back, findScreen }) {
 
       {/* footer */}
       <div>
-        {inputBack && <Softkey left={"Back"} onKeyLeft={back} />}
-
         {inputBackSelect && (
-          <Softkey
-            left={"Back"}
-            onKeyLeft={back}
-            center={"Select"}
-            onKeyCenter={handleSelect}
-          />
+          <Softkey center={"Select"} onKeyCenter={handleSelect} />
         )}
         {inputClear && (
           <Softkey left={"Clear"} onKeyLeft={() => handleClear(false)} />
@@ -243,7 +241,7 @@ function CreateAccount({ next, back, findScreen }) {
         {selectClear && (
           <Softkey
             left={"Clear"}
-            onKeyLeft={back}
+            onKeyLeft={() => handleClear}
             center={"Select"}
             onKeyCenter={handleSelect}
           />

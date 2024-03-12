@@ -3,11 +3,9 @@ import Softkey from "../../components/softkey";
 import "./styles.css";
 
 function VerifyIdentity({ next, back, findScreen }) {
-  useEffect(() => {
-    if (localStorage.getItem("confirm-picture")) {
-      findScreen("verification-status");
-    }
-  }, []);
+  function goBack() {
+    findScreen("create-account");
+  }
 
   return (
     <div>
@@ -27,7 +25,7 @@ function VerifyIdentity({ next, back, findScreen }) {
       </div>
       <Softkey
         left="Back"
-        onKeyLeft={back}
+        onKeyLeft={goBack}
         noCenter={true}
         right="Take A Photo"
         onKeyRight={next}

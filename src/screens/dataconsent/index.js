@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 
-function DataConsent({ next, findScreen }) {
+function DataConsent({ next, back }) {
   return (
     <>
       <div className="DataConsent">
@@ -45,7 +45,7 @@ function DataConsent({ next, findScreen }) {
           Withdrawal of consent will result in the deletion of my data.
         </p>
       </div>
-      <Softkey right="Next" onKeyRight={next} />
+      <Softkey left="Back" onKeyLeft={back} right="Next" onKeyRight={next} />
     </>
   );
 }

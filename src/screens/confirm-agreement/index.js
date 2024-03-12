@@ -1,16 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 
 function ConfirmAgreement({ next, back, findScreen }) {
-  useEffect(() => {
-    if (localStorage.getItem("dataConsent")) {
-      findScreen("create-account");
-    }
-  }, []);
-
   function handleAccept() {
-    localStorage.setItem("dataConsent", true);
+    localStorage.setItem("t&c", true);
     next();
   }
 
@@ -21,6 +15,7 @@ function ConfirmAgreement({ next, back, findScreen }) {
         understood the terms of this agreement and consent to the submission and
         use of my data as outlined above.
       </div>
+
       <Softkey
         right="Ok"
         onKeyRight={handleAccept}

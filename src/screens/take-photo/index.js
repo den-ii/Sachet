@@ -81,6 +81,7 @@ function TakePhoto({ next, findScreen }) {
   function handleVerify() {
     setLoading(true);
     const nin = userDetails.nin;
+    console.log(nin, image64);
     Backend.sachet()
       .verifyCustomer({ nin, photo: image64 })
       .then((res) => res.json())
