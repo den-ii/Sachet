@@ -1,9 +1,12 @@
 import { encrypt } from "./encryption";
 
-const apiUrl =
-  process.env.REACT_APP_NODE_ENV === "development"
-    ? "http://localhost:3001"
-    : process.env.REACT_APP_API_URL;
+const apiUrls = {
+  development: "http://localhost:3001",
+  staging: "https://api-d.getdevos.com",
+  production: "https://api.getdevos.com",
+};
+
+const apiUrl = apiUrls[process.env.REACT_APP_NODE_ENV];
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");

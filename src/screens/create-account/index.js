@@ -64,10 +64,15 @@ function CreateAccount({ next, back, findScreen }) {
       .onboardSachetCustomer({
         nin: ninInput.current?.value,
       })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 409) {
+          findScreen("login");
+          return;
+        }
+        res.json();
+      })
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
         if (result.status === true) {
           userDetails.phoneNumber = result.data.phoneNumber;
           userDetails.nin = ninInput.current?.value;
