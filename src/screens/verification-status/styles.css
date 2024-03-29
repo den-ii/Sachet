@@ -22,6 +22,16 @@
   text-align: center;
   margin-bottom: 8px;
 }
+.verificationStatus .verificationPending {
+  position: relative;
+}
+.verificationStatus .verificationPending .popUpLoading {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
 .verificationStatus .verificationError .error_info .heading {
   font-size: 14px;
   font-family: var(--font-semibold);

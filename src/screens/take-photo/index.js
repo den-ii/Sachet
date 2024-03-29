@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import image64 from "../../falseBase64Image";
+import image64 from "../../base64Image";
 import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";

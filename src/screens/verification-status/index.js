@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
+import PopUpLoader from "../../components/popup-loader";
 import { userDetails } from "../../constants";
 import { decrypt } from "../../encryption";
 
@@ -9,6 +10,7 @@ function VerificationStatus({ next, back, findScreen }) {
   const [verificationStatus, setVerificationStatus] = useState(
     localStorage.getItem("kycStatus")
   ); // "pending" ||"verified" || "limit-reached" ||"rejected"
+  const [loading, setLoading] = useState(false);
   const [showReCheck, setShowReCheck] = useState(false);
   useLayoutEffect(() => {
     if (localStorage.getItem("kycStatus") === "approved") {
@@ -37,6 +39,8 @@ function VerificationStatus({ next, back, findScreen }) {
 
   function handleReCheck() {
     console.log("yep");
+    setLoading(true);
+    setShowReCheck(false);
     Backend.sachet()
       .onboardSachetCustomer({
         nin: userDetails.nin,
@@ -77,7 +81,11 @@ function VerificationStatus({ next, back, findScreen }) {
           throw new Error("an error occurred");
         }
       })
-      .catch((err) => console.log("error", err));
+      .catch((err) => {
+        setLoading(false);
+        setShowReCheck(true);
+        console.log("error", err);
+      });
   }
 
   return (
@@ -122,6 +130,11 @@ function VerificationStatus({ next, back, findScreen }) {
         )}
         {pending && (
           <div className="verificationPending">
+            {loading && (
+              <div className="popUpLoading">
+                <PopUpLoader text="Looking up status" />
+              </div>
+            )}
             <div className="pending_image">
               <img src="/assets/images/pending.svg" />
             </div>
