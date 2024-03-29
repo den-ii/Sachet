@@ -81,7 +81,10 @@ function VerificationStatus({ next, back, findScreen }) {
             findScreen("verification-status");
           }
         } else {
-          throw new Error("an error occurred");
+          if (result.data === "Maximum number of verifications reached.") {
+            localStorage.setItem("kycStatus", "limitReached");
+            findScreen("verification-status");
+          } else throw new Error("an error occurred");
         }
       })
       .catch((err) => {

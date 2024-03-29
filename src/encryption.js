@@ -25,8 +25,8 @@ export const decrypt = (encryptedText) => {
 
 export const encrypt = (text) => {
   var response;
-  const key = process.env.REACT_APP_SECRET_KEY || "";
-  const iv = process.env.REACT_APP_IV_KEY || "";
+  const key = "fQNl8rV5UkKQUfpJRXxmNJLLvN/mtYv3aUkqFfHrVo4=";
+  const iv = "9HtrYCzJOhdGYB8NIfkzCA==";
   try {
     var keys = decodeKeys(key, iv);
     var cipher = forge.cipher.createCipher("AES-CBC", keys.key);

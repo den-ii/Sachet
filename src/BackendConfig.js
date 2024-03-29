@@ -6,7 +6,7 @@ const apiUrls = {
   production: "https://api.getdevos.com",
 };
 
-const apiUrl = apiUrls[process.env.REACT_APP_NODE_ENV];
+const apiUrl = "https://staging-api.getdevos.com";
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");

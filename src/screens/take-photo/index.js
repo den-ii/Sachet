@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import image64 from "../../falseBase64Image";
+import image64 from "../../base64Image";
 import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
@@ -75,6 +75,10 @@ function TakePhoto({ next, findScreen }) {
         const result = decrypt(JSON.stringify(data.data));
         const { kycStatus, message } = result.data;
         if (!result.status) {
+          if (result.data === "Maximum number of verifications reached.") {
+            localStorage.setItem("kycStatus", "limitReached");
+            findScreen("verification-status");
+          } else throw new Error("an error occurred");
           throw new Error("an error occurred");
         } else if (kycStatus === "pending") {
           localStorage.setItem("kycStatus", "pending");

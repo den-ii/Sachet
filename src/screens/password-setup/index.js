@@ -7,7 +7,7 @@ import { decrypt } from "../../encryption";
 import "./styles.css";
 import { userDetails } from "../../constants";
 
-const passcodeLength = Number(process.env.REACT_APP_PASSCODE_LENGTH);
+const passcodeLength = 6;
 
 function passwordSetup({ next, back }) {
   if (!passcodeLength) throw new Error("Invalid/Non-existent passcode length");
