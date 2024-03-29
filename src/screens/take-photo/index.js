@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import { image64 } from "../../base64Image";
+import image64 from "../../falseBase64Image";
 import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
@@ -12,22 +12,6 @@ import { userDetails } from "../../constants";
 function TakePhoto({ next, findScreen }) {
   // const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const confirmed = localStorage.getItem("confirm-picture");
-    if (
-      confirmed === "not-logged-failed" ||
-      confirmed === "not-logged-success"
-    ) {
-      findScreen("verification-status");
-    }
-    return () => {
-      localStorage.setItem(
-        "phoneNumber",
-        encrypt(JSON.stringify({ phoneNumber: "0123456789" }))
-      );
-    };
-  }, []);
 
   function clearphoto() {
     let canvas = document.getElementById("canvas");
@@ -81,6 +65,7 @@ function TakePhoto({ next, findScreen }) {
   function handleVerify() {
     setLoading(true);
     const nin = userDetails.nin;
+
     console.log(nin, image64);
     Backend.sachet()
       .verifyCustomer({ nin, photo: image64 })
@@ -90,17 +75,16 @@ function TakePhoto({ next, findScreen }) {
         const result = decrypt(JSON.stringify(data.data));
         console.log(result);
         if (!result.status) {
-          localStorage.setItem("confirm-picture", "rejected");
-          next();
-        } else {
-          localStorage.setItem("confirm-picture", "pending");
+          throw new Error("an error occurred");
+        } else if (result.data === "Selfie Authentication Request Successful") {
+          localStorage.setItem("kycStatus", "pending");
           next();
         }
       })
       .catch((err) => {
+        localStorage.setItem("kycStatus", "rejected");
         setLoading(false);
         console.log("err", err);
-        localStorage.setItem("confirm-picture", "rejected");
         next();
       });
   }

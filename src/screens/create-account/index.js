@@ -65,26 +65,44 @@ function CreateAccount({ next, back, findScreen }) {
         nin: ninInput.current?.value,
       })
       .then((res) => {
+        console.log(res.status);
         if (res.status === 409) {
           findScreen("login");
           return;
         }
-        res.json();
+        return res.json();
       })
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        if (result.status === true) {
-          userDetails.phoneNumber = result.data.phoneNumber;
+        console.log(result);
+        const { kycStatus, retriesLeft, hasCreatedPassword, phoneNumber } =
+          result.data;
+        console.log(retriesLeft);
+        if (result.status) {
           userDetails.nin = ninInput.current?.value;
           setStateTrack("approved");
-          if (result.data?.previouslyRegistered) {
-            findScreen("verify-identity");
-            localStorage.setItem("t&c", true);
-          } else {
+          if (kycStatus === "notApproved") {
             next();
+          } else if (kycStatus === "approved") {
+            localStorage.setItem("kycStatus", "approved");
+            userDetails.phoneNumber = phoneNumber;
+            if (hasCreatedPassword) findScreen("login");
+            else findScreen("status");
+          } else if (kycStatus === "pending") {
+            localStorage.setItem("kycStatus", "pending");
+            findScreen("verification-status");
+          } else if (kycStatus === "rejected" && retriesLeft) {
+            localStorage.setItem("kycStatus", "rejected");
+            findScreen("verification-status");
+          } else if (kycStatus === "rejected" && !retriesLeft) {
+            localStorage.setItem("kycStatus", "limit-reached");
+            findScreen("verification-status");
           }
         } else {
-          throw new Error("User cannot be registered");
+          if (result.data === "Customer Already Exists!") {
+            findScreen("login");
+          }
+          throw new Error("an error occurred");
         }
       })
       .catch((err) => setStateTrack("error"));
@@ -251,12 +269,7 @@ function CreateAccount({ next, back, findScreen }) {
             onKeyCenter={handleSelect}
           />
         )}
-        {approved && (
-          <Softkey
-            right={"Next"}
-            onKeyRight={() => findScreen("verify-identity")}
-          />
-        )}
+        {approved && <Softkey right={"Next"} onKeyRight={next} />}
         {errorOnly && <Softkey right={"Re-Enter"} onKeyRight={reEnter} />}
         {errorSelect && (
           <Softkey

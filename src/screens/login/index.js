@@ -6,6 +6,7 @@ import { Backend } from "../../BackendConfig";
 import { decrypt, encrypt } from "../../encryption";
 import PopUpLoader from "../../components/popup-loader";
 import onlyDigits from "../../utility";
+import { userDetails } from "../../constants";
 
 function LogIn({ next, login, findScreen }) {
   const [passwordState, setPasswordState] =
@@ -155,18 +156,22 @@ function LogIn({ next, login, findScreen }) {
 
   function handleLogin() {
     setLoading(true);
-    const phoneNumberInput = passwordInputRef.current;
-    const passwordInput = passwordInputRef.current;
+    const phoneNumberInput = document.getElementById("tel").value;
+
+    const passwordInput = document.getElementById("password").value;
+
     if (!passwordInput) return;
+    console.log(document.getElementById("password").value);
     Backend.sachet()
       .login({
-        phoneNumber: phoneNumberInput.value,
-        password: passwordInput.value,
+        phoneNumber: phoneNumberInput,
+        password: passwordInput,
       })
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
         console.log(result);
+        userDetails.phoneNumber = phoneNumberInput;
         if (!result.status) {
           throw new Error(result.error);
         }

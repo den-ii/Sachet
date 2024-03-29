@@ -5,15 +5,14 @@ import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import { TextSkeleton } from "../../components/skeletons";
 import { AvatarSkeleton } from "../../components/skeletons";
+import { userDetails } from "../../constants";
 
 function Home({ findScreen }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [customer, setCustomer] = useState();
 
   useEffect(() => {
-    const encryptedData = localStorage.getItem("phoneNumber");
-    const decryptedData = decrypt(encryptedData);
-    setPhoneNumber(decryptedData.phoneNumber);
+    setPhoneNumber(userDetails.phoneNumber);
   }, []);
   useEffect(() => {
     Backend.sachet()
@@ -21,6 +20,7 @@ function Home({ findScreen }) {
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
+        console.log(data);
         if (!result.status) {
           throw new Error(result.error);
         }

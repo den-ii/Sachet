@@ -1,26 +1,83 @@
-import { useEffect, useState } from "react";
-import Header from "../../components/header";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Softkey from "../../components/softkey";
 import "./styles.css";
+import { Backend } from "../../BackendConfig";
+import { userDetails } from "../../constants";
+import { decrypt } from "../../encryption";
 
 function VerificationStatus({ next, back, findScreen }) {
   const [verificationStatus, setVerificationStatus] = useState(
-    localStorage.getItem("confirm-picture")
+    localStorage.getItem("kycStatus")
   ); // "pending" ||"verified" || "limit-reached" ||"rejected"
-  useEffect(() => {
-    const verified = verificationStatus === "verified";
-    if (verified) {
+  const [showReCheck, setShowReCheck] = useState(false);
+  useLayoutEffect(() => {
+    if (localStorage.getItem("kycStatus") === "approved") {
       findScreen("status");
     }
   }, []);
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (verificationStatus === "pending") {
+        handleReCheck();
+        setShowReCheck(true);
+      }
+    }, 30000);
+
+    return () => clearTimeout(timeoutId);
+  });
+  console.log(verificationStatus);
   const pending = verificationStatus === "pending";
-  const limitReached = verificationStatus === "limit-reached";
+  const limitReached = verificationStatus === "limitReached";
   const rejected = verificationStatus === "rejected";
 
   function handleRetry() {
-    localStorage.removeItem("confirm-picture");
     findScreen("verify-identity");
+  }
+
+  function handleReCheck() {
+    console.log("yep");
+    Backend.sachet()
+      .onboardSachetCustomer({
+        nin: userDetails.nin,
+      })
+      .then((res) => {
+        console.log(res.status);
+        if (res.status === 409) {
+          findScreen("login");
+          return;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const result = decrypt(JSON.stringify(data.data));
+        console.log(result);
+        const { kycStatus, retriesLeft, hasCreatedPassword, phoneNumber } =
+          result.data;
+        console.log(retriesLeft);
+        if (result.status) {
+          if (kycStatus === "notApproved") {
+            next();
+          } else if (kycStatus === "approved") {
+            localStorage.setItem("kycStatus", "approved");
+            userDetails.phoneNumber = phoneNumber;
+            if (hasCreatedPassword) findScreen("login");
+            else findScreen("status");
+          } else if (kycStatus === "pending") {
+            localStorage.setItem("kycStatus", "pending");
+            findScreen("verification-status");
+          } else if (kycStatus === "rejected" && retriesLeft) {
+            localStorage.setItem("kycStatus", "rejected");
+            findScreen("verification-status");
+          } else if (kycStatus === "rejected" && !retriesLeft) {
+            localStorage.setItem("kycStatus", "limit-reached");
+            findScreen("verification-status");
+          }
+        } else {
+          throw new Error("an error occurred");
+        }
+      })
+      .catch((err) => console.log("error", err));
   }
 
   return (
@@ -75,7 +132,9 @@ function VerificationStatus({ next, back, findScreen }) {
                 secure experience. Thank you for your understanding.
               </p>
             </div>
-            {/* <Softkey center="Proceed With Limited Access" onKeyCenter={next} /> */}
+            {showReCheck && (
+              <Softkey center="ReCheck" onKeyCenter={handleReCheck} />
+            )}
           </div>
         )}
       </div>

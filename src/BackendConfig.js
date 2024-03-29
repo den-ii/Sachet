@@ -2,7 +2,7 @@ import { encrypt } from "./encryption";
 
 const apiUrls = {
   development: "http://localhost:3001",
-  staging: "https://api-d.getdevos.com",
+  staging: "https://staging-api.getdevos.com",
   production: "https://api.getdevos.com",
 };
 

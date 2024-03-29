@@ -5,6 +5,7 @@ import DotsLoader from "../../components/dots-loader";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
+import { userDetails } from "../../constants";
 
 const passcodeLength = Number(process.env.REACT_APP_PASSCODE_LENGTH);
 
@@ -22,7 +23,8 @@ function passwordSetup({ next, back }) {
   }, []);
 
   function setUpPassword() {
-    let phoneNumber = decrypt(localStorage.getItem("phoneNumber")).phoneNumber;
+    // let phoneNumber = decrypt(localStorage.getItem("phoneNumber")).phoneNumber;
+    let phoneNumber = userDetails.phoneNumber;
     setError(false);
     setLoading(true);
     console.log("id", phoneNumber);
@@ -43,6 +45,7 @@ function passwordSetup({ next, back }) {
           }
         })
         .catch((err) => {
+          setLoading(false);
           console.log(err);
           setError(true);
         });
@@ -146,7 +149,12 @@ function passwordSetup({ next, back }) {
             <p className="heading">Well done!</p>
             <p className="leading">Your passcode has been set</p>
           </div>
-          <Softkey center={"Continue to Sachet"} onKeyCenter={next} />
+          <Softkey
+            center={"Continue to Sachet"}
+            onKeyCenter={next}
+            noLeft={true}
+            noRight={true}
+          />
         </div>
       )}
     </>
