@@ -23,13 +23,13 @@
   margin-bottom: 8px;
 }
 .verificationStatus .verificationPending {
-  position: relative;
+  /* position: relative; */
 }
 .verificationStatus .verificationPending .popUpLoading {
   position: absolute;
-  top: 100px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-80%);
   z-index: 100;
 }
 .verificationStatus .verificationError .error_info .heading {

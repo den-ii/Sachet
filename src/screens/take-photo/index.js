@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import image64 from "../../base64Image";
+import image64 from "../../falseBase64Image";
 import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
@@ -73,10 +73,10 @@ function TakePhoto({ next, findScreen }) {
       .then((data) => {
         setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
+        const { kycStatus, message } = result.data;
         if (!result.status) {
           throw new Error("an error occurred");
-        } else if (result.data === "Selfie Authentication Request Successful") {
+        } else if (kycStatus === "pending") {
           localStorage.setItem("kycStatus", "pending");
           next();
         }

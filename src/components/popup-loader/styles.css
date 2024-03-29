@@ -1,4 +1,5 @@
 .popUpLoader {
+  border: 1px solid var(--brand);
   width: 224px;
   height: 85px;
   display: flex;

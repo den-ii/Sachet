@@ -11,23 +11,27 @@ function VerificationStatus({ next, back, findScreen }) {
     localStorage.getItem("kycStatus")
   ); // "pending" ||"verified" || "limit-reached" ||"rejected"
   const [loading, setLoading] = useState(false);
+  const [autoRetry, setAutoRetry] = useState(true);
   const [showReCheck, setShowReCheck] = useState(false);
   useLayoutEffect(() => {
     if (localStorage.getItem("kycStatus") === "approved") {
       findScreen("status");
     }
   }, []);
+  useEffect(() => setVerificationStatus(localStorage.getItem("kycStatus")), []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (verificationStatus === "pending") {
         handleReCheck();
+        setAutoRetry(false);
         setShowReCheck(true);
       }
     }, 30000);
 
     return () => clearTimeout(timeoutId);
-  });
+  }, [autoRetry]);
+
   console.log(verificationStatus);
   const pending = verificationStatus === "pending";
   const limitReached = verificationStatus === "limitReached";
@@ -54,27 +58,26 @@ function VerificationStatus({ next, back, findScreen }) {
         return res.json();
       })
       .then((data) => {
+        setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
         console.log(result);
         const { kycStatus, retriesLeft, hasCreatedPassword, phoneNumber } =
           result.data;
         console.log(retriesLeft);
         if (result.status) {
-          if (kycStatus === "notApproved") {
-            next();
-          } else if (kycStatus === "approved") {
+          if (kycStatus === "approved") {
             localStorage.setItem("kycStatus", "approved");
             userDetails.phoneNumber = phoneNumber;
             if (hasCreatedPassword) findScreen("login");
             else findScreen("status");
           } else if (kycStatus === "pending") {
             localStorage.setItem("kycStatus", "pending");
-            findScreen("verification-status");
+            setShowReCheck(true);
           } else if (kycStatus === "rejected" && retriesLeft) {
             localStorage.setItem("kycStatus", "rejected");
             findScreen("verification-status");
           } else if (kycStatus === "rejected" && !retriesLeft) {
-            localStorage.setItem("kycStatus", "limit-reached");
+            localStorage.setItem("kycStatus", "limitReached");
             findScreen("verification-status");
           }
         } else {
@@ -121,8 +124,8 @@ function VerificationStatus({ next, back, findScreen }) {
             <div className="pending_info">
               <p className="heading">Verification Limit Exceeded</p>
               <p className="info">
-                Second attempt failed. Verification limit reached. For further
-                assistance, please contact our support team.
+                Verification limit reached. For further assistance, please
+                contact our support team.
               </p>
             </div>
             <Softkey center="Contact Support" noLeft={true} noRight={true} />

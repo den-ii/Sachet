@@ -77,7 +77,6 @@ function CreateAccount({ next, back, findScreen }) {
         console.log(result);
         const { kycStatus, retriesLeft, hasCreatedPassword, phoneNumber } =
           result.data;
-        console.log(retriesLeft);
         if (result.status) {
           userDetails.nin = ninInput.current?.value;
           setStateTrack("approved");
@@ -95,14 +94,18 @@ function CreateAccount({ next, back, findScreen }) {
             localStorage.setItem("kycStatus", "rejected");
             findScreen("verification-status");
           } else if (kycStatus === "rejected" && !retriesLeft) {
-            localStorage.setItem("kycStatus", "limit-reached");
+            localStorage.setItem("kycStatus", "limitReached");
             findScreen("verification-status");
           }
         } else {
           if (result.data === "Customer Already Exists!") {
             findScreen("login");
-          }
-          throw new Error("an error occurred");
+          } else if (
+            result.data === "Maximum number of verifications reached."
+          ) {
+            localStorage.setItem("kycStatus", "limitReached");
+            findScreen("verification-status");
+          } else throw new Error("an error occurred");
         }
       })
       .catch((err) => setStateTrack("error"));
