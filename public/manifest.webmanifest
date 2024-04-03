@@ -29,6 +29,7 @@
   },
   "default_locale": "en-US",
   "permissions": {
+    "systemXHR": {},
     "device-storage:sdcard": {
       "description": "Read from sd-card",
       "access": "readwrite"

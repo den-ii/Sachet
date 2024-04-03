@@ -6,7 +6,8 @@
   "launch_path": "/index.html",
   "fullscreen": "true",
   "lang": "en-US",
-  "type": "certified",
+  "orientation": "portrait",
+  "origin": "app://sachet.getdevos.com",
   "icons": {
     "44": "/assets/icons/sachet_logo44.png",
     "46": "/assets/icons/sachet_logo46.png",
@@ -15,19 +16,14 @@
     "112": "/assets/icons/sachet_logo112.png",
     "128": "/assets/icons/sachet_logo128.png"
   },
+  "fullscreen": true,
   "developer": {
-    "name": "Devos Team",
+    "name": "Devos",
     "url": "https://www.getdevos.com/"
   },
-  "locales": {
-    "en-US": {
-      "name": "Sachet",
-      "subtitle": "Tier 3 KYC and Customer management!!",
-      "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer."
-    }
-  },
-  "default_locale": "en-US",
+  "type": "certified",
   "permissions": {
+    "systemXHR": {},
     "device-storage:sdcard": {
       "description": "Read from sd-card",
       "access": "readwrite"
@@ -38,5 +34,16 @@
     "mobiledata": {},
     "wifidata": {},
     "calllog": {}
-  }
+  },
+  "installs_allowed_from": [
+      "*"
+    ],
+  "locales": {
+      "en-US": {
+        "name": "Sachet",
+        "subtitle": "Tier 3 KYC and Customer management!!",
+        "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer."
+      }
+    },
+  "default_locale": "en-US"
 }
