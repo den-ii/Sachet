@@ -39,6 +39,24 @@
   border-bottom: 1px solid #e1e6ef;
   color: var(--primary);
 }
+
+.login input.login-input.login-input__error {
+  border-bottom: 1px solid var(--error);
+  background-color: var(--error-bg);
+}
+
+.login .error_sign {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+
+.login .login-error__statement {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--error);
+}
 .login .popUpLoading {
   position: absolute;
   top: 100px;

@@ -13,6 +13,8 @@ import Home from "./screens/home";
 import Nav from "./screens/nav";
 import Status from "./screens/status";
 import PasswordSettings from "./screens/password-settings";
+import ServerError from "./screens/server-error";
+import NotFound from "./screens/user-not-found";
 
 const screens = [
   {
@@ -73,8 +75,14 @@ const screens = [
   {
     name: "login",
     header: false,
-    component: ({ next, login, findScreen }) => (
-      <LogIn next={next} login={login} findScreen={findScreen} />
+    component: ({ next, login, findScreen, goUserNotFound, goServerError }) => (
+      <LogIn
+        next={next}
+        login={login}
+        findScreen={findScreen}
+        goUserNotFound={goUserNotFound}
+        goServerError={goServerError}
+      />
     ),
   },
 ];
@@ -95,9 +103,20 @@ const registeredUserScreens = [
   },
 ];
 
+const errorScreens = [
+  {
+    name: "not-found",
+    component: ({ goLogin }) => <NotFound goLogin={goLogin} />,
+  },
+  {
+    name: "server-error",
+    component: ({ goLogin }) => <ServerError goLogin={goLogin} />,
+  },
+];
+
 const withoutTCScreens = screens.slice(3);
 withoutTCScreens.unshift(screens[0]);
 
 const allScreen = localStorage.getItem("t&c") ? withoutTCScreens : screens;
 
-export { allScreen, registeredUserScreens };
+export { allScreen, registeredUserScreens, errorScreens };

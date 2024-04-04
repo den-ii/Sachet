@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 import { useState } from "react";
-import { allScreen, registeredUserScreens } from "./screens";
+import { allScreen, registeredUserScreens, errorScreens } from "./screens";
 import Header from "./components/header";
 
 function App() {
@@ -15,12 +15,22 @@ function App() {
       setScreenChoice(registeredUserScreens);
     },
     findScreen: (screenName) => {
-      console.log(screenName);
       const screenIndex = screenChoice.findIndex(
         (screen) => screen?.name === screenName
       );
-      console.log(screenIndex);
       setScreen(screenIndex);
+    },
+    goLogin: () => {
+      setScreen(allScreen.length - 1);
+      setScreenChoice(allScreen);
+    },
+    goServerError: () => {
+      setScreen(1);
+      setScreenChoice(errorScreens);
+    },
+    goUserNotFound: () => {
+      setScreen(0);
+      setScreenChoice(errorScreens);
     },
   };
 
