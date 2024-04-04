@@ -8,7 +8,7 @@ import PopUpLoader from "../../components/popup-loader";
 import onlyDigits from "../../utility";
 import { userDetails } from "../../constants";
 
-function LogIn({ next, login, findScreen }) {
+function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || done*/
   const [phoneNumberState, setPhoneNumberState] = useState("inputting");
@@ -143,6 +143,7 @@ function LogIn({ next, login, findScreen }) {
     phoneNumberInput.focus();
     setPasswordLength(0);
     setPhoneNumberLength(0);
+    setError(false);
     setNextHandler(false);
     // if (!phoneNumberInputRef.current || !passwordInputRef.current) return;
     // phoneNumberInputRef.current.disabled = false;
@@ -173,7 +174,12 @@ function LogIn({ next, login, findScreen }) {
         console.log(result);
         userDetails.phoneNumber = phoneNumberInput;
         if (!result.status) {
-          throw new Error(result.error);
+          if (result.data === "Error: Customer not found") {
+            setLoading(false);
+            goUserNotFound();
+          } else {
+            console.log(result.data);
+          }
         }
         localStorage.setItem("jwt", result.data);
         setLoading(false);
@@ -182,7 +188,7 @@ function LogIn({ next, login, findScreen }) {
       .catch((err) => {
         console.error(err);
         setLoading(false);
-        setError(true);
+        goServerError();
       });
   }
 
@@ -197,10 +203,10 @@ function LogIn({ next, login, findScreen }) {
   const selectedClear = showSelect && clear;
 
   const done = phoneNumberDone && passwordDone && !loading;
-  const doneOnly = done && !showSelect;
-  const doneSelected = done && showSelect;
-  const nextV = nextHandler && !loading && !selectedClear;
-  const nextVSelected = nextHandler && !loading && selectedClear;
+  const doneOnly = done && !showSelect && !error;
+  const doneSelected = done && showSelect && !error;
+  const nextV = nextHandler && !loading && !selectedClear && !error;
+  const nextVSelected = nextHandler && !loading && selectedClear && !error;
 
   return (
     <>
@@ -216,25 +222,40 @@ function LogIn({ next, login, findScreen }) {
             )}
             <div className="subContainer">
               <p className="leading">Phone Number</p>
-              <input
-                type="tel"
-                id="tel"
-                className={`login-input item_active`}
-                ref={phoneNumberInputRef}
-                onChange={handlePhoneNumber}
-              />
+              <div style={{ position: "relative" }}>
+                <input
+                  type="tel"
+                  id="tel"
+                  className={`login-input item_active ${error ? "login-input__error" : ""}`}
+                  ref={phoneNumberInputRef}
+                  onChange={handlePhoneNumber}
+                />
+                <div className="error_sign">
+                  {error && <img src="/nin_error.svg" />}
+                </div>
+              </div>
             </div>
             <div>
               <p className="leading">Passcode</p>
-              <input
-                id="password"
-                type="password"
-                className={`login-input`}
-                nav-selectable="true"
-                onChange={handlePassword}
-                ref={passwordInputRef}
-              />
+              <div style={{ position: "relative" }}>
+                <input
+                  id="password"
+                  type="password"
+                  className={`login-input ${error ? "login-input__error" : ""}`}
+                  nav-selectable="true"
+                  onChange={handlePassword}
+                  ref={passwordInputRef}
+                />
+                <div className="error_sign">
+                  {error && <img src="/nin_error.svg" />}
+                </div>
+              </div>
             </div>
+            {error && (
+              <p className="login-error__statement">
+                Phone number or password is incorrect!
+              </p>
+            )}
           </div>
           <div className="login__signup-button__container">
             <div className="signup-button login-input">
@@ -246,57 +267,63 @@ function LogIn({ next, login, findScreen }) {
         {/* {inputting && (
           <Softkey left="Back" onKeyLeft={() => findScreen("index")} />
         )} */}
-        {clear && <Softkey left="Clear" onKeyLeft={() => handleReEnter()} />}
-        {selectedClear && (
-          <Softkey
-            left="Clear"
-            onKeyLeft={() => handleReEnter()}
-            center={"Select"}
-            onKeyCenter={() => findScreen("create-account")}
-          />
-        )}
-        {selected && (
-          <Softkey
-            center={"Select"}
-            onKeyCenter={() => findScreen("create-account")}
-          />
-        )}
+        {!loading && (
+          <div>
+            {clear && (
+              <Softkey left="Clear" onKeyLeft={() => handleReEnter()} />
+            )}
+            {selectedClear && (
+              <Softkey
+                left="Clear"
+                onKeyLeft={() => handleReEnter()}
+                center={"Select"}
+                onKeyCenter={() => findScreen("create-account")}
+              />
+            )}
+            {selected && (
+              <Softkey
+                center={"Select"}
+                onKeyCenter={() => findScreen("create-account")}
+              />
+            )}
 
-        {nextVSelected && (
-          <Softkey
-            left="Clear"
-            onKeyLeft={() => handleReEnter()}
-            center={"Select"}
-            onKeyCenter={() => findScreen("create-account")}
-            right="Next"
-            onKeyRight={handleNextClick}
-          />
-        )}
-        {nextV && (
-          <Softkey
-            left="Clear"
-            onKeyLeft={() => handleReEnter()}
-            right="Next"
-            onKeyRight={handleNextClick}
-          />
-        )}
-        {doneOnly && (
-          <Softkey
-            left="Clear"
-            onKeyLeft={() => handleReEnter()}
-            right="Log In"
-            onKeyRight={handleLogin}
-          />
-        )}
-        {doneSelected && (
-          <Softkey
-            left="Clear"
-            onKeyLeft={() => handleReEnter()}
-            center={"Select"}
-            onKeyCenter={() => findScreen("create-account")}
-            right="Log In"
-            onKeyRight={handleLogin}
-          />
+            {nextVSelected && (
+              <Softkey
+                left="Clear"
+                onKeyLeft={() => handleReEnter()}
+                center={"Select"}
+                onKeyCenter={() => findScreen("create-account")}
+                right="Next"
+                onKeyRight={handleNextClick}
+              />
+            )}
+            {nextV && (
+              <Softkey
+                left="Clear"
+                onKeyLeft={() => handleReEnter()}
+                right="Next"
+                onKeyRight={handleNextClick}
+              />
+            )}
+            {doneOnly && (
+              <Softkey
+                left="Clear"
+                onKeyLeft={() => handleReEnter()}
+                right="Log In"
+                onKeyRight={handleLogin}
+              />
+            )}
+            {doneSelected && (
+              <Softkey
+                left="Clear"
+                onKeyLeft={() => handleReEnter()}
+                center={"Select"}
+                onKeyCenter={() => findScreen("create-account")}
+                right="Log In"
+                onKeyRight={handleLogin}
+              />
+            )}
+          </div>
         )}
       </div>
     </>

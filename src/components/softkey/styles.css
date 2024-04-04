@@ -25,6 +25,9 @@
   align-items: center;
   font-weight: 700;
 }
+.softkey.fitContent label {
+  flex: none;
+}
 .softkey label.left {
   text-align: left;
 }

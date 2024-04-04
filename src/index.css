@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"); */
 :root {
   --primary: #19332f;
   --brand: #029772;
@@ -6,6 +6,8 @@
   --light: #ecf9f6;
   --secondary: #fff;
   --text-color: #1d2433;
+  --error: #e02d3c;
+  --error-bg: #fef1f2;
   --fonts: "Open Sans", "Web Open Sans Regular", "Courier New", Courier,
     monospace;
   --fonts-semibold: "Open Sans", "Web Open Sans SemiBold", "Courier New",
@@ -15,20 +17,11 @@
   --container-height: 251px; /*320-(40-29) 40 && 29 from header and softkey*/
   --container-paddingX: 8px;
 }
-
+/* 
 @font-face {
-  font-family: "Web Open Sans Regular";
-  src: url("/public/fonts/open-sans/OpenSans-Regular.ttf");
-}
-@font-face {
-  font-family: "Web Open Sans SemiBold";
-  src: url("/public/fonts/open-sans/OpenSans-SemiBold.ttf");
-}
-
-@font-face {
-  font-family: "Web Open Sans Bold";
-  src: url("/public/fonts/open-sans/OpenSans-Bold.ttf");
-}
+  font-family: "Montserrat";
+  src: url("/public/fonts/mont/montserrat-variablefont_wght-webfont.woff2");
+} */
 
 * {
   box-sizing: border-box;

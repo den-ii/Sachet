@@ -9,6 +9,7 @@ function Softkey({
   right,
   onKeyRight,
   noCenter,
+  fitContent,
   noLeft,
   noRight,
 }) {
@@ -32,7 +33,7 @@ function Softkey({
   };
 
   return (
-    <div className="softkey">
+    <div className={`softkey ${fitContent ? "fitContent" : ""}`}>
       {!noLeft && (
         <label className="left" onClick={(e) => onKeyLeft && onKeyLeft(e)}>
           {left}
