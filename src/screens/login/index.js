@@ -180,10 +180,11 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
           } else {
             throw new Error(result);
           }
+        } else {
+          localStorage.setItem("jwt", result.data);
+          setLoading(false);
+          login();
         }
-        localStorage.setItem("jwt", result.data);
-        setLoading(false);
-        login();
       })
       .catch((err) => {
         console.error("err:", err);
