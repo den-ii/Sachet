@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import image64 from "../../base64Image";
+// import image64 from "../../base64Image";
 import { encrypt, decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
@@ -10,7 +10,7 @@ import PopUpLoader from "../../components/popup-loader";
 import { userDetails } from "../../constants";
 
 function TakePhoto({ next, findScreen }) {
-  // const [image64, setImage64] = useState("");
+  const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
 
   function clearphoto() {
@@ -55,7 +55,7 @@ function TakePhoto({ next, findScreen }) {
 
       const data = canvas.toDataURL("image/png");
 
-      // setImage64(data);
+      setImage64(data);
       // photo.setAttribute("src", data)
     } else {
       clearphoto();

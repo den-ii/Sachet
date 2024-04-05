@@ -147,7 +147,7 @@ function Home({ findScreen }) {
           </div>
           <div className="menu_item__border"></div>
         </li>
-        <li className="menu_item">
+        {/* <li className="menu_item">
           <div className="menu_item__container">
             <div className="menu_item__avatar">
               <img src="/assets/images/phone_settings.svg" />
@@ -160,7 +160,7 @@ function Home({ findScreen }) {
             </div>
           </div>
           <div className="menu_item__border"></div>
-        </li>
+        </li> */}
         <li className="menu_item">
           <div className="menu_item__container">
             <div className="menu_item__avatar">
