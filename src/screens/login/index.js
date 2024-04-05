@@ -178,7 +178,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
             setLoading(false);
             goUserNotFound();
           } else {
-            console.log(result.data);
+            throw new Error(result);
           }
         }
         localStorage.setItem("jwt", result.data);
@@ -186,8 +186,9 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
         login();
       })
       .catch((err) => {
-        console.error(err);
+        console.error("err:", err);
         setLoading(false);
+
         goServerError();
       });
   }
