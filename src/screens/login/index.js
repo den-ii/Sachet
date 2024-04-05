@@ -129,7 +129,6 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
   }, []);
 
   function handleReEnter() {
-    console.log("yes");
     setPhoneNumberState("inputting");
     setPasswordState("inputting");
     const phoneNumberInput = phoneNumberInputRef.current;
@@ -137,7 +136,6 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
     if (!phoneNumberInput || !passwordInput) return;
     phoneNumberInput.disabled = false;
     passwordInput.disabled = false;
-    console.log("ii");
     phoneNumberInput.value = "";
     passwordInput.value = "";
     phoneNumberInput.focus();
