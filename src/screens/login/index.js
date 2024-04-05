@@ -188,7 +188,6 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
       .catch((err) => {
         console.error("err:", err);
         setLoading(false);
-
         goServerError();
       });
   }
