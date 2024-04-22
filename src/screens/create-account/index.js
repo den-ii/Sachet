@@ -8,7 +8,7 @@ import { userDetails } from "../../constants";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
-    useState("approved"); /* inputting || loading || approved || error*/
+    useState("inputting"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
