@@ -88,7 +88,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
         const prevIndex = i === 0 ? loginInputs.length - 1 : i - 1;
         loginInputs[prevIndex].classList.add("item_active");
         loginInputs[prevIndex].focus();
-        prevIndex === 2 ? setShowSelect(true) : setShowSelect(false);
+        prevIndex >= 2 ? setShowSelect(true) : setShowSelect(false);
         break;
       }
     }
@@ -104,7 +104,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
         const nextIndex = i === loginInputs.length - 1 ? 0 : i + 1;
         loginInputs[nextIndex].classList.add("item_active");
         loginInputs[nextIndex].focus();
-        nextIndex === 2 ? setShowSelect(true) : setShowSelect(false);
+        nextIndex >= 2 ? setShowSelect(true) : setShowSelect(false);
         break;
       }
     }
@@ -153,11 +153,23 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
     handleNext("phoneNumber");
   }
 
+  function handleSelect() {
+    let element = document.querySelector(".item_active");
+    console.log(element.id);
+    if (element.id === "forgotPassword") {
+      console.log("yee");
+      findScreen("forgot-password");
+    } else if (element.id === "signup") {
+      findScreen("create-account");
+    }
+  }
+
   function handleLogin() {
     setLoading(true);
-    const phoneNumberInput = document.getElementById("tel").value;
+    const phoneNumberInput = phoneNumberInputRef.current?.value;
 
-    const passwordInput = document.getElementById("password").value;
+    const passwordInput = passwordInputRef.current?.value;
+    console.log(phoneNumberInput, passwordInput);
 
     if (!passwordInput) return;
     console.log(document.getElementById("password").value);
@@ -256,8 +268,13 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
               </p>
             )}
           </div>
+          <div className="forgot-password-button__container">
+            <div className="forgot-password login-input" id="forgotPassword">
+              <span>Forgot Password? </span>
+            </div>
+          </div>
           <div className="login__signup-button__container">
-            <div className="signup-button login-input">
+            <div className="signup-button login-input" id="signup">
               <span>New to Sachet? </span>
               <span className="signup-button__signup">Sign Up</span>
             </div>
@@ -276,14 +293,11 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
                 left="Clear"
                 onKeyLeft={() => handleReEnter()}
                 center={"Select"}
-                onKeyCenter={() => findScreen("create-account")}
+                onKeyCenter={handleSelect}
               />
             )}
             {selected && (
-              <Softkey
-                center={"Select"}
-                onKeyCenter={() => findScreen("create-account")}
-              />
+              <Softkey center={"Select"} onKeyCenter={handleSelect} />
             )}
 
             {nextVSelected && (
@@ -291,7 +305,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
                 left="Clear"
                 onKeyLeft={() => handleReEnter()}
                 center={"Select"}
-                onKeyCenter={() => findScreen("create-account")}
+                onKeyCenter={handleSelect}
                 right="Next"
                 onKeyRight={handleNextClick}
               />
@@ -317,7 +331,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
                 left="Clear"
                 onKeyLeft={() => handleReEnter()}
                 center={"Select"}
-                onKeyCenter={() => findScreen("create-account")}
+                onKeyCenter={handleSelect}
                 right="Log In"
                 onKeyRight={handleLogin}
               />
