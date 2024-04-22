@@ -272,6 +272,11 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
             <div className="forgot-password login-input" id="forgotPassword">
               <span>Forgot Password? </span>
             </div>
+            {error && (
+              <p className="login-error__statement">
+                Phone number or password is incorrect!
+              </p>
+            )}
           </div>
           <div className="login__signup-button__container">
             <div className="signup-button login-input" id="signup">
