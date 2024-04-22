@@ -8,7 +8,7 @@ import { userDetails } from "../../constants";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
-    useState("inputting"); /* inputting || loading || approved || error*/
+    useState("approved"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
@@ -48,14 +48,14 @@ function CreateAccount({ next, back, findScreen }) {
     handleClear(false);
   }
 
-  function handleDelete() {
-    const cursorPosition = textField.selectionStart;
-    let deleteValue = document.getElementById("text-field").value;
-    let deleteValueOff = deleteValue.split("");
-    deleteValueOff.splice(cursorPosition - 1, 1);
-    deleteValue = deleteValueOff.join("");
-    // ninInput.current.value = deleteValue
-  }
+  // function handleDelete() {
+  //   const cursorPosition = textField.selectionStart;
+  //   let deleteValue = document.getElementById("text-field").value;
+  //   let deleteValueOff = deleteValue.split("");
+  //   deleteValueOff.splice(cursorPosition - 1, 1);
+  //   deleteValue = deleteValueOff.join("");
+  //   // ninInput.current.value = deleteValue
+  // }
 
   function handleVerification() {
     setStateTrack("loading");

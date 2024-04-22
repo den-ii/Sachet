@@ -15,10 +15,7 @@ import Status from "./screens/status";
 import PasswordSettings from "./screens/password-settings";
 import ServerError from "./screens/server-error";
 import NotFound from "./screens/user-not-found";
-<<<<<<< HEAD
 import ForgotPassword from "./screens/forgot-password";
-=======
->>>>>>> 3dbbd3ebc829dc88dc4da94f486cc122c4f5422b
 
 const screens = [
   {
@@ -89,7 +86,6 @@ const screens = [
         goUserNotFound={goUserNotFound}
         goServerError={goServerError}
       />
-<<<<<<< HEAD
     ),
   },
   {
@@ -101,8 +97,6 @@ const screens = [
         goUserNotFound={goUserNotFound}
         goServerError={goServerError}
       />
-=======
->>>>>>> 3dbbd3ebc829dc88dc4da94f486cc122c4f5422b
     ),
   },
 ];
