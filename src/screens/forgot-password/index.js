@@ -10,7 +10,6 @@ function ForgotPassword({ findScreen, goLogin, goServerError, goUserError }) {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    // document.getElementById("phone").focus();
     if (inputRef.current) {
       inputRef.current.focus();
     }

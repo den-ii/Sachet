@@ -58,15 +58,15 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #555;
-  mix-blend-mode: screen;
+  /* background-color: #555; */
+  /* mix-blend-mode: screen; */
 }
 
 .takephotoContainer .cameraContainer .camera .mask .circularPortion {
   height: min(90%, 90vw);
   width: min(90%, 90vh);
   border-radius: 50%;
-  background-color: black;
+  /* background-color: black; */
 }
 
 .takephotoContainer .cameraContainer .camera .advice {
