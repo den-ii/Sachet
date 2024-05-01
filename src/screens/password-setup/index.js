@@ -18,8 +18,12 @@ function passwordSetup({ next, back }) {
   const [error, setError] = useState(false);
   const [showClear, setShowClear] = useState(false);
 
+  const passwordInputRef = useRef(null);
+
   useEffect(() => {
-    document.getElementById("passwordInput")?.focus();
+    if (passwordInputRef.current) {
+      passwordInputRef.current.focus();
+    }
   }, []);
 
   function setUpPassword() {

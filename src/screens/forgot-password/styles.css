@@ -1,0 +1,28 @@
+.forgotPassword {
+  padding: 56px var(--container-paddingX) 0;
+  padding: 56px var(--container-paddingX) 0;
+}
+
+.forgotPassword .firstScreen .leading {
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.forgotPassword .verifyScreen .leading {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.forgotPassword .verifyScreen .bold {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.forgotPassword .setupScreen .passcode_container {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.forgotPassword .setupScreen .passcode_container label {
+  display: block;
+  margin-bottom: 4px;
+}

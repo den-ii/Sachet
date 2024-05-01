@@ -15,6 +15,7 @@ import Status from "./screens/status";
 import PasswordSettings from "./screens/password-settings";
 import ServerError from "./screens/server-error";
 import NotFound from "./screens/user-not-found";
+import ForgotPassword from "./screens/forgot-password";
 
 const screens = [
   {
@@ -50,7 +51,9 @@ const screens = [
   // },
   {
     header: false,
-    component: ({ next }) => <TakePhoto next={next} />,
+    component: ({ next, findScreen }) => (
+      <TakePhoto next={next} findScreen={findScreen} />
+    ),
   },
   {
     name: "verification-status",
@@ -79,6 +82,17 @@ const screens = [
       <LogIn
         next={next}
         login={login}
+        findScreen={findScreen}
+        goUserNotFound={goUserNotFound}
+        goServerError={goServerError}
+      />
+    ),
+  },
+  {
+    name: "forgot-password",
+    header: false,
+    component: ({ findScreen, goUserNotFound, goServerError }) => (
+      <ForgotPassword
         findScreen={findScreen}
         goUserNotFound={goUserNotFound}
         goServerError={goServerError}

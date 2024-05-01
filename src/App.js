@@ -21,7 +21,7 @@ function App() {
       setScreen(screenIndex);
     },
     goLogin: () => {
-      setScreen(allScreen.length - 1);
+      setScreen(0);
       setScreenChoice(allScreen);
     },
     goServerError: () => {
