@@ -1,12 +1,12 @@
 import { encrypt } from "./encryption";
 
 const apiUrls = {
-  development: "http://localhost:3001",
+  development: "http://localhost:3333",
   staging: "https://api-d.getdevos.com/sachet/v1",
   production: "https://api.getdevos.com",
 };
 
-const apiUrl = "https://staging-api.getdevos.com";
+const apiUrl = "https://api.getdevos.com/sachet";
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
@@ -24,7 +24,7 @@ export const backendHeaders = () => {
 
 export const Backend = {
   sachet: () => {
-    const url = apiUrl + "/auth/sachet";
+    const url = apiUrl + "/v1/customer";
     return {
       onboardSachetCustomer: ({ nin }, headers = backendHeaders().onlyJson) => {
         const data = JSON.stringify({ data: { nin } });
