@@ -35,15 +35,13 @@
     "wifidata": {},
     "calllog": {}
   },
-  "installs_allowed_from": [
-      "*"
-    ],
+  "installs_allowed_from": ["*"],
   "locales": {
-      "en-US": {
-        "name": "Sachet",
-        "subtitle": "Tier 3 KYC and Customer management!!",
-        "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer."
-      }
-    },
+    "en-US": {
+      "name": "Sachet",
+      "subtitle": "Tier 3 KYC and Customer management!!",
+      "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer."
+    }
+  },
   "default_locale": "en-US"
 }

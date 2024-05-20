@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import Header from "../../components/header";
-import Softkey from "../../components/softkey";
 // import image64 from "../../base64Image";
 import { decrypt } from "../../encryption";
 import "./styles.css";
@@ -13,7 +12,7 @@ function TakePhoto({ next, findScreen }) {
   const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState(false);
-  const [option, setOption] = useState("front");
+  const [option, setOption] = useState("back");
   const [preview, setPreview] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(0);
 
@@ -59,6 +58,7 @@ function TakePhoto({ next, findScreen }) {
     if (preview) {
       return retakePhoto();
     }
+    findScreen("verify-identity");
   };
 
   const handleRight = () => {
@@ -274,19 +274,13 @@ function TakePhoto({ next, findScreen }) {
         </div>
         {!options && (
           <div className="take-photo__softkey">
-            <div className="take-photo__softkey--left"></div>
-            <div className="take-photo__softkey--center" onClick={takepicture}>
-              <img
-                src="/assets/images/camera.svg"
-                width={40}
-                height={40}
-                alt="left"
-              />
+            <div className="take-photo__softkey--left" onClick={handleLeft}>
+              Back
             </div>
-            <div
-              className="take-photo__softkey--right"
-              onClick={() => setOptions(true)}
-            >
+            <div className="take-photo__softkey--center" onClick={takepicture}>
+              Snap
+            </div>
+            <div className="take-photo__softkey--right" onClick={handleRight}>
               Options
             </div>
           </div>

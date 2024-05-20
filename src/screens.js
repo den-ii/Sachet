@@ -3,7 +3,6 @@ import DataConsent from "./screens/dataconsent/";
 import ConfirmAgreement from "./screens/confirm-agreement";
 import CreateAccount from "./screens/create-account";
 import VerifyIdentity from "./screens/verify-identity";
-import CameraSelection from "./screens/camera-selection";
 import TakePhoto from "./screens/take-photo";
 //import SmileTakePhoto from "./screens/smile-takephoto";
 import Otp from "./screens/otp";
@@ -19,13 +18,6 @@ import NotFound from "./screens/user-not-found";
 import ForgotPassword from "./screens/forgot-password";
 
 const screens = [
-  // {
-  //   name: "camera-selection",
-  //   header: "Camera Selection",
-  //   component: ({ next, back, findScreen }) => (
-  //     <CameraSelection next={next} back={back} findScreen={findScreen} />
-  //   ),
-  // },
   {
     name: "create-account",
     header: "Create Account",
@@ -58,6 +50,7 @@ const screens = [
   //   ),
   // },
   {
+    name: "take-photo",
     header: false,
     component: ({ next, findScreen }) => (
       <TakePhoto next={next} findScreen={findScreen} />
