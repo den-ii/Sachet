@@ -3,12 +3,12 @@ import DotsLoader from "../../components/dots-loader";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
-import { decrypt, encrypt } from "../../encryption";
+import { decrypt } from "../../encryption";
 import { userDetails } from "../../constants";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
-    useState("inputting"); /* inputting || loading || approved || error*/
+    useState("approved"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
@@ -48,15 +48,6 @@ function CreateAccount({ next, back, findScreen }) {
     handleClear(false);
   }
 
-  // function handleDelete() {
-  //   const cursorPosition = textField.selectionStart;
-  //   let deleteValue = document.getElementById("text-field").value;
-  //   let deleteValueOff = deleteValue.split("");
-  //   deleteValueOff.splice(cursorPosition - 1, 1);
-  //   deleteValue = deleteValueOff.join("");
-  //   // ninInput.current.value = deleteValue
-  // }
-
   function handleVerification() {
     setStateTrack("loading");
     setDisabled(true);
@@ -77,8 +68,10 @@ function CreateAccount({ next, back, findScreen }) {
         console.log(result);
         const { kycStatus, retriesLeft, hasCreatedPassword, phoneNumber } =
           result.data;
+        let nin;
+        if (ninInput.current) nin = ninInput.current.value;
         if (result.status) {
-          userDetails.nin = ninInput.current?.value;
+          userDetails.nin = nin;
           setStateTrack("approved");
           if (kycStatus === "notApproved") {
             next();
@@ -112,14 +105,15 @@ function CreateAccount({ next, back, findScreen }) {
   }
 
   function handleNinChange(event) {
-    setNinLength(document.getElementById("text-field").value.length);
+    let length = event.target.value.length;
+    setNinLength(length);
     if (stateTrack === "inputting") {
-      if (ninInput.current.value?.length >= 11) {
+      if (length >= 11) {
         setStateTrack("loading");
         setDisabled(true);
         handleVerification();
         ninInput.current.blur();
-      } else if (ninInput.current.value?.length > 0) {
+      } else if (length > 0) {
         setShowClear(true);
       } else {
         setShowClear(false);

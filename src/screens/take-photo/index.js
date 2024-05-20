@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 // import image64 from "../../base64Image";
-import { encrypt, decrypt } from "../../encryption";
+import { decrypt } from "../../encryption";
 import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import PopUpLoader from "../../components/popup-loader";
@@ -12,6 +12,90 @@ import { userDetails } from "../../constants";
 function TakePhoto({ next, findScreen }) {
   const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState(false);
+  const [option, setOption] = useState("front");
+  const [preview, setPreview] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState(0);
+
+  const handleUp = (evt) => {
+    evt.preventDefault();
+    const options = document.querySelectorAll(".option");
+    console.log(options, "options");
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].classList.contains("active")) {
+        options[i].classList.remove("active");
+        const prevIndex = i === 0 ? options.length - 1 : i - 1;
+        options[prevIndex].classList.add("active");
+        console.log(prevIndex);
+        setHoverIndex(prevIndex);
+        break;
+      }
+    }
+  };
+
+  const handleDown = (evt) => {
+    evt.preventDefault();
+    const options = document.querySelectorAll(".option");
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].classList.contains("active")) {
+        options[i].classList.remove("active");
+        const nextIndex = i === options.length - 1 ? 0 : i + 1;
+        options[nextIndex].classList.add("active");
+        setHoverIndex(nextIndex);
+        break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+
+  const handleLeft = () => {
+    if (preview) {
+      return retakePhoto();
+    }
+  };
+
+  const handleRight = () => {
+    if (preview) {
+      return handleVerify();
+    }
+    setOptions(true);
+  };
+
+  const handleKeyDown = (evt) => {
+    switch (evt.key) {
+      case "ArrowUp":
+        return handleUp(evt);
+      case "ArrowDown":
+        handleDown(evt);
+        break;
+      case "SoftRight":
+        handleRight();
+        break;
+      case "SoftLeft":
+        handleLeft();
+        break;
+      case "Enter":
+        handleSelect();
+      default:
+        return;
+    }
+  };
+
+  function handleSelect() {
+    if (!options) {
+      return takepicture();
+    }
+    if (hoverIndex === 0) setOption("back");
+    else setOption("front");
+    setTimeout(() => setOptions(false), 500);
+  }
 
   function clearphoto() {
     let canvas = document.getElementById("canvas");
@@ -28,8 +112,9 @@ function TakePhoto({ next, findScreen }) {
   }
 
   function takepicture() {
-    document.getElementById("cameraContainer").classList.add("hidden");
-    document.getElementById("previewPhotoContainer").classList.remove("hidden");
+    // document.getElementById("cameraContainer").classList.add("hidden");
+    setPreview(true);
+    // document.getElementById("previewPhotoContainer").classList.remove("hidden");
     let canvas = document.getElementById("canvas");
     let photo = document.getElementById("photo");
     let video = document.getElementById("video");
@@ -100,8 +185,19 @@ function TakePhoto({ next, findScreen }) {
     let mediaStream = null;
     let videoTracks = null;
 
+    const media = {
+      front: {
+        audio: false,
+        video: { facingMode: "user" },
+      },
+      back: {
+        audio: false,
+        video: { facingMode: { exact: "environment" } },
+      },
+    };
+    console.log(media[option]);
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
+      .getUserMedia(media[option])
       .then(function (stream) {
         mediaStream = stream;
         videoTracks = stream.getVideoTracks();
@@ -125,7 +221,7 @@ function TakePhoto({ next, findScreen }) {
         mediaStream.getTracks().forEach((track) => track.stop());
       }
     };
-  }, []);
+  }, [option]);
 
   function handlePicture(ev) {
     ev.preventDefault();
@@ -133,13 +229,17 @@ function TakePhoto({ next, findScreen }) {
   }
 
   function retakePhoto() {
-    document.getElementById("previewPhotoContainer").classList.add("hidden");
-    document.getElementById("cameraContainer").classList.remove("hidden");
+    setPreview(false);
+    // document.getElementById("previewPhotoContainer").classList.add("hidden");
+    // document.getElementById("cameraContainer").classList.remove("hidden");
   }
 
   return (
     <div className="takephotoContainer">
-      <div id="cameraContainer" className="cameraContainer">
+      <div
+        id="cameraContainer"
+        className={`cameraContainer ${preview ? "hidden" : ""}`}
+      >
         <div className="camera">
           <div className="mask">
             <div className="circularPortion"></div>
@@ -148,16 +248,61 @@ function TakePhoto({ next, findScreen }) {
           <div className="advice">
             Please position your face within the frame.
           </div>
+          {options && (
+            <div className="options">
+              <div
+                id="rear"
+                className={`option ${hoverIndex === 0 ? "active" : ""}`}
+              >
+                <div>Back Camera</div>
+                <div className={`circle ${option === "back" ? "active" : ""}`}>
+                  <div className="inner_circle"></div>
+                </div>
+              </div>
+
+              <div
+                id="front"
+                className={`option ${hoverIndex === 1 ? "active" : ""}`}
+              >
+                <div>Front Camera</div>
+                <div className={`circle ${option === "front" ? "active" : ""}`}>
+                  <div className="inner_circle"></div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        {/* <button id="startbutton"></button> */}
-        <Softkey
-          center="Take Photo"
-          onKeyCenter={handlePicture}
-          noLeft={true}
-          noRight={true}
-        />
+        {!options && (
+          <div className="take-photo__softkey">
+            <div className="take-photo__softkey--left"></div>
+            <div className="take-photo__softkey--center" onClick={takepicture}>
+              <img
+                src="/assets/images/camera.svg"
+                width={40}
+                height={40}
+                alt="left"
+              />
+            </div>
+            <div
+              className="take-photo__softkey--right"
+              onClick={() => setOptions(true)}
+            >
+              Options
+            </div>
+          </div>
+        )}
+        {options && (
+          <div className="take-photo__softkey">
+            <div className="take-photo__softkey--center" onClick={handleSelect}>
+              Select
+            </div>
+          </div>
+        )}
       </div>
-      <div id="previewPhotoContainer" className="previewPhotoContainer hidden">
+      <div
+        id="previewPhotoContainer"
+        className={`previewPhotoContainer ${preview ? "" : "hidden"}`}
+      >
         {loading && (
           <div className="popUpLoading">
             <PopUpLoader text="Verification in process" />
@@ -169,17 +314,15 @@ function TakePhoto({ next, findScreen }) {
         <div className="advice">
           Make sure your face is not blur or out of frame before continuing
         </div>
-        {/* <div className="output">
-          <img id="photo"className="photo" alt="The screen capture will appear in this box."/>
-        </div> */}
         {!loading && (
-          <Softkey
-            left="Retake Photo"
-            onKeyLeft={retakePhoto}
-            noCenter={true}
-            right="Verify"
-            onKeyRight={handleVerify}
-          />
+          <div className="take-photo__softkey">
+            <div className="take-photo__softkey--left" onClick={retakePhoto}>
+              Retake Photo
+            </div>
+            <div className="take-photo__softkey--right" onClick={handleVerify}>
+              Verify
+            </div>
+          </div>
         )}
       </div>
     </div>
