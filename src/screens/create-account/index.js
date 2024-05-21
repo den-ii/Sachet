@@ -8,7 +8,7 @@ import { userDetails } from "../../constants";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
-    useState("inputting"); /* inputting || loading || approved || error*/
+    useState("approved"); /* inputting || loading || approved || error*/
   const [ninLength, setNinLength] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [showClear, setShowClear] = useState(false);
@@ -206,6 +206,10 @@ function CreateAccount({ next, back, findScreen }) {
   return (
     <div>
       <div className="create_account">
+        {/* Version */}
+        <div className="create_acount--version">v1.1.0</div>
+
+        {/* ------------------- */}
         <div className="ninimg">
           <img src="/assets/images/nin.svg" />
         </div>

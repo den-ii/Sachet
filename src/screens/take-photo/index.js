@@ -277,8 +277,16 @@ function TakePhoto({ next, findScreen }) {
             <div className="take-photo__softkey--left" onClick={handleLeft}>
               Back
             </div>
-            <div className="take-photo__softkey--center" onClick={takepicture}>
-              Snap
+            <div
+              className="take-photo__softkey--center"
+              onClick={takepicture}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img src="/shutter.svg" alt="snap" width={20} height={20} />
             </div>
             <div className="take-photo__softkey--right" onClick={handleRight}>
               Options
