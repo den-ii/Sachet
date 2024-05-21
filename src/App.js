@@ -7,12 +7,18 @@ function App() {
   const [screen, setScreen] = useState(0);
   const [screenChoice, setScreenChoice] = useState(allScreen);
 
-  window.addEventListener("keydown", (evt) => {
-    if (evt.key === "Backspace") {
-      evt.preventDefault();
-      evt.stopPropagation();
-    }
-  });
+  useEffect(() => {
+    window.addEventListener("keydown", (evt) => {
+      if (evt.key === "Backspace") {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }
+    });
+
+    return () => {
+      window.removeEventListener("keydown");
+    };
+  }, []);
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
