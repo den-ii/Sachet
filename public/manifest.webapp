@@ -4,15 +4,15 @@
   "subtitle": "Tier 3 KYC and Customer management!!",
   "description": "The Sachet onboarding application performs a Tier 3 KYC for the customer.",
   "launch_path": "/index.html",
-  "fullscreen": "true",
+  "fullscreen": true,
   "lang": "en-US",
   "orientation": "portrait",
   "origin": "app://sachet.getdevos.com",
+  "updateURL": "https://api.kaiostech.com/apps/manifest/FwTuE8QtO23pU1JT7EBc",
   "icons": {
     "56": "/sachet_56.png",
     "112": "/sachet_112.png"
   },
-  "fullscreen": true,
   "developer": {
     "name": "Devos",
     "url": "https://www.getdevos.com/"
