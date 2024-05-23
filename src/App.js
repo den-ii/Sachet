@@ -10,8 +10,10 @@ function App() {
   const handleKeyDown = (evt) => {
     switch (evt.key) {
       case "Backspace":
-        evt.preventDefault();
-        evt.stopPropagation();
+        if (screenChoice !== registeredUserScreens) {
+          evt.preventDefault();
+          evt.stopPropagation();
+        }
         return;
       default:
         return;
