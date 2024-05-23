@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { allScreen, registeredUserScreens, errorScreens } from "./screens";
 import Header from "./components/header";
 
@@ -7,18 +7,23 @@ function App() {
   const [screen, setScreen] = useState(0);
   const [screenChoice, setScreenChoice] = useState(allScreen);
 
-  useEffect(() => {
-    window.addEventListener("keydown", (evt) => {
-      if (evt.key === "Backspace") {
+  const handleKeyDown = (evt) => {
+    switch (evt.key) {
+      case "Backspace":
         evt.preventDefault();
         evt.stopPropagation();
-      }
-    });
+        return;
+      default:
+        return;
+    }
+  };
 
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener("keydown");
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [screen]);
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
