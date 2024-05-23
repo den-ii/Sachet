@@ -135,6 +135,7 @@
   height: min(90%, 90vw);
   width: min(90%, 90vh);
   border-radius: 50%;
+  border: 2px solid white;
   /* background-color: black; */
 }
 

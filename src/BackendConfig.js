@@ -6,7 +6,7 @@ const apiUrls = {
   production: "https://api.getdevos.com",
 };
 
-const apiUrl = "https://api.getdevos.com/sachet";
+const apiUrl = "https://api.getdevos.com/v1/sachet";
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
@@ -24,7 +24,7 @@ export const backendHeaders = () => {
 
 export const Backend = {
   sachet: () => {
-    const url = apiUrl + "/v1/customer";
+    const url = apiUrl + "/customer";
     return {
       onboardSachetCustomer: ({ nin }, headers = backendHeaders().onlyJson) => {
         const data = JSON.stringify({ data: { nin } });
