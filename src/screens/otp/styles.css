@@ -1,50 +1,77 @@
-.otpContainer {
-  padding: 56px 8px 46px 8px;
-  /* overflow-y: scroll; */
+.otp_setup {
+  padding: 56px var(--container-paddingX) 0;
 }
-
-.otpContainer p.heading {
-  font-weight: 600;
+.otp_approved {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.otp_approved .heading {
   font-family: var(--fonts-semibold);
-  color: #1d2433;
+  font-weight: 600;
+  margin: 8px 0;
+}
+.otp_approved .leading {
+  font-size: 12px;
+}
+.otp_setup .otp_img {
+  text-align: center;
   margin-bottom: 16px;
 }
 
-.otpContainer .otpInputContainer {
-  display: flex;
-  gap: 8px;
-}
-.otpContainer .otpInputContainer input {
+.otp_setup .enter_otp {
   display: block;
-  width: 100%;
-  min-width: 31px;
-  width: 31px;
-  border-radius: 4px;
-  height: 31px;
-  padding: 8px;
-  border: 0px;
-  background-color: var(--light);
-  text-align: center;
-  margin-right: 8px;
-}
-.otpContainer .success_heading {
-  margin: 16px 0;
-  text-align: center;
   font-size: 12px;
-}
-.otpContainer .otpPhoneContainer {
-  border-radius: 16px;
-  background-color: #f8f9fc;
-  padding: 16px;
+  margin-bottom: 8px;
 }
 
-.otpContainer .otpPhoneContainer .leading {
-  font-size: 12px;
+.otp_setup input {
+  display: block;
+  border-radius: 8px 8px 2px 2px;
+  border: 0px;
+  border-bottom: 1px solid var(--primary);
+  background: #ecf9f6;
+  padding: 8px;
+  width: 100%;
   font-family: var(--fonts-semibold);
   font-weight: 600;
+  outline: none;
 }
-.otpContainer .otpPhoneContainer .number {
-  margin-top: 10px;
+.otp_setup .otp_inputContainer .input_container {
+  position: relative;
+}
+.otp_setup .otp_inputContainer .input_container .loader {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+.otp_setup .otp_inputContainer input.err {
+  background-color: #fef1f2;
+  border-bottom: 1px solid #e02d3c;
+}
+.otp_setup .otp_inputContainer input.green {
+  border-bottom: 1px solid #ecf9f6;
+}
+.otp_setup .below_label {
+  margin-top: 3px;
+}
+.otp_setup .below_label .below_label_input {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+.otp_setup .below_label .below_label_input.none {
+  display: none;
+}
+.otp_setup .below_label .below_label_err {
   font-family: var(--fonts-semibold);
-  font-weight: 600;
+  font-family: 500;
+  color: #e02d3c;
+  font-size: 10px;
+}
+.otp_setup .below_label .below_label_err.none {
+  display: none;
 }

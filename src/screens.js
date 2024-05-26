@@ -18,6 +18,10 @@ import NotFound from "./screens/user-not-found";
 import ForgotPassword from "./screens/forgot-password";
 
 const screens = [
+  // {
+  //   header: false,
+  //   component: ({ next, back, findScreen }) => <Otp next={next} back={back} />,
+  // },
   {
     name: "create-account",
     header: "Create Account",
@@ -69,6 +73,10 @@ const screens = [
     component: ({ next, findScreen }) => (
       <Status next={next} findScreen={findScreen} />
     ),
+  },
+  {
+    header: false,
+    component: ({ next, back, findScreen }) => <Otp next={next} back={back} />,
   },
   {
     header: false,

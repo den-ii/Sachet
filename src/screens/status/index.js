@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
-import "../otp/styles.css";
+import "../otp2/styles.css";
 import { userDetails } from "../../constants";
 
 function Status({ next, findScreen }) {
@@ -17,8 +17,10 @@ function Status({ next, findScreen }) {
             <p>Your account has been verified</p>
           </div>
           <div className="otpPhoneContainer">
-            <p className="leading">Your New Phone Number:</p>
-            <p className="number">{userDetails.phoneNumber}</p>
+            <p>
+              Your account has been verified and your one-time passcode has been
+              sent to you phone number ***{userDetails.phoneNumber.slice(-4)}
+            </p>
           </div>
         </div>
         <Softkey

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 import DotsLoader from "../../components/dots-loader";
@@ -6,6 +6,7 @@ import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
 import { userDetails } from "../../constants";
+import onlyDigits from "../../utility";
 
 const passcodeLength = 6;
 
@@ -59,6 +60,7 @@ function passwordSetup({ next, back }) {
   }
 
   function handlePassword(e) {
+    onlyDigits(e);
     setLength(e.target.value.length);
     if (e.target.value.length >= passcodeLength) {
       setPasswordState("create");

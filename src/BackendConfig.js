@@ -6,7 +6,7 @@ const apiUrls = {
   production: "https://api.getdevos.com",
 };
 
-const apiUrl = "https://api.getdevos.com/v1/sachet";
+const url = "https://api.getdevos.com/sachet/v1";
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
@@ -24,12 +24,22 @@ export const backendHeaders = () => {
 
 export const Backend = {
   sachet: () => {
-    const url = apiUrl + "/customer";
+    const enrollUrl = url + "/management";
+    const managementUrl = url + "/management";
     return {
       onboardSachetCustomer: ({ nin }, headers = backendHeaders().onlyJson) => {
         const data = JSON.stringify({ data: { nin } });
         const encryptedData = encrypt(data);
-        return fetch(url + "/onboard", {
+        return fetch(enrollUrl + "/onboard", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      verifyOtp: ({ nin, password }, headers = backendHeaders().onlyJson) => {
+        const data = JSON.stringify({ data: { nin, password } });
+        const encryptedData = encrypt(data);
+        return fetch(enrollUrl + "/password", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
@@ -41,7 +51,7 @@ export const Backend = {
       ) => {
         const data = JSON.stringify({ data: { phoneNumber, password } });
         const encryptedData = encrypt(data);
-        return fetch(url + "/password", {
+        return fetch(enrollUrl + "/password", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
@@ -53,14 +63,14 @@ export const Backend = {
       ) => {
         const data = JSON.stringify({ data: { phone: phoneNumber, password } });
         const encryptedData = encrypt(data);
-        return fetch(url + "/login", {
+        return fetch(managementUrl + "/login", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
         });
       },
       getCustomerDetails: (headers = backendHeaders().auth_json) => {
-        return fetch(url + "/customer", {
+        return fetch(managementUrl + "/customer", {
           method: "GET",
           headers,
         });
@@ -73,7 +83,7 @@ export const Backend = {
 
         const data = JSON.stringify({ data: { nin, photo } });
         const encryptedData = encrypt(data);
-        return fetch(url + "/verify", {
+        return fetch(managementUrl + "/verify", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
