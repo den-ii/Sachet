@@ -6,6 +6,7 @@ import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
 import { userDetails } from "../../constants";
+import onlyDigits from "../../utility";
 
 const passcodeLength = 6;
 
@@ -59,6 +60,7 @@ function passwordSetup({ next, back }) {
   }
 
   function handlePassword(e) {
+    onlyDigits(e);
     setLength(e.target.value.length);
     if (e.target.value.length >= passcodeLength) {
       setPasswordState("create");

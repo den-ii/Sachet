@@ -1,109 +1,150 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
+import DotsLoader from "../../components/dots-loader";
+import { Backend } from "../../BackendConfig";
+import { decrypt } from "../../encryption";
 import "./styles.css";
+import { userDetails } from "../../constants";
+import onlyDigits from "../../utility";
 
-function Otp({ next }) {
-  // handle key center
-  const [otpInputs, setOtpInputs] = useState(Array(6).fill(""));
-  const [validationState, setValidationState] =
-    useState("pending"); /* inputting || pending ||validated */
-  // const [validationSubState, setValidationSubState] = useState("loading") /*inputting || loading || validated || error*/
+const otpLength = 6;
+
+function Otp({ next, back }) {
+  const [otpState, setOtpState] =
+    useState("inputting"); /* inputting || approved || create || */
+  const [length, setLength] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [showClear, setShowClear] = useState(false);
+
+  const otpInputRef = useRef(null);
 
   useEffect(() => {
-    document.getElementById("otp_box0")?.focus();
+    if (otpInputRef.current) {
+      otpInputRef.current.focus();
+    }
   }, []);
 
-  function handleOtp(e, index) {
-    const otpValue = Number(e.key);
-    console.log(e.key);
-    if (otpValue >= 0 && otpValue <= 9) {
-      const presentOtpInput = otpInputs.slice();
-      if (presentOtpInput[index] === "") {
-        presentOtpInput[index] = e.key;
-      } else if (index + 1 <= 5) {
-        presentOtpInput[index + 1] = e.key;
-      }
-      setOtpInputs(presentOtpInput);
-      if (index < 5) {
-        index = index + 1;
-      } else {
-        setValidationState("validated");
-      }
-      document.getElementById(`otp_box${index}`)?.focus();
-    } else if (e.key === "Backspace" || e.key === "clear") {
-      const presentOtpInput = otpInputs.slice();
-      presentOtpInput[index] = "";
-      setOtpInputs(presentOtpInput);
-      index = index > 0 ? index - 1 : index;
-      document.getElementById(`otp_box${index}`)?.focus();
+  function verifyOtp() {
+    let nin = userDetails.nin;
+    setError(false);
+    setLoading(true);
+    let otp = otpInputRef.current?.value;
+    if (otp.length === otpLength || !isNaN(Number(otp))) {
+      Backend.sachet()
+        .verifyOtp({ nin, otp })
+        .then((res) => res.json())
+        .then((data) => {
+          const result = decrypt(JSON.stringify(data.data));
+          console.log(result);
+          setLoading(false);
+          if (!result.status) {
+            throw new Error(result.error);
+          } else {
+            setOtpState("approved");
+            next();
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+          setError(true);
+        });
+    } else {
+      setOtpState("error");
     }
   }
 
+  function handleOtp(e) {
+    onlyDigits(e);
+    setLength(e.target.value.length);
+    if (e.target.value.length >= otpLength) {
+      setOtpState("verify");
+      e.currentTarget.blur();
+    } else if (e.target.value.length > 0) {
+      setShowClear(true);
+    } else {
+      setShowClear(false);
+    }
+  }
+
+  function handleCancel() {
+    if (otpInputRef.current) {
+      otpInputRef.current.value = "";
+      setLength(0);
+      otpInputRef.current.focus();
+      setShowClear(false);
+      setOtpState("inputting");
+      setError(false);
+    }
+  }
+
+  const inputting = otpState === "inputting" ? true : false;
+  const approved = otpState === "approved" ? true : false;
+  const create = otpState === "verify" ? true : false;
+  const input_create = inputting || create ? true : false;
+  const inputtingClass = (inputting || create) && !error ? "" : "none";
+  const loadingClass = loading ? "" : "none";
+  const errorClass = error ? "" : "none";
+
+  const inputCancel = inputting && showClear ? true : false;
+  const inputBack = inputting && !showClear ? true : false;
+  const inputStyle = error ? "err" : loading || approved ? "green" : "";
+
   return (
     <>
-      {/* Enter OTP */}
-      {validationState === "inputting" && (
-        <div>
-          <Header title="Enter OTP" />
-          <div className="otpContainer">
-            <p className="heading">
-              Please enter the OTP sent to your phone number
-            </p>
-            <div className="otpInputContainer">
-              {otpInputs.map((otpInput, index) => (
-                <input
-                  id={`otp_box${index}`}
-                  key={index}
-                  className="otp_box"
-                  value={otpInputs[index]}
-                  type="number"
-                  max={9}
-                  onKeyDown={(e) => handleOtp(e, index)}
-                />
-              ))}
-            </div>
-          </div>
+      <div className="otp_setup">
+        <Header title="Enter One Time Passcode" />
+        <div className="otp_img">
+          <img src="./password.svg" />
         </div>
-      )}
-      {validationState === "pending" && (
         <div>
-          <Header title="Limited Access" />
-          <div className="otpContainer">
-            <div className="success_heading">
-              <div className="img_container">
-                <img src="/limited_access.svg" />
+          <div className="otp_inputContainer">
+            <label className="enter_otp">Please enter one time passcode</label>
+            <div className="input_container">
+              <input
+                type="otp"
+                id="otpInput"
+                ref={otpInputRef}
+                className={inputStyle}
+                nav-selectable="true"
+                onChange={(e) => handleOtp(e)}
+              />
+              <div className="loader">
+                {loading && <DotsLoader />}
+                {error && <img src="/nin_error.svg" />}
               </div>
-              <p>Your account has limited access</p>
-            </div>
-            <div className="otpPhoneContainer">
-              <p className="leading">Your New Phone Number:</p>
-              <p className="number">0905 987 4509</p>
             </div>
           </div>
-          <Softkey center="Set Up Password" onKeyCenter={next} />
-        </div>
-      )}
-      {validationState === "validated" && (
-        <div>
-          <Header title="Success" />
-          <div className="otpContainer">
-            <div className="success_heading">
-              <div className="img_container">
-                <img src="/verified.svg" />
-              </div>
-              <p>Your account has been verified</p>
+          <div className="below_label">
+            <div className={`below_label_input ${inputtingClass}`}>
+              <p>OTP should be {otpLength}</p>
+              <p>
+                {length}/{otpLength}
+              </p>
             </div>
-            <div className="otpPhoneContainer">
-              <p className="leading">Your New Phone Number:</p>
-              <p className="number">0905 987 4509</p>
+            <div className={`below_label_err ${errorClass}`}>
+              OTP is invalid
             </div>
           </div>
-          <Softkey center="Set Up Password" onKeyCenter={next} />
         </div>
-      )}
+        {!loading && (
+          <div>
+            {inputCancel && <Softkey left="Clear" onKeyLeft={handleCancel} />}
+            {inputBack && <Softkey left="Back" onKeyLeft={back} />}
+            {create && (
+              <Softkey
+                left="Clear"
+                onKeyLeft={handleCancel}
+                right="Verify"
+                onKeyRight={verifyOtp}
+              />
+            )}
+          </div>
+        )}
+      </div>
     </>
   );
 }
-
 export default Otp;
