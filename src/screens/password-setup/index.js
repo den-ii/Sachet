@@ -110,6 +110,7 @@ function passwordSetup({ next, back }) {
                   type="password"
                   id="passwordInput"
                   className={inputStyle}
+                  ref={passwordInputRef}
                   nav-selectable="true"
                   onChange={(e) => handlePassword(e)}
                 />
