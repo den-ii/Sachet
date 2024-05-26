@@ -36,10 +36,10 @@ export const Backend = {
           body: JSON.stringify({ data: encryptedData }),
         });
       },
-      verifyOtp: ({ nin, password }, headers = backendHeaders().onlyJson) => {
-        const data = JSON.stringify({ data: { nin, password } });
+      verifyOtp: ({ nin, otp }, headers = backendHeaders().onlyJson) => {
+        const data = JSON.stringify({ data: { nin, otp } });
         const encryptedData = encrypt(data);
-        return fetch(enrollUrl + "/password", {
+        return fetch(enrollUrl + "/verify-otp", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
