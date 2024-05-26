@@ -27,7 +27,7 @@ function Otp({ next, back }) {
   }, []);
 
   function verifyOtp() {
-    let nin = userDetails.nin;
+    const nin = userDetails.nin;
     setError(false);
     setLoading(true);
     let otp = otpInputRef.current?.value;
