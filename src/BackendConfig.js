@@ -2,11 +2,10 @@ import { encrypt } from "./encryption";
 
 const apiUrls = {
   development: "http://localhost:3333",
-  staging: "https://api-d.getdevos.com/sachet/v1",
-  production: "https://api.getdevos.com",
+  staging: "https://staging-api.getdevos.com/sachet/v1",
+  production: "https://api.getdevos.com/sachet/v1",
 };
-
-const url = "https://api.getdevos.com/sachet/v1";
+const url = staging;
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
@@ -24,7 +23,7 @@ export const backendHeaders = () => {
 
 export const Backend = {
   sachet: () => {
-    const enrollUrl = url + "/management";
+    const enrollUrl = url + "/enrollment";
     const managementUrl = url + "/management";
     return {
       onboardSachetCustomer: ({ nin }, headers = backendHeaders().onlyJson) => {
@@ -83,7 +82,7 @@ export const Backend = {
 
         const data = JSON.stringify({ data: { nin, photo } });
         const encryptedData = encrypt(data);
-        return fetch(managementUrl + "/verify", {
+        return fetch(enrollUrl + "/verify", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
