@@ -5,7 +5,7 @@ const apiUrls = {
   staging: "https://staging-api.getdevos.com/sachet/v1",
   production: "https://api.getdevos.com/sachet/v1",
 };
-const url = staging;
+const url = apiUrls.staging;
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
