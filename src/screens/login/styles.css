@@ -45,6 +45,31 @@
   background-color: var(--error-bg);
 }
 
+/* ------------------- passcode --------------------------------- */
+.login input.passcode-input {
+  display: block;
+  border-radius: 8px 8px 2px 2px;
+  border: 0px;
+  border-bottom: 1px solid var(--primary);
+  background: #ecf9f6;
+  padding: 8px;
+  width: 100%;
+  margin-bottom: 7px;
+  font-family: var(--fonts-semibold);
+  font-weight: 600;
+  outline: none;
+}
+.login input.passcode-input:disabled {
+  background: #f8f9fc;
+  border-bottom: 1px solid #e1e6ef;
+  color: var(--primary);
+}
+
+.login input.passcode-input.login-input__error {
+  border-bottom: 1px solid var(--error);
+  background-color: var(--error-bg);
+}
+/* ------------------------------------------------------------------- */
 .login .error_sign {
   position: absolute;
   top: 50%;

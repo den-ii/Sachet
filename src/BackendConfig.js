@@ -1,11 +1,13 @@
 import { encrypt } from "./encryption";
 
 const apiUrls = {
-  development: "http://localhost:3333",
+  development:
+    "https://3fcb-2601-195-c601-5f0-95c9-d1c3-37fe-c09.ngrok-free.app/sachet/v1",
   staging: "https://staging-api.getdevos.com/sachet/v1",
   production: "https://api.getdevos.com/sachet/v1",
 };
-const url = apiUrls.staging;
+// const url = apiUrls.staging;
+const url = apiUrls[process.env.REACT_APP_NODE_ENV];
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
@@ -45,13 +47,16 @@ export const Backend = {
         });
       },
       createPassword: (
-        { phoneNumber, password },
+        { phone, currentPassword, newPassword },
         headers = backendHeaders().onlyJson
       ) => {
-        const data = JSON.stringify({ data: { phoneNumber, password } });
+        const data = JSON.stringify({
+          data: { phone, currentPassword, newPassword },
+        });
+        console.log(data);
         const encryptedData = encrypt(data);
-        return fetch(enrollUrl + "/password", {
-          method: "POST",
+        return fetch(managementUrl + "/password", {
+          method: "PUT",
           headers,
           body: JSON.stringify({ data: encryptedData }),
         });

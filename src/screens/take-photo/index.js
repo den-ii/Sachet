@@ -8,7 +8,7 @@ import { Backend } from "../../BackendConfig";
 import PopUpLoader from "../../components/popup-loader";
 import { userDetails } from "../../constants";
 
-function TakePhoto({ next, findScreen }) {
+function TakePhoto({ next, findScreen, goServerError }) {
   const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState(false);
@@ -154,27 +154,28 @@ function TakePhoto({ next, findScreen }) {
     console.log(nin, image64);
     Backend.sachet()
       .verifyCustomer({ nin, photo: image64 })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 504) {
+          return goServerError();
+        }
+        return res.json();
+      })
       .then((data) => {
         setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
         const { kycStatus, message } = result.data;
-        if (!result.status) {
-          if (result.data === "Maximum number of verifications reached.") {
-            localStorage.setItem("kycStatus", "limitReached");
-            findScreen("verification-status");
-          } else throw new Error("an error occurred");
-          throw new Error("an error occurred");
-        } else if (kycStatus === "pending") {
+        console.log(result);
+        if (!result.status) throw new Error(data);
+        else {
           localStorage.setItem("kycStatus", "pending");
-          next();
+          findScreen("verification-status");
         }
       })
       .catch((err) => {
         localStorage.setItem("kycStatus", "rejected");
         setLoading(false);
         console.log("err", err);
-        next();
+        findScreen("verification-status");
       });
   }
 

@@ -7,21 +7,19 @@ import TakePhoto from "./screens/take-photo";
 //import SmileTakePhoto from "./screens/smile-takephoto";
 import Otp from "./screens/otp";
 import VerificationStatus from "./screens/verification-status";
-import PasswordSetup from "./screens/password-setup";
+import PasswordSetup from "./screens/password-setup/password";
+import PasscodeStatus from "./screens/status/passcode_status";
 import LogIn from "./screens/login";
 import Home from "./screens/home";
 import Nav from "./screens/nav";
 import Status from "./screens/status";
+import SuccessStatus from "./screens/status/status";
 import PasswordSettings from "./screens/password-settings";
 import ServerError from "./screens/server-error";
 import NotFound from "./screens/user-not-found";
 import ForgotPassword from "./screens/forgot-password";
 
 const screens = [
-  // {
-  //   header: false,
-  //   component: ({ next, back, findScreen }) => <Otp next={next} back={back} />,
-  // },
   {
     name: "create-account",
     header: "Create Account",
@@ -47,17 +45,15 @@ const screens = [
       <VerifyIdentity next={next} back={back} findScreen={findScreen} />
     ),
   },
-  // {
-  //   header: false,
-  //   component: ({ next, findScreen }) => (
-  //     <SmileTakePhoto next={next} findScreen={findScreen} />
-  //   ),
-  // },
   {
     name: "take-photo",
     header: false,
-    component: ({ next, findScreen }) => (
-      <TakePhoto next={next} findScreen={findScreen} />
+    component: ({ next, findScreen, goServerError }) => (
+      <TakePhoto
+        next={next}
+        findScreen={findScreen}
+        goServerError={goServerError}
+      />
     ),
   },
   {
@@ -71,7 +67,14 @@ const screens = [
     name: "status",
     header: false,
     component: ({ next, findScreen }) => (
-      <Status next={next} findScreen={findScreen} />
+      <SuccessStatus next={next} findScreen={findScreen} />
+    ),
+  },
+  {
+    name: "passcode-status",
+    header: false,
+    component: ({ next, back, findScreen }) => (
+      <PasscodeStatus next={next} findScreen={findScreen} />
     ),
   },
   {
@@ -79,6 +82,7 @@ const screens = [
     component: ({ next, back, findScreen }) => <Otp next={next} back={back} />,
   },
   {
+    name: "password-setup",
     header: false,
     component: ({ next, back, findScreen }) => (
       <PasswordSetup next={next} back={back} findScreen={findScreen} />

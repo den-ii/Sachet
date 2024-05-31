@@ -27,7 +27,7 @@ function VerificationStatus({ next, back, findScreen }) {
         setAutoRetry(false);
         setShowReCheck(true);
       }
-    }, 30000);
+    }, 15000);
 
     return () => clearTimeout(timeoutId);
   }, [autoRetry]);
@@ -81,7 +81,11 @@ function VerificationStatus({ next, back, findScreen }) {
             findScreen("verification-status");
           }
         } else {
-          if (result.data === "Maximum number of verifications reached.") {
+          if (result.data === "Customer Already Exists!") {
+            findScreen("status");
+          } else if (
+            result.data === "Maximum number of verifications reached."
+          ) {
             localStorage.setItem("kycStatus", "limitReached");
             findScreen("verification-status");
           } else throw new Error("an error occurred");
@@ -148,7 +152,8 @@ function VerificationStatus({ next, back, findScreen }) {
               <p className="heading">Pending Verification</p>
               <p className="info">
                 We're currently finalizing your account verification to ensure a
-                secure experience. Thank you for your understanding.
+                secure experience. We will send a code to you shortly if
+                approved. Thank you for your understanding.
               </p>
             </div>
             {showReCheck && (

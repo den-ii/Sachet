@@ -11,21 +11,19 @@ function Status({ next, findScreen }) {
         <Header title="Success" />
         <div className="otpContainer">
           <div className="success_heading">
-            <div className="img_container">
+            <div className="img_container_success_status">
               <img src="/verified.svg" />
             </div>
-            <p>Your account has been verified</p>
-          </div>
-          <div className="otpPhoneContainer">
             <p>
               Your account has been verified and your one-time passcode has been
-              sent to you phone number ***{userDetails.phoneNumber.slice(-4)}
+              sent to your phone number. Proceed to login to complete
+              onboarding.
             </p>
           </div>
         </div>
         <Softkey
-          center="Set Up Password"
-          onKeyCenter={next}
+          center="Login"
+          onKeyCenter={() => findScreen("login")}
           noLeft={true}
           noRight={true}
         />

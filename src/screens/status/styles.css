@@ -1,0 +1,18 @@
+.success-status {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 320px;
+  padding: 0 8px;
+}
+.success-status .container {
+  text-align: center;
+}
+
+.success-status .container .img-container {
+  margin-bottom: 4px;
+}
+.success-status .container p {
+  font-size: 12px;
+}

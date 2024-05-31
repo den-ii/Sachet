@@ -169,10 +169,8 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
     const phoneNumberInput = phoneNumberInputRef.current?.value;
 
     const passwordInput = passwordInputRef.current?.value;
-    console.log(phoneNumberInput, passwordInput);
 
     if (!passwordInput) return;
-    console.log(document.getElementById("password").value);
     Backend.sachet()
       .login({
         phoneNumber: phoneNumberInput,
@@ -181,15 +179,28 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
         userDetails.phoneNumber = phoneNumberInput;
+        userDetails.defaultPasscode = passwordInput;
         if (!result.status) {
-          if (result.data === "Error: Customer not found") {
-            setLoading(false);
-            goUserNotFound();
-          } else {
-            throw new Error(result);
+          console.log(result);
+          console.log(result.data);
+          if (
+            result.data == "Error: Change default password before you proceed"
+          ) {
+            console.log("yes");
+            return findScreen("password-setup");
           }
+
+          // if (result.data == "Error: Customer not found") {
+          //   setLoading(false);
+          //   goUserNotFound();
+          // } else if (
+          //   result.data == "Error: Change default password before you proceed"
+          // ) {
+          //   findScreen("password-setup");
+          // } else {
+          //   throw new Error(result);
+          // }
         } else {
           localStorage.setItem("jwt", result.data);
           setLoading(false);
