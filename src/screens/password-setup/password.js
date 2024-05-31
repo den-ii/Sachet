@@ -150,6 +150,9 @@ function PasswordSetup({
     setCpasscodeState("inputting");
     const passcodeInput = passcodeInputRef.current;
     const cpasscodeInput = cpasscodeInputRef.current;
+    if (!passcodeInput.value && !cpasscodeInput.value) {
+      return findScreen("create-account");
+    }
     if (!passcodeInput || !cpasscodeInput) return;
     passcodeInput.disabled = false;
     cpasscodeInput.disabled = false;
@@ -189,7 +192,7 @@ function PasswordSetup({
               throw new Error("Something went wrong");
             }
           } else {
-            setS;
+            findScreen("passcode-status");
           }
         })
         .catch((err) => {
@@ -211,8 +214,10 @@ function PasswordSetup({
   const hasValue = cpasscodeLength > 0 || passcodeLength > 0;
   const selected = showSelect && inputting && !hasValue;
 
-  let clear = hasValue && !selected;
+  let clear = true;
   const selectedClear = showSelect && clear;
+  let clearOrBack =
+    passcodeLength > 0 || cpasscodeLength > 0 ? "Clear" : "Back";
 
   const done = passcodeDone && cpasscodeDone && !loading;
   const doneOnly = done && !showSelect && !error;
@@ -279,11 +284,11 @@ function PasswordSetup({
         {!loading && (
           <div>
             {clear && (
-              <Softkey left="Clear" onKeyLeft={() => handleReEnter()} />
+              <Softkey left={clearOrBack} onKeyLeft={() => handleReEnter()} />
             )}
             {selectedClear && (
               <Softkey
-                left="Clear"
+                left={clearOrBack}
                 onKeyLeft={() => handleReEnter()}
                 center={"Select"}
                 onKeyCenter={handleSelect}

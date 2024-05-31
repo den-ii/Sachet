@@ -66,7 +66,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
   }
 
   function handlePassword(e) {
-    onlyDigits(e);
+    // onlyDigits(e);
     const length = e.target.value.length;
     setPasswordLength(length);
     if (e.target.value.length >= 6) {
