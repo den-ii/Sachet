@@ -14,6 +14,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
   const [phoneNumberState, setPhoneNumberState] = useState("inputting");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMesssage] = useState("");
   const [phoneNumberLength, setPhoneNumberLength] = useState(0);
   const [passwordLength, setPasswordLength] = useState(0);
   const [showSelect, setShowSelect] = useState(false);
@@ -66,7 +67,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
   }
 
   function handlePassword(e) {
-    // onlyDigits(e);
+    onlyDigits(e);
     const length = e.target.value.length;
     setPasswordLength(length);
     if (e.target.value.length >= 6) {
@@ -178,6 +179,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
       })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
         userDetails.phoneNumber = phoneNumberInput;
         userDetails.defaultPasscode = passwordInput;
@@ -189,6 +191,14 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
           ) {
             console.log("yes");
             return findScreen("password-setup");
+          } else if (result.data === "Error: Customer not found") {
+            goUserNotFound();
+          } else if (result.data === "Passcode expired! New passcode sent") {
+            setErrorMesssage("Passcode expired! New passcode sent");
+            setError(true);
+          } else if (result.data === "Error: Invalid phone/passcode") {
+            setErrorMesssage("Phone number or passcode is incorrect");
+            setError(true);
           }
 
           // if (result.data == "Error: Customer not found") {
@@ -273,21 +283,12 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
                 </div>
               </div>
             </div>
-            {error && (
-              <p className="login-error__statement">
-                Phone number or password is incorrect!
-              </p>
-            )}
+            {error && <p className="login-error__statement">{errorMessage}</p>}
           </div>
           <div className="forgot-password-button__container">
             <div className="forgot-password login-input" id="forgotPassword">
               <span>Forgot Password? </span>
             </div>
-            {error && (
-              <p className="login-error__statement">
-                Phone number or password is incorrect!
-              </p>
-            )}
           </div>
           <div className="login__signup-button__container">
             <div className="signup-button login-input" id="signup">

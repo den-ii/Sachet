@@ -8,6 +8,7 @@ const apiUrls = {
 };
 // const url = apiUrls.staging;
 const url = apiUrls[process.env.REACT_APP_NODE_ENV];
+console.log(url);
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
@@ -55,7 +56,22 @@ export const Backend = {
         });
         console.log(data);
         const encryptedData = encrypt(data);
-        return fetch(managementUrl + "/password", {
+        return fetch(enrollUrl + "/password", {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      changePassword: (
+        { userId, currentPassword, newPassword },
+        headers = backendHeaders().onlyJson
+      ) => {
+        const data = JSON.stringify({
+          data: { userId, currentPassword, newPassword },
+        });
+        console.log(data);
+        const encryptedData = encrypt(data);
+        return fetch(managementUrl + "/customer/changePassword", {
           method: "PUT",
           headers,
           body: JSON.stringify({ data: encryptedData }),

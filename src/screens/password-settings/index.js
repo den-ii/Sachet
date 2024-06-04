@@ -3,11 +3,13 @@ import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 import DotsLoader from "../../components/dots-loader";
 import "./styles.css";
+import onlyDigits from "../../utility";
 
-function PasswordSettings({ findScreen }) {
+function PasswordSettings({ findScreen, back }) {
   const [passcodeScreen, setPasscodeScreen] =
     useState(0); /* 0 || 1 || 2 || 3 */
   const [passcodeLength, setPasscodeLength] = useState(0);
+  const [currPasscode, setCurrPasscode] = useState("");
   const [passcode, setPasscode] = useState("");
   const [okay, setOkay] = useState(false);
   const [passcodeState, setPasscodeState] =
@@ -35,32 +37,27 @@ function PasswordSettings({ findScreen }) {
   }
 
   function handlePasscodeChange(e) {
-    const value = e.target.value;
-    const sanitizedValue = value.replace(/\D/g, ""); // Remove non-digit characters
-    e.target.value = sanitizedValue;
+    onlyDigits(e);
     let eventName = e.target.name;
-    console.log(eventName);
     setPasscodeLength(document.getElementById("passcode_input").value.length);
 
     if (eventName === "enterPasscode") {
-      if (passcodeLength >= 5) {
+      if (passcodeLength === 6) {
         setPasscodeState("loading");
         e.target.disabled = true;
+        setCurrPasscode(e.target.value);
         e.target?.blur();
         e.currentTarget?.blur();
-        setTimeout(() => {
-          setPasscodeScreen(1);
-        }, 1000);
       }
     } else if (eventName === "inputNewPasscode") {
-      if (passcodeLength >= 5) {
+      if (passcodeLength === 6) {
         e.target.disabled = true;
         e.target?.blur();
         e.currentTarget?.blur();
         setOkay(true);
       }
     } else if (eventName === "confirmNewPasscode") {
-      if (passcodeLength >= 5) {
+      if (passcodeLength === 6) {
         e.target.disabled = true;
         e.target?.blur();
         e.currentTarget?.blur();
@@ -71,6 +68,9 @@ function PasswordSettings({ findScreen }) {
   }
 
   function handleClear() {
+    if (passcodeLength === 0) {
+      return findScreen("home");
+    }
     setPasscodeLength(0);
     setOkay(false);
     let passcodeInput = document.getElementById("passcode_input");
@@ -100,9 +100,10 @@ function PasswordSettings({ findScreen }) {
     }
   }
 
-  let inputting = passcodeState === "inputting" ? true : false;
-  let loading = passcodeState === "loading" ? true : false;
-  let rejected = passcodeState === "rejected" ? true : false;
+  let inputting = passcodeState === "inputting";
+  let loading = passcodeState === "loading";
+  let rejected = passcodeState === "rejected";
+  const clearOrBack = passcodeLength === 0 ? "Back" : "Clear";
 
   let beBlurredClass = okay ? "blurred" : "";
 
@@ -145,7 +146,7 @@ function PasswordSettings({ findScreen }) {
               )}
             </div>
           </div>
-          <Softkey left="Back" onKeyLeft={() => findScreen("home")} />
+          <Softkey left={clearOrBack} onKeyLeft={handleClear} />
         </div>
       )}
       {inputNewPasscode && (
@@ -183,13 +184,13 @@ function PasswordSettings({ findScreen }) {
           </div>
           {okay && (
             <Softkey
-              left="Clear"
+              left={clearOrBack}
               right={"Ok"}
               onKeyLeft={handleClear}
               onKeyRight={handleOk}
             />
           )}
-          {!okay && <Softkey left="Clear" onKeyLeft={handleClear} />}
+          {!okay && <Softkey left={clearOrBack} onKeyLeft={handleClear} />}
         </div>
       )}
       {confirmNewPasscode && (
@@ -229,13 +230,13 @@ function PasswordSettings({ findScreen }) {
           </div>
           {okay && (
             <Softkey
-              left="Clear"
+              left={clearOrBack}
               right={"Ok"}
               onKeyLeft={handleClear}
               onKeyRight={handleOk}
             />
           )}
-          {!okay && <Softkey left="Clear" onKeyLeft={handleClear} />}
+          {!okay && <Softkey left={clearOrBack} onKeyLeft={handleClear} />}
         </div>
       )}
       {success && (

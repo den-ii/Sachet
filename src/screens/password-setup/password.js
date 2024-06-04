@@ -175,6 +175,12 @@ function PasswordSetup({
     const newPassword = passcodeInputRef.current?.value;
     const currentPassword = userDetails.defaultPasscode;
 
+    if (newPassword !== cpasscodeInputRef.current?.value) {
+      setErrorMessage("Passcodes do not match");
+      setError(true);
+      return;
+    }
+
     setError(false);
     setLoading(true);
     if (newPassword.length === passcodeLength) {

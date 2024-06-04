@@ -20,16 +20,30 @@ function Home({ findScreen }) {
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        console.log(data);
+        console.log(result);
         if (!result.status) {
           throw new Error(result.error);
         }
-        setCustomer(result.data);
+        let photo = _arrayBufferToBase64(result.data.photo.data);
+        photo = window.atob(window.atob(photo));
+
+        setCustomer({ ...result.data, photo });
       })
       .catch((err) => {
         console.error(err);
       });
   }, [phoneNumber]);
+
+  function _arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
@@ -90,7 +104,10 @@ function Home({ findScreen }) {
       <div className="profile">
         <div className="profile__avatar">
           {customer ? (
-            <img src="/assets/images/profile_doyle.svg" />
+            <img
+              src={"data:image/png;base64," + customer.photo}
+              style={{ objectFit: "cover" }}
+            />
           ) : (
             <AvatarSkeleton />
           )}
