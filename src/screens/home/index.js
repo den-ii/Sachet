@@ -9,7 +9,8 @@ import { userDetails } from "../../constants";
 
 function Home({ findScreen, goLogin }) {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [customer, setCustomer] = useState();
+  const [customer, setCustomer] = useState(null);
+  const [customerPhoto, setCustomerPhoto] = useState(null);
 
   useEffect(() => {
     setPhoneNumber(userDetails.phoneNumber);
@@ -30,7 +31,8 @@ function Home({ findScreen, goLogin }) {
         let photo = _arrayBufferToBase64(result.data.photo.data);
         photo = window.atob(window.atob(photo));
 
-        setCustomer({ ...result.data, photo });
+        setCustomer(result.data);
+        setCustomerPhoto(photo);
       })
       .catch((err) => {
         console.error(err);
@@ -108,7 +110,7 @@ function Home({ findScreen, goLogin }) {
         <div className="profile__avatar">
           {customer ? (
             <img
-              src={"data:image/png;base64," + customer.photo}
+              src={"data:image/png;base64," + customerPhoto}
               style={{ objectFit: "cover" }}
             />
           ) : (
