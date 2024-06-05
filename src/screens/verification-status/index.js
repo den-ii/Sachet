@@ -46,7 +46,7 @@ function VerificationStatus({ next, back, findScreen }) {
     setLoading(true);
     setShowReCheck(false);
     Backend.sachet()
-      .onboardSachetCustomer({
+      .getEnrollmentStatus({
         nin: userDetails.nin,
       })
       .then((res) => {
@@ -60,35 +60,21 @@ function VerificationStatus({ next, back, findScreen }) {
       .then((data) => {
         setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
+        const { kycStatus } = result.data;
         console.log(result);
-        const { kycStatus, retriesLeft, hasCreatedPassword, phoneNumber } =
-          result.data;
-        console.log(retriesLeft);
         if (result.status) {
           if (kycStatus === "approved") {
             localStorage.setItem("kycStatus", "approved");
-            userDetails.phoneNumber = phoneNumber;
-            if (hasCreatedPassword) findScreen("login");
-            else findScreen("status");
+            findScreen("status");
           } else if (kycStatus === "pending") {
             localStorage.setItem("kycStatus", "pending");
             setShowReCheck(true);
-          } else if (kycStatus === "rejected" && retriesLeft) {
+          } else if (kycStatus === "notApproved") {
             localStorage.setItem("kycStatus", "rejected");
-            findScreen("verification-status");
-          } else if (kycStatus === "rejected" && !retriesLeft) {
-            localStorage.setItem("kycStatus", "limitReached");
             findScreen("verification-status");
           }
         } else {
-          if (result.data === "Customer Already Exists!") {
-            findScreen("status");
-          } else if (
-            result.data === "Maximum number of verifications reached."
-          ) {
-            localStorage.setItem("kycStatus", "limitReached");
-            findScreen("verification-status");
-          } else throw new Error("an error occurred");
+          throw new Error("an error occurred");
         }
       })
       .catch((err) => {

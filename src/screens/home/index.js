@@ -7,7 +7,7 @@ import { TextSkeleton } from "../../components/skeletons";
 import { AvatarSkeleton } from "../../components/skeletons";
 import { userDetails } from "../../constants";
 
-function Home({ findScreen }) {
+function Home({ findScreen, goLogin }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [customer, setCustomer] = useState();
 
@@ -22,6 +22,9 @@ function Home({ findScreen }) {
         const result = decrypt(JSON.stringify(data.data));
         console.log(result);
         if (!result.status) {
+          if (result.data === "jwt expired") {
+            return goLogin();
+          }
           throw new Error(result.error);
         }
         let photo = _arrayBufferToBase64(result.data.photo.data);

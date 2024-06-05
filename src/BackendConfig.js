@@ -47,6 +47,15 @@ export const Backend = {
           body: JSON.stringify({ data: encryptedData }),
         });
       },
+      getEnrollmentStatus: ({ nin }, headers = backendHeaders().onlyJson) => {
+        const data = JSON.stringify({ data: { nin } });
+        const encryptedData = encrypt(data);
+        return fetch(enrollUrl + "/status", {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
       createPassword: (
         { phone, currentPassword, newPassword },
         headers = backendHeaders().onlyJson
@@ -63,15 +72,15 @@ export const Backend = {
         });
       },
       changePassword: (
-        { userId, currentPassword, newPassword },
-        headers = backendHeaders().onlyJson
+        { currentPassword, newPassword },
+        headers = backendHeaders().auth_json
       ) => {
         const data = JSON.stringify({
-          data: { userId, currentPassword, newPassword },
+          data: { currentPassword, newPassword },
         });
         console.log(data);
         const encryptedData = encrypt(data);
-        return fetch(managementUrl + "/customer/changePassword", {
+        return fetch(managementUrl + "/password", {
           method: "PUT",
           headers,
           body: JSON.stringify({ data: encryptedData }),

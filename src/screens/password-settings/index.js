@@ -4,6 +4,8 @@ import Softkey from "../../components/softkey";
 import DotsLoader from "../../components/dots-loader";
 import "./styles.css";
 import onlyDigits from "../../utility";
+import { Backend } from "../../BackendConfig";
+import { decrypt } from "../../encryption";
 
 function PasswordSettings({ findScreen, back }) {
   const [passcodeScreen, setPasscodeScreen] =
@@ -12,15 +14,16 @@ function PasswordSettings({ findScreen, back }) {
   const [currPasscode, setCurrPasscode] = useState("");
   const [passcode, setPasscode] = useState("");
   const [okay, setOkay] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [passcodeState, setPasscodeState] =
     useState("inputting"); /* inputting || loading || rejected */
 
   const passcodeInput = useRef(null);
 
-  let enterPasscode = passcodeScreen === 0 ? true : false;
-  let inputNewPasscode = passcodeScreen === 1 ? true : false;
-  let confirmNewPasscode = passcodeScreen === 2 ? true : false;
-  let success = passcodeScreen === 3 ? true : false;
+  let enterPasscode = passcodeScreen === 0;
+  let inputNewPasscode = passcodeScreen === 1;
+  let confirmNewPasscode = passcodeScreen === 2;
+  let success = passcodeScreen === 3;
 
   useEffect(() => {
     if (passcodeInput.current) {
@@ -39,25 +42,25 @@ function PasswordSettings({ findScreen, back }) {
   function handlePasscodeChange(e) {
     onlyDigits(e);
     let eventName = e.target.name;
-    setPasscodeLength(document.getElementById("passcode_input").value.length);
+    setPasscodeLength(e.target.value.length);
 
     if (eventName === "enterPasscode") {
-      if (passcodeLength === 6) {
-        setPasscodeState("loading");
+      if (passcodeLength >= 5) {
         e.target.disabled = true;
-        setCurrPasscode(e.target.value);
+        console.log("yes");
         e.target?.blur();
         e.currentTarget?.blur();
+        setOkay(true);
       }
     } else if (eventName === "inputNewPasscode") {
-      if (passcodeLength === 6) {
+      if (passcodeLength >= 5) {
         e.target.disabled = true;
         e.target?.blur();
         e.currentTarget?.blur();
         setOkay(true);
       }
     } else if (eventName === "confirmNewPasscode") {
-      if (passcodeLength === 6) {
+      if (passcodeLength >= 5) {
         e.target.disabled = true;
         e.target?.blur();
         e.currentTarget?.blur();
@@ -84,20 +87,46 @@ function PasswordSettings({ findScreen, back }) {
   function handleOk() {
     let currentPasscode = document.getElementById("passcode_input").value;
     if (passcodeScreen === 2) {
-      setPasscodeState("loading");
       if (passcode === currentPasscode) {
-        setTimeout(() => {
-          setPasscodeScreen(passcodeScreen + 1);
-        }, 1000);
+        console.log("curr", currPasscode);
+        console.log("passcode", passcode);
+        handleChangePasscode();
       } else {
         setOkay(false);
+        setErrorMsg("Passcodes do not match");
         setPasscodeState("rejected");
       }
+    } else if (passcodeScreen === 0) {
+      setCurrPasscode(currentPasscode);
+      setPasscodeScreen((passcodeScreen) => passcodeScreen + 1);
+      setOkay(false);
     } else if (passcodeScreen === 1) {
       setPasscode(currentPasscode);
-      setPasscodeScreen(passcodeScreen + 1);
-      console.log(currentPasscode);
+      setPasscodeScreen((passcodeScreen) => passcodeScreen + 1);
+      setOkay(false);
     }
+  }
+
+  function handleChangePasscode() {
+    setPasscodeState("loading");
+    Backend.sachet()
+      .changePassword({
+        currentPassword: currPasscode,
+        newPassword: passcode,
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        const result = decrypt(JSON.stringify(data.data));
+        console.log(result);
+        if (!result.status) {
+          throw new Error("Something went wrong");
+        } else setPasscodeScreen((passcodeScreen) => passcodeScreen + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMsg("Something went wrong");
+        setPasscodeState("rejected");
+      });
   }
 
   let inputting = passcodeState === "inputting";
@@ -146,7 +175,15 @@ function PasswordSettings({ findScreen, back }) {
               )}
             </div>
           </div>
-          <Softkey left={clearOrBack} onKeyLeft={handleClear} />
+          {!okay && <Softkey left={clearOrBack} onKeyLeft={handleClear} />}
+          {okay && (
+            <Softkey
+              left={clearOrBack}
+              right={"Ok"}
+              onKeyLeft={handleClear}
+              onKeyRight={handleOk}
+            />
+          )}
         </div>
       )}
       {inputNewPasscode && (
@@ -223,9 +260,7 @@ function PasswordSettings({ findScreen, back }) {
                 <div className={`below-label-loading`}>Verifying...</div>
               )}
 
-              {rejected && (
-                <div className={`below-label-err`}>Passcodes do not match</div>
-              )}
+              {rejected && <div className={`below-label-err`}>{errorMsg}</div>}
             </div>
           </div>
           {okay && (

@@ -75,19 +75,11 @@ function CreateAccount({ next, back, findScreen }) {
           setStateTrack("approved");
           if (kycStatus === "notApproved") {
             next();
-          } else if (kycStatus === "approved") {
-            localStorage.setItem("kycStatus", "approved");
-            userDetails.phoneNumber = phoneNumber;
-            if (hasCreatedPassword) findScreen("login");
-            else findScreen("status");
           } else if (kycStatus === "pending") {
             localStorage.setItem("kycStatus", "pending");
             findScreen("verification-status");
-          } else if (kycStatus === "rejected" && retriesLeft) {
+          } else if (kycStatus === "notApproved") {
             localStorage.setItem("kycStatus", "rejected");
-            findScreen("verification-status");
-          } else if (kycStatus === "rejected" && !retriesLeft) {
-            localStorage.setItem("kycStatus", "limitReached");
             findScreen("verification-status");
           }
         } else {

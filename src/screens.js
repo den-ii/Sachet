@@ -121,7 +121,9 @@ const registeredUserScreens = [
   {
     name: "home",
     header: "Sachet",
-    component: ({ findScreen }) => <Home findScreen={findScreen} />,
+    component: ({ findScreen, goLogin }) => (
+      <Home findScreen={findScreen} goLogin={goLogin} />
+    ),
   },
   {
     name: "password-settings",
