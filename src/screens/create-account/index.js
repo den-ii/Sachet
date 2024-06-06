@@ -102,7 +102,6 @@ function CreateAccount({ next, back, findScreen }) {
   }
 
   function handleNinChange(event) {
-    onlyDigits(e);
     let length = event.target.value.length;
     setNinLength(length);
     if (stateTrack === "inputting") {
@@ -215,7 +214,7 @@ function CreateAccount({ next, back, findScreen }) {
         <div className="nin_inputContainer">
           <input
             id="text-field"
-            type="text"
+            type="number"
             className={`input nin-nav item_active ${inputStyle}`}
             disabled={disabled}
             ref={ninInput}
