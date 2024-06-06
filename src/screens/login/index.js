@@ -8,7 +8,7 @@ import PopUpLoader from "../../components/popup-loader";
 import onlyDigits from "../../utility";
 import { userDetails } from "../../constants";
 
-function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
+function LogIn({ next, login, findScreen }) {
   const [passwordState, setPasswordState] =
     useState("inputting"); /* inputting || done*/
   const [phoneNumberState, setPhoneNumberState] = useState("inputting");
@@ -192,7 +192,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
             console.log("yes");
             return findScreen("password-setup");
           } else if (result.data === "Error: Customer not found") {
-            goUserNotFound();
+            findScreen("not-found");
           } else if (result.data === "Passcode expired! New passcode sent") {
             setErrorMesssage("Passcode expired! New passcode sent");
             setError(true);
@@ -220,7 +220,7 @@ function LogIn({ next, login, findScreen, goUserNotFound, goServerError }) {
       .catch((err) => {
         console.error("err:", err);
         setLoading(false);
-        goServerError();
+        findScreen("server-error");
       });
   }
 

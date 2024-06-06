@@ -5,6 +5,7 @@ import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import { userDetails } from "../../constants";
+import onlyDigits from "../../utility";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
@@ -101,6 +102,7 @@ function CreateAccount({ next, back, findScreen }) {
   }
 
   function handleNinChange(event) {
+    onlyDigits(e);
     let length = event.target.value.length;
     setNinLength(length);
     if (stateTrack === "inputting") {
@@ -203,7 +205,7 @@ function CreateAccount({ next, back, findScreen }) {
     <div>
       <div className="create_account">
         {/* Version */}
-        <div className="create_acount--version">v1.1.0</div>
+        <div className="create_acount--version">v1.1.1</div>
 
         {/* ------------------- */}
         <div className="ninimg">
@@ -213,7 +215,7 @@ function CreateAccount({ next, back, findScreen }) {
         <div className="nin_inputContainer">
           <input
             id="text-field"
-            type="number"
+            type="text"
             className={`input nin-nav item_active ${inputStyle}`}
             disabled={disabled}
             ref={ninInput}

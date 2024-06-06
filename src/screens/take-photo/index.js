@@ -8,7 +8,7 @@ import { Backend } from "../../BackendConfig";
 import PopUpLoader from "../../components/popup-loader";
 import { userDetails } from "../../constants";
 
-function TakePhoto({ next, findScreen, goServerError }) {
+function TakePhoto({ next, findScreen }) {
   const [image64, setImage64] = useState("");
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState(false);
@@ -156,7 +156,7 @@ function TakePhoto({ next, findScreen, goServerError }) {
       .verifyCustomer({ nin, photo: image64 })
       .then((res) => {
         if (res.status === 504) {
-          return goServerError();
+          return findScreen("server-error");
         }
         return res.json();
       })

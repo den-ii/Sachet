@@ -8,13 +8,7 @@ import PopUpLoader from "../../components/popup-loader";
 import onlyDigits from "../../utility";
 import { userDetails } from "../../constants";
 
-function PasswordSetup({
-  next,
-  login,
-  findScreen,
-  goUserNotFound,
-  goServerError,
-}) {
+function PasswordSetup({ findScreen }) {
   const [passcodeState, setPasscodeState] =
     useState("inputting"); /* inputting || done*/
   const [cpasscodeState, setCpasscodeState] = useState("inputting");

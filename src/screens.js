@@ -48,12 +48,8 @@ const screens = [
   {
     name: "take-photo",
     header: false,
-    component: ({ next, findScreen, goServerError }) => (
-      <TakePhoto
-        next={next}
-        findScreen={findScreen}
-        goServerError={goServerError}
-      />
+    component: ({ next, findScreen }) => (
+      <TakePhoto next={next} findScreen={findScreen} />
     ),
   },
   {
@@ -91,26 +87,22 @@ const screens = [
   {
     name: "login",
     header: false,
-    component: ({ next, login, findScreen, goUserNotFound, goServerError }) => (
-      <LogIn
-        next={next}
-        login={login}
-        findScreen={findScreen}
-        goUserNotFound={goUserNotFound}
-        goServerError={goServerError}
-      />
+    component: ({ next, login, findScreen }) => (
+      <LogIn next={next} login={login} findScreen={findScreen} />
     ),
   },
   {
     name: "forgot-password",
     header: false,
-    component: ({ findScreen, goUserNotFound, goServerError }) => (
-      <ForgotPassword
-        findScreen={findScreen}
-        goUserNotFound={goUserNotFound}
-        goServerError={goServerError}
-      />
-    ),
+    component: ({ findScreen }) => <ForgotPassword findScreen={findScreen} />,
+  },
+  {
+    name: "not-found",
+    component: ({ goLogin }) => <NotFound goLogin={goLogin} />,
+  },
+  {
+    name: "server-error",
+    component: ({ goLogin }) => <ServerError goLogin={goLogin} />,
   },
 ];
 
@@ -130,9 +122,6 @@ const registeredUserScreens = [
     header: false,
     component: ({ findScreen }) => <PasswordSettings findScreen={findScreen} />,
   },
-];
-
-const errorScreens = [
   {
     name: "not-found",
     component: ({ goLogin }) => <NotFound goLogin={goLogin} />,
@@ -143,9 +132,11 @@ const errorScreens = [
   },
 ];
 
+// const errorScreens = [];
+
 const withoutTCScreens = screens.slice(3);
 withoutTCScreens.unshift(screens[0]);
 
 const allScreen = localStorage.getItem("t&c") ? withoutTCScreens : screens;
 
-export { allScreen, registeredUserScreens, errorScreens };
+export { allScreen, registeredUserScreens };

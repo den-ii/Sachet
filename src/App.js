@@ -1,31 +1,31 @@
 /* eslint-disable linebreak-style */
 import { useState, useEffect } from "react";
-import { allScreen, registeredUserScreens, errorScreens } from "./screens";
+import { allScreen, registeredUserScreens } from "./screens";
 import Header from "./components/header";
 
 function App() {
   const [screen, setScreen] = useState(0);
   const [screenChoice, setScreenChoice] = useState(allScreen);
 
-  // const handleKeyDown = (evt) => {
-  //   switch (evt.key) {
-  //     case "Backspace":
-  //       if (screenChoice !== registeredUserScreens) {
-  //         evt.preventDefault();
-  //         evt.stopPropagation();
-  //       }
-  //       return;
-  //     default:
-  //       return;
-  //   }
-  // };
+  const handleKeyDown = (evt) => {
+    switch (evt.key) {
+      case "Backspace":
+        if (screenChoice !== registeredUserScreens) {
+          evt.preventDefault();
+          evt.stopPropagation();
+        }
+        return;
+      default:
+        return;
+    }
+  };
 
-  // useEffect(() => {
-  //   window.addEventListener("keydown", handleKeyDown);
-  //   return () => {
-  //     window.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, [screen]);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [screen]);
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),
@@ -44,14 +44,14 @@ function App() {
       setScreen(0);
       setScreenChoice(allScreen);
     },
-    goServerError: () => {
-      setScreen(1);
-      setScreenChoice(errorScreens);
-    },
-    goUserNotFound: () => {
-      setScreen(0);
-      setScreenChoice(errorScreens);
-    },
+    // goServerError: () => {
+    //   setScreen(1);
+    //   setScreenChoice(errorScreens);
+    // },
+    // goUserNotFound: () => {
+    //   setScreen(0);
+    //   setScreenChoice(errorScreens);
+    // },
   };
 
   return (
