@@ -7,25 +7,25 @@ function App() {
   const [screen, setScreen] = useState(0);
   const [screenChoice, setScreenChoice] = useState(allScreen);
 
-  const handleKeyDown = (evt) => {
-    switch (evt.key) {
-      case "Backspace":
-        if (screenChoice !== registeredUserScreens) {
-          evt.preventDefault();
-          evt.stopPropagation();
-        }
-        return;
-      default:
-        return;
-    }
-  };
+  // const handleKeyDown = (evt) => {
+  //   switch (evt.key) {
+  //     case "Backspace":
+  //       if (screenChoice !== registeredUserScreens) {
+  //         evt.preventDefault();
+  //         evt.stopPropagation();
+  //       }
+  //       return;
+  //     default:
+  //       return;
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [screen]);
+  // useEffect(() => {
+  //   window.addEventListener("keydown", handleKeyDown);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, [screen]);
 
   let softkeyCalls = {
     next: () => setScreen((screen) => screen + 1),

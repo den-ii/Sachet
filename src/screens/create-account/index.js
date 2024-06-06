@@ -32,9 +32,10 @@ function CreateAccount({ next, back, findScreen }) {
     const ninNav = document.querySelectorAll(".nin-nav");
     ninNav[1].classList.remove("item_active");
     ninNav[0].classList.add("item_active");
+    if (!ninInput.current) return;
 
     ninInput.current.value = "";
-    document.getElementById("text-field").disabled = false;
+    ninInput.current.disabled = false;
 
     setNinLength(0);
     setShowClear(val);
@@ -93,7 +94,10 @@ function CreateAccount({ next, back, findScreen }) {
           } else throw new Error("an error occurred");
         }
       })
-      .catch((err) => setStateTrack("error"));
+      .catch((err) => {
+        if (ninInput.current) ninInput.current.disabled = true;
+        setStateTrack("error");
+      });
   }
 
   function handleNinChange(event) {

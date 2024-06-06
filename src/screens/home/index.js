@@ -11,6 +11,7 @@ function Home({ findScreen, goLogin }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [customer, setCustomer] = useState(null);
   const [customerPhoto, setCustomerPhoto] = useState(null);
+  const [showPhoto, setShowPhoto] = useState(false);
 
   useEffect(() => {
     setPhoneNumber(userDetails.phoneNumber);
@@ -32,6 +33,7 @@ function Home({ findScreen, goLogin }) {
         photo = window.atob(window.atob(photo));
 
         setCustomer(result.data);
+        setShowPhoto(true);
         setCustomerPhoto(photo);
       })
       .catch((err) => {
@@ -108,10 +110,11 @@ function Home({ findScreen, goLogin }) {
     <div className="home">
       <div className="profile">
         <div className="profile__avatar">
-          {customer ? (
+          {showPhoto ? (
             <img
               src={"data:image/png;base64," + customerPhoto}
               style={{ objectFit: "cover" }}
+              onError={(e) => setShowPhoto(false)}
             />
           ) : (
             <AvatarSkeleton />
