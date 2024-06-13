@@ -154,27 +154,28 @@ function TakePhoto({ next, findScreen }) {
     console.log(nin, image64);
     Backend.sachet()
       .verifyCustomer({ nin, photo: image64 })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 504) {
+          return findScreen("server-error");
+        }
+        return res.json();
+      })
       .then((data) => {
         setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
         const { kycStatus, message } = result.data;
-        if (!result.status) {
-          if (result.data === "Maximum number of verifications reached.") {
-            localStorage.setItem("kycStatus", "limitReached");
-            findScreen("verification-status");
-          } else throw new Error("an error occurred");
-          throw new Error("an error occurred");
-        } else if (kycStatus === "pending") {
+        console.log(result);
+        if (!result.status) throw new Error(data);
+        else {
           localStorage.setItem("kycStatus", "pending");
-          next();
+          findScreen("verification-status");
         }
       })
       .catch((err) => {
         localStorage.setItem("kycStatus", "rejected");
         setLoading(false);
         console.log("err", err);
-        next();
+        findScreen("verification-status");
       });
   }
 
@@ -277,8 +278,16 @@ function TakePhoto({ next, findScreen }) {
             <div className="take-photo__softkey--left" onClick={handleLeft}>
               Back
             </div>
-            <div className="take-photo__softkey--center" onClick={takepicture}>
-              Snap
+            <div
+              className="take-photo__softkey--center"
+              onClick={takepicture}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img src="/shutter.svg" alt="snap" width={20} height={20} />
             </div>
             <div className="take-photo__softkey--right" onClick={handleRight}>
               Options

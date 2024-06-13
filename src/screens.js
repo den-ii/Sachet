@@ -7,11 +7,13 @@ import TakePhoto from "./screens/take-photo";
 //import SmileTakePhoto from "./screens/smile-takephoto";
 import Otp from "./screens/otp";
 import VerificationStatus from "./screens/verification-status";
-import PasswordSetup from "./screens/password-setup";
+import PasswordSetup from "./screens/password-setup/password";
+import PasscodeStatus from "./screens/status/passcode_status";
 import LogIn from "./screens/login";
 import Home from "./screens/home";
 import Nav from "./screens/nav";
 import Status from "./screens/status";
+import SuccessStatus from "./screens/status/status";
 import PasswordSettings from "./screens/password-settings";
 import ServerError from "./screens/server-error";
 import NotFound from "./screens/user-not-found";
@@ -43,12 +45,6 @@ const screens = [
       <VerifyIdentity next={next} back={back} findScreen={findScreen} />
     ),
   },
-  // {
-  //   header: false,
-  //   component: ({ next, findScreen }) => (
-  //     <SmileTakePhoto next={next} findScreen={findScreen} />
-  //   ),
-  // },
   {
     name: "take-photo",
     header: false,
@@ -67,10 +63,22 @@ const screens = [
     name: "status",
     header: false,
     component: ({ next, findScreen }) => (
-      <Status next={next} findScreen={findScreen} />
+      <SuccessStatus next={next} findScreen={findScreen} />
     ),
   },
   {
+    name: "passcode-status",
+    header: false,
+    component: ({ next, back, findScreen }) => (
+      <PasscodeStatus next={next} findScreen={findScreen} />
+    ),
+  },
+  {
+    header: false,
+    component: ({ next, back, findScreen }) => <Otp next={next} back={back} />,
+  },
+  {
+    name: "password-setup",
     header: false,
     component: ({ next, back, findScreen }) => (
       <PasswordSetup next={next} back={back} findScreen={findScreen} />
@@ -79,46 +87,15 @@ const screens = [
   {
     name: "login",
     header: false,
-    component: ({ next, login, findScreen, goUserNotFound, goServerError }) => (
-      <LogIn
-        next={next}
-        login={login}
-        findScreen={findScreen}
-        goUserNotFound={goUserNotFound}
-        goServerError={goServerError}
-      />
+    component: ({ next, login, findScreen }) => (
+      <LogIn next={next} login={login} findScreen={findScreen} />
     ),
   },
   {
     name: "forgot-password",
     header: false,
-    component: ({ findScreen, goUserNotFound, goServerError }) => (
-      <ForgotPassword
-        findScreen={findScreen}
-        goUserNotFound={goUserNotFound}
-        goServerError={goServerError}
-      />
-    ),
+    component: ({ findScreen }) => <ForgotPassword findScreen={findScreen} />,
   },
-];
-
-const registeredUserScreens = [
-  {
-    component: ({ next }) => <Splash next={next} />,
-  },
-  {
-    name: "home",
-    header: "Sachet",
-    component: ({ findScreen }) => <Home findScreen={findScreen} />,
-  },
-  {
-    name: "password-settings",
-    header: false,
-    component: ({ findScreen }) => <PasswordSettings findScreen={findScreen} />,
-  },
-];
-
-const errorScreens = [
   {
     name: "not-found",
     component: ({ goLogin }) => <NotFound goLogin={goLogin} />,
@@ -129,9 +106,37 @@ const errorScreens = [
   },
 ];
 
+const registeredUserScreens = [
+  {
+    component: ({ next }) => <Splash next={next} />,
+  },
+  {
+    name: "home",
+    header: "Sachet",
+    component: ({ findScreen, goLogin }) => (
+      <Home findScreen={findScreen} goLogin={goLogin} />
+    ),
+  },
+  {
+    name: "password-settings",
+    header: false,
+    component: ({ findScreen }) => <PasswordSettings findScreen={findScreen} />,
+  },
+  {
+    name: "not-found",
+    component: ({ goLogin }) => <NotFound goLogin={goLogin} />,
+  },
+  {
+    name: "server-error",
+    component: ({ goLogin }) => <ServerError goLogin={goLogin} />,
+  },
+];
+
+// const errorScreens = [];
+
 const withoutTCScreens = screens.slice(3);
 withoutTCScreens.unshift(screens[0]);
 
 const allScreen = localStorage.getItem("t&c") ? withoutTCScreens : screens;
 
-export { allScreen, registeredUserScreens, errorScreens };
+export { allScreen, registeredUserScreens };

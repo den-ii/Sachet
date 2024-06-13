@@ -4,7 +4,7 @@ import Dinput from "../../components/dinput";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 
-function ForgotPassword({ findScreen, goLogin, goServerError, goUserError }) {
+function ForgotPassword({ findScreen }) {
   const [screen, setScreen] = useState(0);
 
   const inputRef = useRef(null);

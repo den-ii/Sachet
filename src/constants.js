@@ -1,4 +1,4 @@
-export const userDetails = { nin: "", phoneNumber: "" };
+export const userDetails = { nin: "", phoneNumber: "", defaultPasscode: "" };
 export const camera = {
   choice: "front",
   front: {

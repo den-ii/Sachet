@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Softkey from "../../components/softkey";
 import "./styles.css";
 
@@ -6,7 +5,7 @@ function DataConsent({ next, back }) {
   return (
     <>
       <div className="DataConsent">
-        <p>
+        <div>
           <strong>Data Submission Consent:</strong>
           <br />
           I, the undersigned user, hereby give my explicit consent to submit the
@@ -19,7 +18,7 @@ function DataConsent({ next, back }) {
             <li>Phone Number (if provided) </li>
             <li> Any other data voluntarily submitted</li>
           </ul>
-        </p>
+        </div>
         <p>
           <strong>Data Usage for Identification:</strong>
           <br />

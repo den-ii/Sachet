@@ -1,12 +1,13 @@
 import { encrypt } from "./encryption";
 
 const apiUrls = {
-  development: "http://localhost:3333",
-  staging: "https://api-d.getdevos.com/sachet/v1",
-  production: "https://api.getdevos.com",
+  development:
+    "https://3fcb-2601-195-c601-5f0-95c9-d1c3-37fe-c09.ngrok-free.app/sachet/v1",
+  staging: "https://staging-api.getdevos.com/sachet/v1",
+  production: "https://api.getdevos.com/sachet/v1",
 };
 
-const apiUrl = "https://api.getdevos.com/sachet";
+const url = apiUrls.production;
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
@@ -24,25 +25,62 @@ export const backendHeaders = () => {
 
 export const Backend = {
   sachet: () => {
-    const url = apiUrl + "/v1/customer";
+    const enrollUrl = url + "/enrollment";
+    const managementUrl = url + "/management";
     return {
       onboardSachetCustomer: ({ nin }, headers = backendHeaders().onlyJson) => {
         const data = JSON.stringify({ data: { nin } });
         const encryptedData = encrypt(data);
-        return fetch(url + "/onboard", {
+        return fetch(enrollUrl + "/onboard", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
         });
       },
+      verifyOtp: ({ nin, otp }, headers = backendHeaders().onlyJson) => {
+        const data = JSON.stringify({ data: { nin, otp } });
+        const encryptedData = encrypt(data);
+        return fetch(enrollUrl + "/verify-otp", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      getEnrollmentStatus: ({ nin }, headers = backendHeaders().onlyJson) => {
+        const data = JSON.stringify({ data: { nin } });
+        const encryptedData = encrypt(data);
+        return fetch(enrollUrl + "/status", {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
       createPassword: (
-        { phoneNumber, password },
+        { phone, currentPassword, newPassword },
         headers = backendHeaders().onlyJson
       ) => {
-        const data = JSON.stringify({ data: { phoneNumber, password } });
+        const data = JSON.stringify({
+          data: { phone, currentPassword, newPassword },
+        });
+        console.log(data);
         const encryptedData = encrypt(data);
-        return fetch(url + "/password", {
-          method: "POST",
+        return fetch(enrollUrl + "/password", {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      changePassword: (
+        { currentPassword, newPassword },
+        headers = backendHeaders().auth_json
+      ) => {
+        const data = JSON.stringify({
+          data: { currentPassword, newPassword },
+        });
+        console.log(data);
+        const encryptedData = encrypt(data);
+        return fetch(managementUrl + "/password", {
+          method: "PUT",
           headers,
           body: JSON.stringify({ data: encryptedData }),
         });
@@ -53,14 +91,14 @@ export const Backend = {
       ) => {
         const data = JSON.stringify({ data: { phone: phoneNumber, password } });
         const encryptedData = encrypt(data);
-        return fetch(url + "/login", {
+        return fetch(managementUrl + "/login", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
         });
       },
       getCustomerDetails: (headers = backendHeaders().auth_json) => {
-        return fetch(url + "/customer", {
+        return fetch(managementUrl + "/customer", {
           method: "GET",
           headers,
         });
@@ -73,7 +111,7 @@ export const Backend = {
 
         const data = JSON.stringify({ data: { nin, photo } });
         const encryptedData = encrypt(data);
-        return fetch(url + "/verify", {
+        return fetch(enrollUrl + "/verify", {
           method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),

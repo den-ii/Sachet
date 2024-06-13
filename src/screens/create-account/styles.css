@@ -6,7 +6,12 @@
   text-align: center;
   margin-bottom: 16px;
 }
-
+.create_account .create_acount--version {
+  position: absolute;
+  top: 50px;
+  right: 14px;
+  font-style: italic;
+}
 .create_account label {
   display: block;
   font-size: 12px;

@@ -7,9 +7,11 @@ import { TextSkeleton } from "../../components/skeletons";
 import { AvatarSkeleton } from "../../components/skeletons";
 import { userDetails } from "../../constants";
 
-function Home({ findScreen }) {
+function Home({ findScreen, goLogin }) {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [customer, setCustomer] = useState();
+  const [customer, setCustomer] = useState(null);
+  const [customerPhoto, setCustomerPhoto] = useState(null);
+  const [showPhoto, setShowPhoto] = useState(false);
 
   useEffect(() => {
     setPhoneNumber(userDetails.phoneNumber);
@@ -20,16 +22,35 @@ function Home({ findScreen }) {
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        console.log(data);
+        console.log(result);
         if (!result.status) {
+          if (result.data === "jwt expired") {
+            return goLogin();
+          }
           throw new Error(result.error);
         }
+        let photo = _arrayBufferToBase64(result.data.photo.data);
+        photo = window.atob(window.atob(photo));
+
         setCustomer(result.data);
+        setShowPhoto(true);
+        setCustomerPhoto(photo);
       })
       .catch((err) => {
         console.error(err);
       });
   }, [phoneNumber]);
+
+  function _arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
@@ -89,8 +110,12 @@ function Home({ findScreen }) {
     <div className="home">
       <div className="profile">
         <div className="profile__avatar">
-          {customer ? (
-            <img src="/assets/images/profile_doyle.svg" />
+          {showPhoto ? (
+            <img
+              src={"data:image/png;base64," + customerPhoto}
+              style={{ objectFit: "cover" }}
+              onError={(e) => setShowPhoto(false)}
+            />
           ) : (
             <AvatarSkeleton />
           )}

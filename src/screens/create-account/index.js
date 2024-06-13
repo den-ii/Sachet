@@ -5,6 +5,7 @@ import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import { userDetails } from "../../constants";
+import onlyDigits from "../../utility";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =
@@ -32,9 +33,10 @@ function CreateAccount({ next, back, findScreen }) {
     const ninNav = document.querySelectorAll(".nin-nav");
     ninNav[1].classList.remove("item_active");
     ninNav[0].classList.add("item_active");
+    if (!ninInput.current) return;
 
     ninInput.current.value = "";
-    document.getElementById("text-field").disabled = false;
+    ninInput.current.disabled = false;
 
     setNinLength(0);
     setShowClear(val);
@@ -75,19 +77,11 @@ function CreateAccount({ next, back, findScreen }) {
           setStateTrack("approved");
           if (kycStatus === "notApproved") {
             next();
-          } else if (kycStatus === "approved") {
-            localStorage.setItem("kycStatus", "approved");
-            userDetails.phoneNumber = phoneNumber;
-            if (hasCreatedPassword) findScreen("login");
-            else findScreen("status");
           } else if (kycStatus === "pending") {
             localStorage.setItem("kycStatus", "pending");
             findScreen("verification-status");
-          } else if (kycStatus === "rejected" && retriesLeft) {
+          } else if (kycStatus === "notApproved") {
             localStorage.setItem("kycStatus", "rejected");
-            findScreen("verification-status");
-          } else if (kycStatus === "rejected" && !retriesLeft) {
-            localStorage.setItem("kycStatus", "limitReached");
             findScreen("verification-status");
           }
         } else {
@@ -101,7 +95,10 @@ function CreateAccount({ next, back, findScreen }) {
           } else throw new Error("an error occurred");
         }
       })
-      .catch((err) => setStateTrack("error"));
+      .catch((err) => {
+        if (ninInput.current) ninInput.current.disabled = true;
+        setStateTrack("error");
+      });
   }
 
   function handleNinChange(event) {
@@ -206,6 +203,10 @@ function CreateAccount({ next, back, findScreen }) {
   return (
     <div>
       <div className="create_account">
+        {/* Version */}
+        <div className="create_acount--version">v1.1.1</div>
+
+        {/* ------------------- */}
         <div className="ninimg">
           <img src="/assets/images/nin.svg" />
         </div>

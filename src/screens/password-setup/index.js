@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "../../components/header";
 import Softkey from "../../components/softkey";
 import DotsLoader from "../../components/dots-loader";
@@ -6,6 +6,7 @@ import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import "./styles.css";
 import { userDetails } from "../../constants";
+import onlyDigits from "../../utility";
 
 const passcodeLength = 6;
 
@@ -19,6 +20,7 @@ function passwordSetup({ next, back }) {
   const [showClear, setShowClear] = useState(false);
 
   const passwordInputRef = useRef(null);
+  const cpasswordInputRef = useRef(null);
 
   useEffect(() => {
     if (passwordInputRef.current) {
@@ -59,6 +61,7 @@ function passwordSetup({ next, back }) {
   }
 
   function handlePassword(e) {
+    onlyDigits(e);
     setLength(e.target.value.length);
     if (e.target.value.length >= passcodeLength) {
       setPasswordState("create");
@@ -97,17 +100,17 @@ function passwordSetup({ next, back }) {
       {input_create && (
         <div className="password_setup">
           <Header title="Set Up Passcode" />
-          <div className="password_img">
-            <img src="./password.svg" />
-          </div>
           <div>
             <div className="password_inputContainer">
-              <label className="enter_password">Please enter passcode</label>
+              <label className="enter_password">
+                Please enter your new passcode
+              </label>
               <div className="input_container">
                 <input
                   type="password"
                   id="passwordInput"
                   className={inputStyle}
+                  ref={passwordInputRef}
                   nav-selectable="true"
                   onChange={(e) => handlePassword(e)}
                 />
@@ -126,6 +129,21 @@ function passwordSetup({ next, back }) {
               </div>
               <div className={`below_label_err ${errorClass}`}>
                 Password cannot be created
+              </div>
+            </div>
+            <div className="password_inputContainer" style={{ marginTop: 12 }}>
+              <label className="enter_password">
+                Please confirm your new passcode
+              </label>
+              <div className="input_container">
+                <input
+                  type="password"
+                  id="cpasswordInput"
+                  className={inputStyle}
+                  ref={cpasswordInputRef}
+                  nav-selectable="true"
+                  onChange={(e) => handlePassword(e)}
+                />
               </div>
             </div>
           </div>
