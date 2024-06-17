@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { allScreen, registeredUserScreens } from "./screens";
 import Header from "./components/header";
 
@@ -20,7 +20,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
