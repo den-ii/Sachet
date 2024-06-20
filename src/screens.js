@@ -108,9 +108,6 @@ const screens = [
 
 const registeredUserScreens = [
   {
-    component: ({ next }) => <Splash next={next} />,
-  },
-  {
     name: "home",
     header: "Sachet",
     component: ({ findScreen, goLogin }) => (

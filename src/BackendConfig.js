@@ -7,7 +7,7 @@ const apiUrls = {
   production: "https://api.getdevos.com/sachet/v1",
 };
 
-const url = apiUrls.production;
+const url = apiUrls.staging;
 
 export const backendHeaders = () => {
   const token = localStorage.getItem("jwt");
