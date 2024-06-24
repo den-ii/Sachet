@@ -15,9 +15,9 @@ function Home({ findScreen, goLogin }) {
   const [customerPhoto, setCustomerPhoto] = useState(
     localStorage.getItem("customerPhoto") ?? null
   );
-  const [showPhoto, setShowPhoto] = useState(false);
-
-  console.log(localStorage.getItem("customer"));
+  const [showPhoto, setShowPhoto] = useState(
+    localStorage.getItem("customerPhoto") ? true : false
+  );
 
   useEffect(() => {
     setPhoneNumber(userDetails.phoneNumber);
