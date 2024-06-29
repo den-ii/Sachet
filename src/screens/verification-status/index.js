@@ -13,12 +13,17 @@ function VerificationStatus({ next, back, findScreen }) {
   const [loading, setLoading] = useState(false);
   const [autoRetry, setAutoRetry] = useState(true);
   const [showReCheck, setShowReCheck] = useState(false);
+
   useLayoutEffect(() => {
     if (localStorage.getItem("kycStatus") === "approved") {
       findScreen("status");
     }
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
-  useEffect(() => setVerificationStatus(localStorage.getItem("kycStatus")), []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -28,10 +33,21 @@ function VerificationStatus({ next, back, findScreen }) {
         setShowReCheck(true);
       }
     }, 10000);
-
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [autoRetry]);
 
+  function handleKeyDown(evt) {
+    switch (evt.key) {
+      case "Backspace":
+        evt.preventDefault();
+        evt.stopPropagation();
+        return;
+      default:
+        return;
+    }
+  }
   console.log(verificationStatus);
   const pending = verificationStatus === "pending";
   const limitReached = verificationStatus === "limitReached";
