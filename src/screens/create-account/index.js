@@ -204,7 +204,7 @@ function CreateAccount({ next, back, findScreen }) {
     <div>
       <div className="create_account">
         {/* Version */}
-        <div className="create_acount--version">v1.0.2</div>
+        <div className="create_acount--version">v1.1.3</div>
 
         {/* ------------------- */}
         <div className="ninimg">
