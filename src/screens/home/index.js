@@ -9,14 +9,22 @@ import { userDetails } from "../../constants";
 
 function Home({ findScreen, goLogin }) {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [customer, setCustomer] = useState(null);
-  const [customerPhoto, setCustomerPhoto] = useState(null);
-  const [showPhoto, setShowPhoto] = useState(false);
+  const [customer, setCustomer] = useState(
+    JSON.parse(localStorage.getItem("customer")) ?? null
+  );
+  const [customerPhoto, setCustomerPhoto] = useState(
+    localStorage.getItem("customerPhoto") ?? null
+  );
+  const [showPhoto, setShowPhoto] = useState(
+    localStorage.getItem("customerPhoto") ? true : false
+  );
 
   useEffect(() => {
     setPhoneNumber(userDetails.phoneNumber);
   }, []);
+
   useEffect(() => {
+    if (customer) return;
     Backend.sachet()
       .getCustomerDetails()
       .then((res) => res.json())
@@ -33,6 +41,8 @@ function Home({ findScreen, goLogin }) {
         photo = window.atob(window.atob(photo));
 
         setCustomer(result.data);
+        localStorage.setItem("customerPhoto", photo);
+        localStorage.setItem("customer", JSON.stringify(result.data));
         setShowPhoto(true);
         setCustomerPhoto(photo);
       })
