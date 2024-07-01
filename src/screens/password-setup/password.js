@@ -50,7 +50,6 @@ function PasswordSetup({ findScreen }) {
   }
 
   function handlePasscode(e) {
-    onlyDigits(e);
     const length = e.target.value.length;
     setPasscodeLength(length);
     if (length >= 6) {
@@ -67,7 +66,6 @@ function PasswordSetup({ findScreen }) {
   }
 
   function handleCPasscode(e) {
-    onlyDigits(e);
     const length = e.target.value.length;
     setCpasscodeLength(length);
     if (e.target.value.length >= 6) {

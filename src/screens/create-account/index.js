@@ -5,7 +5,6 @@ import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import { userDetails } from "../../constants";
-import onlyDigits from "../../utility";
 
 function CreateAccount({ next, back, findScreen }) {
   const [stateTrack, setStateTrack] =

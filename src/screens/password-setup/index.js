@@ -61,7 +61,6 @@ function passwordSetup({ next, back }) {
   }
 
   function handlePassword(e) {
-    onlyDigits(e);
     setLength(e.target.value.length);
     if (e.target.value.length >= passcodeLength) {
       setPasswordState("create");

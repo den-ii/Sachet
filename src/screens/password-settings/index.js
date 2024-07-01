@@ -40,7 +40,6 @@ function PasswordSettings({ findScreen, back }) {
   }
 
   function handlePasscodeChange(e) {
-    onlyDigits(e);
     let eventName = e.target.name;
     setPasscodeLength(e.target.value.length);
 
