@@ -9,3 +9,8 @@
   font-size: 12px;
   border-bottom: 1px solid var(--primary);
 }
+
+.Dinput input.error {
+  background-color: var(--error-bg);
+  border-bottom: 1px solid var(--error);
+}

@@ -10,16 +10,16 @@ function App() {
   );
 
   const handleKeyDown = (evt) => {
-    switch (evt.key) {
-      case "Backspace":
-        if (screenChoice !== registeredUserScreens) {
-          evt.preventDefault();
-          evt.stopPropagation();
-        }
-        return;
-      default:
-        return;
-    }
+    // switch (evt.key) {
+    //   case "Backspace":
+    //     if (screenChoice !== registeredUserScreens) {
+    //       evt.preventDefault();
+    //       evt.stopPropagation();
+    //     }
+    //     return;
+    //   default:
+    //     return;
+    // }
   };
 
   useLayoutEffect(() => {
