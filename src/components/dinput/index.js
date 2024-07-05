@@ -1,7 +1,6 @@
 import "./styles.css";
 
-function Dinput({ id, type, value, iRef, onChange, error }) {
-  let className = "";
+function Dinput({ id, type, value, iRef, onChange, error, className }) {
   if (error) className = "error";
   return (
     <div className="Dinput">

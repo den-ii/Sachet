@@ -185,7 +185,7 @@ function PasswordSetup({ findScreen }) {
           setLoading(false);
           if (!result.status) {
             if (result.data == "Error: Incorrect Current Password") {
-              throw new Error("Incorrect current passcode");
+              throw new Error("Incorrect default passcode");
             } else {
               throw new Error("Something went wrong");
             }

@@ -7,6 +7,7 @@ import "./styles.css";
 import { Backend } from "../../BackendConfig";
 import { decrypt } from "../../encryption";
 import { userDetails } from "../../constants";
+import TwoInput from "../../components/dinput/TwoInput";
 
 function ForgotPassword({ findScreen }) {
   const [screen, setScreen] = useState(0);
@@ -18,6 +19,8 @@ function ForgotPassword({ findScreen }) {
   const [showClear, setShowClear] = useState(false);
 
   const inputRef = useRef(null);
+  // const setupInput1Ref = useRef(null);
+  // const setupInput2Ref = useRef(null);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -28,9 +31,20 @@ function ForgotPassword({ findScreen }) {
     setLength(0);
   }, [screen]);
 
+  // function handleClear(e) {
+  //   if (e.target.id === "1" && e.target.value.length > 0) {
+  //     setShowClear(true);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   document.addEventListener("keyup", (e) => console.log(e.target.id));
+  // }, []);
+
   const firstScreen = screen === 0;
   const verifyScreen = screen === 1;
-  const setupScreen = screen === 2;
+  const enrollmentCodeScreen = screen === 2;
+  const defaultPasscodeScreen = screen === 3;
 
   function handleScreenChange(value) {
     setScreen(value);
@@ -107,7 +121,7 @@ function ForgotPassword({ findScreen }) {
             throw new Error("Customer does not exist");
           else throw new Error("Something went wrong");
         } else {
-          handleScreenChange(2);
+          findScreen("login");
         }
       })
       .catch((err) => {
@@ -116,6 +130,11 @@ function ForgotPassword({ findScreen }) {
         setErrorMsg(err.message);
         blurInput();
       });
+  }
+
+  function goToSetPasscode() {
+    userDetails.defaultPasscode = inputRef.current.value;
+    findScreen("password-setup");
   }
 
   function goBackOrClear() {
@@ -243,27 +262,121 @@ function ForgotPassword({ findScreen }) {
           )}
         </>
       )}
-      {setupScreen && (
+      {enrollmentCodeScreen && (
         <>
-          <Header title="Set Up Passcode" />
+          <Header title="Enrollment Code" />
+          {loading && (
+            <div className="popUpLoading">
+              <PopUpLoader text="Checking Code" />
+            </div>
+          )}
+          <div className="verifyScreen">
+            <p className="leading">
+              We have sent an enrollment code to the phone number linked to your
+              NIN.
+            </p>
+            <p className="bold">Please enter the code below.</p>
+            <div className="forgotPassword__input">
+              <Dinput
+                id="code"
+                type="number"
+                iRef={inputRef}
+                onChange={(e) => inputChange(e, 6)}
+                error={error}
+              />
+              <div className="forgotPassword__input--error">
+                {error && <img src="/nin_error.svg" />}
+              </div>
+            </div>
+            {error && <div className="forgotPassword__error">{errorMsg}</div>}
+          </div>
+          {loading && <></>}
+          {next && (
+            <Softkey
+              left={"Clear"}
+              onKeyLeft={goBackOrClear}
+              noCenter={true}
+              right="Verify Code"
+              onKeyRight={verifyOtp}
+            />
+          )}
+          {inputClear && (
+            <Softkey left="Clear" onKeyLeft={goBackOrClear} noCenter={true} />
+          )}
+          {error && (
+            <Softkey
+              left="Re-Enter"
+              onKeyLeft={goBackOrClear}
+              noCenter={true}
+            />
+          )}
+          {inputBack && (
+            <Softkey left="Back" onKeyLeft={goBackOrClear} noCenter={true} />
+          )}
+        </>
+      )}
+      {/* {defaultPasscodeScreen && (
+        <>
+          <Header title="Enter Default Passcode" />
           <div className="setupScreen">
-            <div className="passcode_container">
+            <div className="verifyScreen">
+              <p className="leading">
+                We have sent a default passccode to the phone number linked to
+                your NIN.
+              </p>
+              <p className="bold">Please enter the code below.</p>
+              <div className="forgotPassword__input">
+                <Dinput
+                  id="code"
+                  type="text"
+                  iRef={inputRef}
+                  onChange={(e) => inputChange(e, 6)}
+                  error={error}
+                />
+              </div>
+            </div>
+            {next && (
+              <Softkey
+                left={"Clear"}
+                onKeyLeft={goBackOrClear}
+                noCenter={true}
+                right="Set Passcode"
+                onKeyRight={goToSetPasscode}
+              />
+            )}
+            {inputClear && (
+              <Softkey left="Clear" onKeyLeft={goBackOrClear} noCenter={true} />
+            )}
+            {error && (
+              <Softkey
+                left="Re-Enter"
+                onKeyLeft={goBackOrClear}
+                noCenter={true}
+              />
+            )}
+            {inputBack && (
+              <Softkey left="Back" onKeyLeft={goBackOrClear} noCenter={true} />
+            )} */}
+      {/* <TwoInput
+              label1={"Enter new passcode"}
+              label2={"Confirm new passcode"}
+              input1Ref={setupInput1Ref}
+              input2Ref={setupInput2Ref}
+              id="setup_passcode"
+              classId={"setup"}
+              length={6}
+            /> */}
+      {/* <div className="passcode_container">
               <label htmlFor="passcode">Enter Passcode</label>
               <Dinput id="passcode" type="number" iRef={inputRef} />
             </div>
             <div className="passcode_container">
               <label htmlFor="passcode">Confirm Passcode</label>
               <Dinput id="cpasscode" type="number" />
-            </div>
-            <Softkey
-              left="Back"
-              onKeyLeft={() => handleScreenChange(1)}
-              noCenter={true}
-              right="Reset Passcode"
-            />
-          </div>
-        </>
-      )}
+            </div> */}
+      {/* </div> */}
+      {/* </> */}
+      {/* )} */}
     </div>
   );
 }
