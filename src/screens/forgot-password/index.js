@@ -112,9 +112,15 @@ function ForgotPassword({ findScreen }) {
         setError(false);
         const result = decrypt(JSON.stringify(data.data));
         if (result.status === false) {
-          if (result.data === "Customer not verified")
-            throw new Error("Customer does not exist");
-          else throw new Error("Something went wrong");
+          if (result.data === "Customer not verified") {
+            setError(true);
+            setErrorMsg("Customer does not exist");
+            blurInput();
+          } else {
+            setError(true);
+            setErrorMsg("Something went wrong");
+            blurInput();
+          }
         } else {
           findScreen("login");
         }
@@ -122,7 +128,7 @@ function ForgotPassword({ findScreen }) {
       .catch((err) => {
         setLoading(false);
         setError(true);
-        setErrorMsg(err.message);
+        setErrorMsg("Something went wrong");
         blurInput();
       });
   }
