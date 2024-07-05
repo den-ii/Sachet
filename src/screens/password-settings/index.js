@@ -46,7 +46,6 @@ function PasswordSettings({ findScreen, back }) {
     if (eventName === "enterPasscode") {
       if (passcodeLength >= 5) {
         e.target.disabled = true;
-        console.log("yes");
         e.target?.blur();
         e.currentTarget?.blur();
         setOkay(true);
@@ -87,8 +86,6 @@ function PasswordSettings({ findScreen, back }) {
     let currentPasscode = document.getElementById("passcode_input").value;
     if (passcodeScreen === 2) {
       if (passcode === currentPasscode) {
-        console.log("curr", currPasscode);
-        console.log("passcode", passcode);
         handleChangePasscode();
       } else {
         setOkay(false);
@@ -116,13 +113,11 @@ function PasswordSettings({ findScreen, back }) {
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
         if (!result.status) {
           throw new Error("Something went wrong");
         } else setPasscodeScreen((passcodeScreen) => passcodeScreen + 1);
       })
       .catch((err) => {
-        console.log(err);
         setErrorMsg("Something went wrong");
         setPasscodeState("rejected");
       });

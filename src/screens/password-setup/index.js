@@ -33,7 +33,6 @@ function passwordSetup({ next, back }) {
     let phoneNumber = userDetails.phoneNumber;
     setError(false);
     setLoading(true);
-    console.log("id", phoneNumber);
     let password = document.getElementById("passwordInput")?.value;
     if (password.length === passcodeLength || !isNaN(Number(password))) {
       Backend.sachet()
@@ -41,7 +40,6 @@ function passwordSetup({ next, back }) {
         .then((res) => res.json())
         .then((data) => {
           const result = decrypt(JSON.stringify(data.data));
-          console.log(result);
           setLoading(false);
           if (!result.status) {
             throw new Error(result.error);
@@ -52,7 +50,6 @@ function passwordSetup({ next, back }) {
         })
         .catch((err) => {
           setLoading(false);
-          console.log(err);
           setError(true);
         });
     } else {

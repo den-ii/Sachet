@@ -62,7 +62,6 @@ export const Backend = {
         const data = JSON.stringify({
           data: { phone, currentPassword, newPassword },
         });
-        console.log(data);
         const encryptedData = encrypt(data);
         return fetch(enrollUrl + "/password", {
           method: "PUT",
@@ -95,7 +94,6 @@ export const Backend = {
         const data = JSON.stringify({
           data: { currentPassword, newPassword },
         });
-        console.log(data);
         const encryptedData = encrypt(data);
         return fetch(managementUrl + "/password", {
           method: "PUT",

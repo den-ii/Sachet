@@ -30,7 +30,6 @@ function Home({ findScreen, goLogin }) {
       .then((res) => res.json())
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
         if (!result.status) {
           if (result.data === "jwt expired") {
             return goLogin();

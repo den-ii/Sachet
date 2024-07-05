@@ -55,7 +55,6 @@ function ForgotPassword({ findScreen }) {
   }
 
   function inputChange(e, value) {
-    console.log(e.target.value.length);
     if (e.target.value.length > 0) {
       setLength(e.target.value.length);
       setShowClear(true);
@@ -77,7 +76,6 @@ function ForgotPassword({ findScreen }) {
       nin = inputRef.current.value;
       userDetails.nin = nin;
     }
-    console.log(nin);
     Backend.sachet()
       .resetPasscode1({ nin })
       .then((res) => res.json())
@@ -85,7 +83,6 @@ function ForgotPassword({ findScreen }) {
         setLoading(false);
         setError(false);
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
         if (result.status === false) {
           if (result.data === "Customer not verified")
             throw new Error("Customer does not exist");
@@ -107,7 +104,6 @@ function ForgotPassword({ findScreen }) {
     let nin = userDetails.nin;
     let otp;
     if (inputRef.current) otp = inputRef.current.value;
-    console.log(nin);
     Backend.sachet()
       .resetPasscode2({ nin, otp })
       .then((res) => res.json())
@@ -115,7 +111,6 @@ function ForgotPassword({ findScreen }) {
         setLoading(false);
         setError(false);
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
         if (result.status === false) {
           if (result.data === "Customer not verified")
             throw new Error("Customer does not exist");

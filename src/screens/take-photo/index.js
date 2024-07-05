@@ -19,13 +19,11 @@ function TakePhoto({ next, findScreen }) {
   const handleUp = (evt) => {
     evt.preventDefault();
     const options = document.querySelectorAll(".option");
-    console.log(options, "options");
     for (let i = 0; i < options.length; i++) {
       if (options[i].classList.contains("active")) {
         options[i].classList.remove("active");
         const prevIndex = i === 0 ? options.length - 1 : i - 1;
         options[prevIndex].classList.add("active");
-        console.log(prevIndex);
         setHoverIndex(prevIndex);
         break;
       }
@@ -151,7 +149,6 @@ function TakePhoto({ next, findScreen }) {
     setLoading(true);
     const nin = userDetails.nin;
 
-    console.log(nin, image64);
     Backend.sachet()
       .verifyCustomer({ nin, photo: image64 })
       .then((res) => {
@@ -164,7 +161,6 @@ function TakePhoto({ next, findScreen }) {
         setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
         const { kycStatus, message } = result.data;
-        console.log(result);
         if (!result.status) throw new Error(data);
         else {
           localStorage.setItem("kycStatus", "pending");
@@ -196,7 +192,6 @@ function TakePhoto({ next, findScreen }) {
         video: { facingMode: { exact: "environment" } },
       },
     };
-    console.log(media[option]);
     navigator.mediaDevices
       .getUserMedia(media[option])
       .then(function (stream) {

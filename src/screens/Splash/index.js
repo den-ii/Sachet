@@ -1,13 +1,11 @@
-import "./styles.css"
+import "./styles.css";
 
-function Splash({next}) {
-  
+function Splash({ next }) {
   function handleOnLoad() {
-    console.log("video loaded")
     // e.preventDefault()
     setTimeout(() => {
-      next()
-    }, 3000)
+      next();
+    }, 3000);
   }
 
   return (
@@ -15,9 +13,9 @@ function Splash({next}) {
       <video width={240} autoPlay muted onCanPlayThrough={handleOnLoad}>
         <source src="/logo_anim.webm" type="video/webm" />
         Your browser does not support the video/webm codec.
-      </video>        
+      </video>
     </div>
-  )
+  );
 }
 
-export default Splash
+export default Splash;
