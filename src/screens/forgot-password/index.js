@@ -147,7 +147,7 @@ function ForgotPassword({ findScreen }) {
       setShowNext(false);
       inputRef.current.focus();
     } else {
-      if (screen === 0) findScreen("login");
+      if (screen === 0 || screen === 2) findScreen("login");
       if (screen === 1) handleScreenChange(0);
     }
   }
