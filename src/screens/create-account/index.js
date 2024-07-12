@@ -57,7 +57,6 @@ function CreateAccount({ next, back, findScreen }) {
         nin: ninInput.current?.value,
       })
       .then((res) => {
-        console.log(res.status);
         if (res.status === 409) {
           findScreen("login");
           return;
@@ -66,7 +65,6 @@ function CreateAccount({ next, back, findScreen }) {
       })
       .then((data) => {
         const result = decrypt(JSON.stringify(data.data));
-        console.log(result);
         const { kycStatus, retriesLeft, hasCreatedPassword, phoneNumber } =
           result.data;
         let nin;

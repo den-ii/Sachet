@@ -5,8 +5,6 @@ function SmileTakePhoto({ next, findScreen }) {
   useEffect(() => {
     const app = document.querySelector("smart-camera-web");
     const postContent = async (data) => {
-      console.log(data);
-
       // const options = {
       //   method: "POST",
       //   headers: {
@@ -14,11 +12,9 @@ function SmileTakePhoto({ next, findScreen }) {
       //   },
       //   body: JSON.stringify(data)
       // };
-
       // try {
       //   const response = await fetch("/", options)
       //   const json = await response.json();
-
       //   return json;
       // } catch (e) {
       //   throw e;
@@ -28,7 +24,6 @@ function SmileTakePhoto({ next, findScreen }) {
     app.addEventListener("imagesComputed", async (e) => {
       try {
         const response = await postContent(e.detail);
-        console.log(response);
         findScreen("verification-status");
         // next();
       } catch (e) {

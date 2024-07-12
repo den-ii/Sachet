@@ -36,7 +36,6 @@ function PasswordSetup({ findScreen }) {
   }, [passcodeState, cpasscodeState]);
 
   function handleNext(state) {
-    console.log("called");
     if (state === "passcode") {
       setPasscodeState("done");
       if (!passcodeInputRef.current) return;
@@ -181,11 +180,10 @@ function PasswordSetup({ findScreen }) {
         .then((res) => res.json())
         .then((data) => {
           const result = decrypt(JSON.stringify(data.data));
-          console.log(result);
           setLoading(false);
           if (!result.status) {
             if (result.data == "Error: Incorrect Current Password") {
-              throw new Error("Incorrect current passcode");
+              throw new Error("Incorrect default passcode");
             } else {
               throw new Error("Something went wrong");
             }
@@ -195,7 +193,6 @@ function PasswordSetup({ findScreen }) {
         })
         .catch((err) => {
           setLoading(false);
-          console.log(err);
           setErrorMessage(err.message);
           setError(true);
         });

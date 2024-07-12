@@ -9,3 +9,17 @@
   font-size: 12px;
   border-bottom: 1px solid var(--primary);
 }
+
+.Dinput input.error {
+  background-color: var(--error-bg);
+  border-bottom: 1px solid var(--error);
+}
+
+.twoInput .twoInput__label {
+  font-size: 12px;
+  display: block;
+}
+
+.twoInput label.second-label {
+  margin-top: 8px;
+}

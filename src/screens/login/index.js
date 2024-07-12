@@ -36,7 +36,6 @@ function LogIn({ next, login, findScreen }) {
   }, [phoneNumberState, passwordState]);
 
   function handleNext(state) {
-    console.log("called");
     if (state === "phoneNumber") {
       setPhoneNumberState("done");
       if (!phoneNumberInputRef.current) return;
@@ -156,9 +155,7 @@ function LogIn({ next, login, findScreen }) {
 
   function handleSelect() {
     let element = document.querySelector(".item_active");
-    console.log(element.id);
     if (element.id === "forgotPassword") {
-      console.log("yee");
       findScreen("forgot-password");
     } else if (element.id === "signup") {
       findScreen("create-account");
@@ -184,12 +181,9 @@ function LogIn({ next, login, findScreen }) {
         userDetails.phoneNumber = phoneNumberInput;
         userDetails.defaultPasscode = passwordInput;
         if (!result.status) {
-          console.log(result);
-          console.log(result.data);
           if (
             result.data == "Error: Change default password before you proceed"
           ) {
-            console.log("yes");
             return findScreen("password-setup");
           } else if (result.data === "Error: Customer not found") {
             findScreen("not-found");

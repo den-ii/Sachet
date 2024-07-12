@@ -26,3 +26,29 @@
   display: block;
   margin-bottom: 4px;
 }
+
+.forgotPassword .popUpLoading {
+  position: fixed;
+  top: 30%;
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.forgotPassword .forgotPassword__input {
+  position: relative;
+}
+
+.forgotPassword .forgotPassword__input--error {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-40%);
+  right: 10px;
+}
+
+.forgotPassword .forgotPassword__error {
+  color: var(--error);
+  margin-top: 4px;
+  font-size: 11px;
+}

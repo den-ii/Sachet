@@ -62,10 +62,27 @@ export const Backend = {
         const data = JSON.stringify({
           data: { phone, currentPassword, newPassword },
         });
-        console.log(data);
         const encryptedData = encrypt(data);
         return fetch(enrollUrl + "/password", {
           method: "PUT",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      resetPasscode1: ({ nin }, headers = backendHeaders().onlyJson) => {
+        const data = JSON.stringify({ data: { nin } });
+        const encryptedData = encrypt(data);
+        return fetch(enrollUrl + "/forgot-code-uno", {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ data: encryptedData }),
+        });
+      },
+      resetPasscode2: ({ nin, otp }, headers = backendHeaders().onlyJson) => {
+        const data = JSON.stringify({ data: { nin, otp } });
+        const encryptedData = encrypt(data);
+        return fetch(enrollUrl + "/forgot-code-deux", {
+          method: "POST",
           headers,
           body: JSON.stringify({ data: encryptedData }),
         });
@@ -77,7 +94,6 @@ export const Backend = {
         const data = JSON.stringify({
           data: { currentPassword, newPassword },
         });
-        console.log(data);
         const encryptedData = encrypt(data);
         return fetch(managementUrl + "/password", {
           method: "PUT",

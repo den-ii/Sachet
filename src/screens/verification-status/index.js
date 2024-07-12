@@ -48,7 +48,6 @@ function VerificationStatus({ next, back, findScreen }) {
         return;
     }
   }
-  console.log(verificationStatus);
   const pending = verificationStatus === "pending";
   const limitReached = verificationStatus === "limitReached";
   const rejected = verificationStatus === "rejected";
@@ -58,7 +57,6 @@ function VerificationStatus({ next, back, findScreen }) {
   }
 
   function handleReCheck() {
-    console.log("yep");
     setLoading(true);
     setShowReCheck(false);
     Backend.sachet()
@@ -66,7 +64,6 @@ function VerificationStatus({ next, back, findScreen }) {
         nin: userDetails.nin,
       })
       .then((res) => {
-        console.log(res.status);
         if (res.status === 409) {
           findScreen("login");
           return;
@@ -77,7 +74,6 @@ function VerificationStatus({ next, back, findScreen }) {
         setLoading(false);
         const result = decrypt(JSON.stringify(data.data));
         const { kycStatus } = result.data;
-        console.log(result);
         if (result.status) {
           if (kycStatus === "approved") {
             localStorage.setItem("kycStatus", "approved");

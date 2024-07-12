@@ -16,7 +16,6 @@ function Otp({ next }) {
 
   function handleOtp(e, index) {
     const otpValue = Number(e.key);
-    console.log(e.key);
     if (otpValue >= 0 && otpValue <= 9) {
       const presentOtpInput = otpInputs.slice();
       if (presentOtpInput[index] === "") {

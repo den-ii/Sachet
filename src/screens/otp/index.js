@@ -37,7 +37,6 @@ function Otp({ next, back }) {
         .then((res) => res.json())
         .then((data) => {
           const result = decrypt(JSON.stringify(data.data));
-          console.log(result);
           setLoading(false);
           if (!result.status) {
             throw new Error(result.error);
@@ -48,7 +47,6 @@ function Otp({ next, back }) {
         })
         .catch((err) => {
           setLoading(false);
-          console.log(err);
           setError(true);
         });
     } else {
